@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>理念・コンセプト｜SHIMA NO IE - 島の家</title>
+  <meta name="description" content="島の家のコンセプト。お客様と共に育てる共創型ヴィラの理念・オーナーストーリーをご紹介します。">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ---- 理念テキストブロック ---- */
+    .philosophy-block {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 56px;
+      background: var(--color-white);
+      border: 1px solid var(--color-border);
+      border-left: 3px solid var(--color-gold);
+      position: relative;
+    }
+
+    .philosophy-block__lead {
+      font-family: var(--font-serif);
+      font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      line-height: 2;
+      color: var(--color-text);
+      margin-bottom: 32px;
+    }
+
+    .philosophy-block__body {
+      font-size: 0.92rem;
+      line-height: 2.2;
+      color: var(--color-accent);
+    }
+
+    .philosophy-block__body p {
+      margin-bottom: 20px;
+    }
+
+    .philosophy-block__body p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ---- ストーリーセクション ---- */
+    .story-section {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .story-item {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 0 24px;
+      margin-bottom: 48px;
+    }
+
+    .story-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .story-item__num {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      font-weight: 300;
+      color: var(--color-gold);
+      line-height: 1.2;
+      padding-top: 4px;
+    }
+
+    .story-item__title {
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+      color: var(--color-text);
+    }
+
+    .story-item__text {
+      font-size: 0.88rem;
+      line-height: 2.1;
+      color: var(--color-accent);
+    }
+
+    /* ---- 価値観カード ---- */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--color-border);
+    }
+
+    .value-card {
+      background: var(--color-white);
+      padding: 40px 32px;
+      text-align: center;
+    }
+
+    .value-card__num {
+      font-family: var(--font-serif);
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      color: var(--color-gold);
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    .value-card__title {
+      font-size: 1.05rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      margin-bottom: 14px;
+    }
+
+    .value-card__text {
+      font-size: 0.82rem;
+      color: var(--color-accent);
+      line-height: 1.95;
+    }
+
+    /* ---- 引用ブロック ---- */
+    .quote-block {
+      max-width: 660px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 56px 32px;
+    }
+
+    .quote-block__text {
+      font-family: var(--font-serif);
+      font-size: clamp(1.1rem, 3vw, 1.5rem);
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      line-height: 1.9;
+      color: var(--color-text);
+      margin-bottom: 24px;
+    }
+
+    .quote-block__text::before {
+      content: '「';
+      color: var(--color-gold);
+    }
+
+    .quote-block__text::after {
+      content: '」';
+      color: var(--color-gold);
+    }
+
+    .quote-block__author {
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      color: var(--color-accent);
+    }
+
+    @media (max-width: 768px) {
+      .philosophy-block {
+        padding: 32px 24px;
+      }
+
+      .values-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .story-item {
+        grid-template-columns: 32px 1fr;
+        gap: 0 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="site-header solid" id="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="site-logo">
+        <span class="site-logo__en">SHIMA NO IE</span>
+        <span class="site-logo__jp">島 の 家</span>
+      </a>
+      <nav class="site-nav">
+        <a href="concept.html" class="active">コンセプト</a>
+        <a href="facility.html">施設紹介</a>
+        <a href="stay-info.html">宿泊情報</a>
+        <a href="access.html">アクセス</a>
+        <a href="about.html">運営者情報</a>
+        <a href="contact.html" class="nav-cta">予約・お問い合わせ</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="メニューを開く">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="concept.html">コンセプト</a>
+    <a href="facility.html">施設紹介</a>
+    <a href="stay-info.html">宿泊情報</a>
+    <a href="access.html">アクセス</a>
+    <a href="about.html">運営者情報</a>
+    <a href="contact.html">予約・お問い合わせ</a>
+  </nav>
+
+  <!-- ページヒーロー -->
+  <div class="page-hero">
+    <img class="page-hero__bg" src="https://picsum.photos/1920/600?random=90" alt="天見大島の自然">
+    <div class="page-hero__content">
+      <span class="page-hero__label">Concept &amp; Philosophy</span>
+      <h1 class="page-hero__title">理念・コンセプト</h1>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       理念テキスト：共創型ヴィラ
+       ============================================================ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-label">Our Concept</span>
+        <h2 class="section-title">お客様と共に育てる、<br>新しいヴィラのかたち</h2>
+      </div>
+
+      <div class="philosophy-block fade-in">
+        <p class="philosophy-block__lead">
+          私たち遠架行（えんかく）が目指すのは、<br>
+          従来の「完成された宿を提供する」という形ではありません。
+        </p>
+        <div class="philosophy-block__body">
+          <p>
+            お客様と共にヴィラを立ち上げ、<br>
+            経営の過程も、成功も、失敗も、すべて共有しながら<br>
+            一緒に成長していく<strong style="color:var(--color-text);">「共創型の宿づくり」</strong>です。
+          </p>
+          <p>
+            代表者の妻が天見大島の出身であることから、<br>
+            この島の自然、人の温かさ、文化に深く心を動かされました。<br>
+            その出会いをきっかけに、地元の方々と協力しながら、<br>
+            天見大島の発展に寄与したいという強い想いが生まれました。
+          </p>
+          <p>
+            さらに、ヴィラづくりを愛する仲間たちと共に、<br>
+            それぞれの力を持ち寄りながら、<br>
+            「訪れる人が物語の一部になれる場所」をつくりたいと考えています。
+          </p>
+          <p>
+            このヴィラは、私たちだけのものではありません。<br>
+            夢を追う若者たち、応援してくださるお客様、<br>
+            そして天見大島の皆さまと共に育てていく<strong style="color:var(--color-text);">「未来の宿」</strong>です。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       引用バナー
+       ============================================================ -->
+  <section class="section section--gray">
+    <div class="container">
+      <div class="quote-block fade-in">
+        <p class="quote-block__text">
+          お客様と共に夢を追い、実現し、<br>
+          非日常の時間を心ゆくまで堪能していただく
+        </p>
+        <p class="quote-block__author">— 遠架行（えんかく）運営理念</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       3つの価値観
+       ============================================================ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-label">Our Values</span>
+        <h2 class="section-title">私たちが大切にする3つのこと</h2>
+      </div>
+
+      <div class="values-grid fade-in">
+        <div class="value-card">
+          <span class="value-card__num">01</span>
+          <h3 class="value-card__title">共創（Co-Creation）</h3>
+          <p class="value-card__text">
+            オーナーだけが決める宿ではなく、<br>
+            お客様・地域・仲間と共につくる宿。<br>
+            皆さまの声が、このヴィラをより豊かにします。
+          </p>
+        </div>
+        <div class="value-card">
+          <span class="value-card__num">02</span>
+          <h3 class="value-card__title">島への還元（Island First）</h3>
+          <p class="value-card__text">
+            天見大島の自然・文化・産業を守り、<br>
+            地元の方々と協力した取り組みを通じて、<br>
+            島の発展に貢献することを第一に考えます。
+          </p>
+        </div>
+        <div class="value-card">
+          <span class="value-card__num">03</span>
+          <h3 class="value-card__title">物語になる体験（Story）</h3>
+          <p class="value-card__text">
+            ただ泊まるだけでなく、<br>
+            このヴィラで過ごす時間そのものが<br>
+            語り継がれる物語になる体験を届けます。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       オーナーストーリー
+       ============================================================ -->
+  <section class="section section--gray">
+    <div class="container">
+      <div class="section-header fade-in">
+        <span class="section-label">Our Story</span>
+        <h2 class="section-title">なぜ、天見大島で。</h2>
+        <p class="section-subtitle">
+          島の家が生まれたきっかけと、<br>
+          遠架行（えんかく）のストーリーをお伝えします。
+        </p>
+      </div>
+
+      <div class="story-section fade-in">
+        <div class="story-item">
+          <div class="story-item__num">01</div>
+          <div>
+            <h3 class="story-item__title">島との出会い</h3>
+            <p class="story-item__text">
+              代表者・有馬慎太郎の妻が天見大島の出身です。<br>
+              初めて訪れたとき、その圧倒的な自然の美しさと、<br>
+              島に生きる人々の温かさに深く心を動かされました。<br>
+              「この島に、何か恩返しがしたい」——その気持ちが、すべての始まりです。
+            </p>
+          </div>
+        </div>
+
+        <div class="story-item">
+          <div class="story-item__num">02</div>
+          <div>
+            <h3 class="story-item__title">仲間との出会い</h3>
+            <p class="story-item__text">
+              ヴィラづくりへの想いを語る中で、<br>
+              同じ夢を持つ仲間たちが集まりました。<br>
+              デザイン、運営、地域連携——それぞれが得意分野を持ち寄り、<br>
+              「訪れる人が物語の一部になれる場所」を目指して動き始めました。
+            </p>
+          </div>
+        </div>
+
+        <div class="story-item">
+          <div class="story-item__num">03</div>
+          <div>
+            <h3 class="story-item__title">お客様との共創へ</h3>
+            <p class="story-item__text">
+              私たちは「完成された宿を売る」のではなく、<br>
+              開業の過程そのものをお客様と共有したいと考えています。<br>
+              成功も失敗も正直に発信し、<br>
+              応援してくださる皆さまと一緒にこのヴィラを育てていきます。<br>
+              それが、遠架行（えんかく）の原動力です。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CTA
+       ============================================================ -->
+  <section class="section">
+    <div class="container" style="text-align:center;">
+      <div class="fade-in">
+        <span class="section-label">Join Us</span>
+        <h2 class="section-title" style="margin-bottom:20px;">一緒に、この物語を作りませんか。</h2>
+        <p class="section-subtitle" style="margin-bottom:40px;">
+          ご滞在のご予約・ご質問は、いつでもお気軽にどうぞ。
+        </p>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+          <a href="contact.html" class="btn btn--dark">予約・お問い合わせ</a>
+          <a href="facility.html" class="btn btn--gold">施設を見る</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- フッター -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="footer-brand__logo">
+            <span class="footer-brand__en">SHIMA NO IE</span>
+            <span class="footer-brand__jp">島 の 家</span>
+          </div>
+          <p class="footer-brand__text">
+            遠架行（えんかく）が運営する<br>
+            天見大島のプライベートヴィラ
+          </p>
+        </div>
+        <div class="footer-nav">
+          <p class="footer-nav__title">Navigation</p>
+          <div class="footer-nav__links">
+            <a href="concept.html">コンセプト</a>
+            <a href="facility.html">施設紹介</a>
+            <a href="stay-info.html">宿泊情報</a>
+            <a href="access.html">アクセス</a>
+            <a href="contact.html">予約・お問い合わせ</a>
+          </div>
+        </div>
+        <div class="footer-nav">
+          <p class="footer-nav__title">Information</p>
+          <div class="footer-nav__links">
+            <a href="about.html">運営者情報</a>
+            <a href="about.html#privacy">プライバシーポリシー</a>
+            <a href="about.html#law">特定商取引法に基づく表記</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <small>&copy; 2025 SHIMA NO IE / 遠架行（えんかく）. All Rights Reserved.</small>
+        <a href="about.html">運営者情報</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

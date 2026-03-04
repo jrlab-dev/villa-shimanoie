@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>運営者情報｜SHIMA NO IE - 島の家</title>
-  <meta name="description" content="島の家の運営者情報・プライバシーポリシー・特定商取引法に基づく表記。">
+  <meta name="description" content="遠架行（えんかく）の運営者情報・運営方針・オーナーストーリー・プライバシーポリシー・特定商取引法に基づく表記。">
   <link rel="stylesheet" href="styles.css">
   <style>
     .about-section-title {
@@ -27,6 +27,56 @@
       color: var(--color-text);
       margin: 20px 0 8px;
     }
+    /* 運営方針・ストーリーブロック */
+    .about-narrative {
+      font-size: 0.9rem;
+      line-height: 2.2;
+      color: var(--color-accent);
+    }
+    .about-narrative p {
+      margin-bottom: 18px;
+    }
+    .about-narrative p:last-child {
+      margin-bottom: 0;
+    }
+    .about-story-item {
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 0 20px;
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .about-story-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+    .about-story-item__num {
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+      font-weight: 300;
+      color: var(--color-gold);
+      line-height: 1.3;
+    }
+    .about-story-item__title {
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--color-text);
+      margin-bottom: 10px;
+    }
+    .about-story-item__text {
+      font-size: 0.87rem;
+      line-height: 2.1;
+      color: var(--color-accent);
+    }
+    @media (max-width: 768px) {
+      .about-story-item {
+        grid-template-columns: 28px 1fr;
+        gap: 0 14px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -39,6 +89,7 @@
         <span class="site-logo__jp">島 の 家</span>
       </a>
       <nav class="site-nav">
+        <a href="concept.html">コンセプト</a>
         <a href="facility.html">施設紹介</a>
         <a href="stay-info.html">宿泊情報</a>
         <a href="access.html">アクセス</a>
@@ -51,6 +102,7 @@
     </div>
   </header>
   <nav class="mobile-nav" id="mobile-nav">
+    <a href="concept.html">コンセプト</a>
     <a href="facility.html">施設紹介</a>
     <a href="stay-info.html">宿泊情報</a>
     <a href="access.html">アクセス</a>
@@ -86,23 +138,22 @@
             </tr>
             <tr>
               <th>運営事業者名</th>
-              <td>合同会社 島の家（※仮）</td>
+              <td>遠架行（えんかく）〈仮〉</td>
             </tr>
             <tr>
               <th>代表者名</th>
-              <td>山田 太郎（※仮）</td>
+              <td>有馬 慎太郎</td>
             </tr>
             <tr>
               <th>所在地</th>
               <td>
-                〒894-0000<br>
-                鹿児島県奄美市名瀬〇〇町〇〇番地<br>
-                <span style="font-size:0.82rem;color:var(--color-accent);">（営業所住所・同上）</span>
+                〒336-0021<br>
+                埼玉県さいたま市南区本町2-5-15
               </td>
             </tr>
             <tr>
               <th>電話番号</th>
-              <td><a href="tel:0997000000" style="color:var(--color-gold);">0997-00-0000</a></td>
+              <td><a href="tel:09025659859" style="color:var(--color-gold);">090-2565-9859</a></td>
             </tr>
             <tr>
               <th>メールアドレス</th>
@@ -119,18 +170,50 @@
           </tbody>
         </table>
 
+        <h3 class="about-section-title">▎ 運営方針</h3>
+        <div class="about-narrative" style="margin-bottom:40px;">
+          <p>
+            私たち遠架行（えんかく）は、<strong style="color:var(--color-text);">「お客様と共に夢を追い、実現し、非日常の時間を心ゆくまで堪能していただく」</strong>ことを理念として運営しております。
+          </p>
+          <p>
+            天見大島の自然と調和した空間づくりを大切にし、ご滞在いただく皆さまにとって特別な体験となるよう、細部まで心を込めたおもてなしを提供いたします。
+          </p>
+        </div>
+
+        <h3 class="about-section-title">▎ オーナーストーリー</h3>
+        <div style="margin-bottom:40px;">
+          <div class="about-story-item">
+            <div class="about-story-item__num">01</div>
+            <div>
+              <h4 class="about-story-item__title">夢を見る若者たちと、夢を追う楽しさ</h4>
+              <p class="about-story-item__text">
+                私たちが天見大島でヴィラを始める理由は、夢を見る若者たちと共に夢を追いかける楽しさ、そして代表者の妻が天見大島の出身であることからこの島の魅力に深く感銘を受けたことにあります。
+              </p>
+            </div>
+          </div>
+          <div class="about-story-item">
+            <div class="about-story-item__num">02</div>
+            <div>
+              <h4 class="about-story-item__title">島の発展への想い</h4>
+              <p class="about-story-item__text">
+                地元の方々と協力しながら島の発展に寄与したいという想い、そしてヴィラづくりを愛する仲間たちと共に、訪れる人にとって特別な時間を届ける場所をつくりたいという願いが、このプロジェクトの原動力です。
+              </p>
+            </div>
+          </div>
+        </div>
+
         <h3 class="about-section-title">▎ 許認可情報</h3>
         <table class="info-table" style="margin-bottom:40px;">
           <tbody>
             <tr>
               <th>旅館業許可番号</th>
-              <td>鹿児島県 旅館業法 第○号（簡易宿所）<br>
-                  <span style="font-size:0.82rem;color:var(--color-accent);">許可行政庁：奄美市</span>
+              <td>申請予定<br>
+                  <span style="font-size:0.82rem;color:var(--color-accent);">（開業準備中のため、許可取得後に更新いたします）</span>
               </td>
             </tr>
             <tr>
               <th>住宅宿泊事業届出番号</th>
-              <td>該当なし（旅館業法により営業）</td>
+              <td>該当なし（旅館業法により営業予定）</td>
             </tr>
           </tbody>
         </table>
@@ -178,7 +261,7 @@
 
       <div class="about-box fade-in">
         <div class="policy-text">
-          <p>合同会社 島の家（以下「当社」）は、お客様の個人情報の保護を重要事項と考え、以下の方針に基づき適切に取り扱います。</p>
+          <p>遠架行（えんかく）（以下「当社」）は、お客様の個人情報の保護を重要事項と考え、以下の方針に基づき適切に取り扱います。</p>
 
           <h4>1. 個人情報の収集</h4>
           <p>当社は、ご予約・お問い合わせの際に、氏名・メールアドレス・電話番号・宿泊日程・人数などの情報を収集します。</p>
@@ -223,19 +306,19 @@
           <tbody>
             <tr>
               <th>販売業者</th>
-              <td>合同会社 島の家</td>
+              <td>遠架行（えんかく）</td>
             </tr>
             <tr>
               <th>代表責任者</th>
-              <td>山田 太郎</td>
+              <td>有馬 慎太郎</td>
             </tr>
             <tr>
               <th>所在地</th>
-              <td>〒894-0000 鹿児島県奄美市名瀬〇〇町〇〇番地</td>
+              <td>〒336-0021 埼玉県さいたま市南区本町2-5-15</td>
             </tr>
             <tr>
               <th>電話番号</th>
-              <td>0997-00-0000（9:00〜20:00）</td>
+              <td>090-2565-9859（9:00〜20:00）</td>
             </tr>
             <tr>
               <th>メールアドレス</th>
@@ -286,11 +369,12 @@
             <span class="footer-brand__en">SHIMA NO IE</span>
             <span class="footer-brand__jp">島 の 家</span>
           </div>
-          <p class="footer-brand__text">奄美大島の自然に囲まれた<br>完全プライベートのヴィラ</p>
+          <p class="footer-brand__text">遠架行（えんかく）が運営する<br>天見大島のプライベートヴィラ</p>
         </div>
         <div class="footer-nav">
           <p class="footer-nav__title">Navigation</p>
           <div class="footer-nav__links">
+            <a href="concept.html">コンセプト</a>
             <a href="facility.html">施設紹介</a>
             <a href="stay-info.html">宿泊情報</a>
             <a href="access.html">アクセス</a>
@@ -307,7 +391,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <small>&copy; 2025 SHIMA NO IE. All Rights Reserved.</small>
+        <small>&copy; 2025 SHIMA NO IE / 遠架行（えんかく）. All Rights Reserved.</small>
         <a href="about.html">運営者情報</a>
       </div>
     </div>
