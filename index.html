@@ -2,6 +2,7 @@
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>高台の家（仮称）｜海を見下ろすトレーラーハウスの宿・奄美大島 戸口</title>
 <meta name="description" content="高台の家（仮称）。奄美大島・龍郷町戸口、海抜およそ30メートルの高台にトレーラーハウス「海の棟」「星の棟」の2棟だけの小さな宿。開業準備中です。">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
 :root{--bg:#f5f2ec;--paper:#fffdf9;--ink:#1e2429;--sub:#5d666d;--line:#ddd6cb;--sea:#1f6f86;--dark:#0b0f13}
 *{box-sizing:border-box}
@@ -84,7 +85,10 @@ h3.t{font-weight:400;font-size:clamp(24px,3.4vw,36px);line-height:1.6;margin:12p
 .plan{display:block;width:100%;min-width:720px;height:auto}
 .sponly{display:none}
 .map{position:relative;aspect-ratio:16/7;border:1px solid var(--line);background:#e8e4dc}
-.map iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+#fly{position:absolute;inset:0;background:#0d2a36}
+.replay{position:absolute;right:12px;bottom:12px;z-index:500;display:none}
+.pin{width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid #e2574c;box-shadow:0 0 0 6px rgba(226,87,76,.3)}
+.leaflet-tooltip.pinlabel{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:14px;letter-spacing:.1em}
 .spots{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px}
 .spot{background:#fff;border:1px solid var(--line);padding:20px 20px 22px}
 .spot .k{display:inline-block;font-size:11px;letter-spacing:.2em;color:#fff;background:var(--sea);padding:1px 9px;border-radius:999px;font-family:system-ui,sans-serif}
@@ -318,8 +322,8 @@ footer .logo{display:inline-block;color:var(--ink);font-family:"Hiragino Mincho 
 </div></section>
 
 <div class="wrap rv" style="margin-top:56px">
- <div class="map"><iframe src="https://maps.google.com/maps?q=28.365667,129.589528&amp;z=14&amp;output=embed" title="高台の家の場所（龍郷町戸口）" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
- <p class="note">印は宿の敷地です。</p>
+ <div class="map"><div id="fly" aria-label="奄美大島全体から高台の家へ寄っていく航空写真の地図"></div><button class="hbtn replay" id="replay" type="button">もう一度</button></div>
+ <p class="note">印は宿の敷地です。道順は「Googleマップで開く」から。航空写真：<a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank" rel="noopener">地理院タイル</a></p>
 </div>
 </section>
 
@@ -352,6 +356,7 @@ footer .logo{display:inline-block;color:var(--ink);font-family:"Hiragino Mincho 
  © 高台の家
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 
 const slides=[...document.querySelectorAll('.hero .m')],caps=[...document.querySelectorAll('.hero .cap')];
@@ -397,6 +402,21 @@ menu.addEventListener('click',e=>{ if(e.target.tagName==='A'){ menu.classList.re
 
 const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }),{rootMargin:'0px 0px -8% 0px'});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+const SITE=[28.365667,129.589528], WHOLE=[28.27,129.42];
+const Z0=innerWidth<600?9:10;   
+function startFly(){
+ if(!window.L) return;
+ const map=L.map('fly',{zoomControl:true,scrollWheelZoom:false,dragging:!L.Browser.mobile,tap:false,attributionControl:false}).setView(WHOLE,Z0);
+ L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg',{maxZoom:18,maxNativeZoom:18}).addTo(map);
+ const pin=L.marker(SITE,{icon:L.divIcon({className:'',html:'<div class="pin"></div>',iconSize:[22,22],iconAnchor:[11,11]})});
+ const replay=document.getElementById('replay');
+ const go=()=>{ pin.remove(); replay.style.display='none'; map.setView(WHOLE,Z0,{animate:false});
+  setTimeout(()=>map.flyTo(SITE,17,{duration:6}),900); };
+ map.on('moveend',()=>{ if(map.getZoom()>=17&&!map.hasLayer(pin)){ pin.addTo(map).bindTooltip('高台の家',{permanent:true,direction:'top',offset:[0,-12],className:'pinlabel'}); replay.style.display='block'; } });
+ replay.onclick=go; go();
+}
+new IntersectionObserver((es,ob)=>{ if(es[0].isIntersecting){ ob.disconnect(); startFly(); } },{threshold:.35}).observe(document.getElementById('fly'));
 window.__ready=true;
 </script>
 </body></html>
