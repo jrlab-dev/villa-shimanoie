@@ -1,288 +1,105 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SHIMA NO IE｜島の家 - 奄美大島の隠れ家プライベートヴィラ</title>
-  <meta name="description" content="奄美大島の自然に囲まれた、完全プライベートのヴィラ。「島の家」で、時間を忘れるような特別な滞在を。">
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SHIMA NO IE｜海を見下ろす高台の宿（奄美大島）</title>
+<style>
+:root{--ink:#fff;--sub:rgba(255,255,255,.82);--bg:#0b0f13}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",serif}
+.top{position:fixed;left:0;right:0;top:0;z-index:5;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;pointer-events:none}
+.brand{letter-spacing:.32em;font-size:12px;color:var(--sub)}
+.sound{pointer-events:auto;font:inherit;font-size:12px;letter-spacing:.15em;color:var(--ink);background:rgba(10,16,22,.35);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:7px 14px;cursor:pointer;display:none}
+.mark{position:fixed;right:14px;bottom:12px;z-index:5;font-size:11px;letter-spacing:.15em;color:var(--sub);background:rgba(10,16,22,.38);padding:4px 10px;border-radius:4px;font-family:system-ui,sans-serif}
+.story{position:relative}
+.stage{position:sticky;top:0;height:100vh;overflow:hidden;background:#000}
+.stage .m{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform-origin:var(--ox,50%) var(--oy,50%);will-change:transform,opacity,filter;opacity:0}
+.stage .shade{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,10,16,.66),rgba(5,10,16,0) 55%);pointer-events:none}
+.stage .dim{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(5,10,16,.42),rgba(5,10,16,.7));opacity:0;pointer-events:none}
+.cap{position:absolute;left:24px;right:24px;bottom:12vh;max-width:620px;opacity:0;transform:translateY(16px);transition:opacity 1.1s ease,transform 1.1s ease}
+.cap.on{opacity:1;transform:none}
+.cap .day{font-size:12px;letter-spacing:.32em;color:var(--sub)}
+.cap h2{font-weight:400;font-size:clamp(22px,4vw,38px);line-height:1.5;margin:10px 0 8px;text-shadow:0 2px 16px rgba(0,0,0,.45)}
+.cap p{margin:0;font-size:clamp(13px,1.6vw,15px);line-height:1.95;color:var(--sub)}
+.cap.center{left:0;right:0;bottom:auto;top:50%;max-width:none;text-align:center;transform:translateY(calc(-50% + 16px))}
+.cap.center.on{transform:translateY(-50%)}
+.cap.center.low{top:66%}   
+.stage .m{object-position:var(--px,50%) 50%}   
+.cap.center h2{font-size:clamp(28px,5vw,46px);letter-spacing:.12em}
+.cap.center p{letter-spacing:.16em}
+.cue{margin-top:40px;font-size:11px;letter-spacing:.3em;color:var(--sub);animation:cue 2.4s ease-in-out infinite}
+@keyframes cue{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(6px)}}
+@media (max-width:600px){.cap{left:18px;right:18px;bottom:10vh}}
+</style></head><body>
+<div class="top"><div class="brand">AMAMI ・ TOGUCHI</div><button class="sound" id="sound">波の音を聞く</button></div>
+<div class="mark" id="mark">完成イメージ</div>
+<section class="story" id="story"><div class="stage">
+<img class="m" src="story/s01.jpg" alt="" data-z0="1.0" data-z1="1.12" style="--ox:50%;--oy:50%;--px:50%">
+<img class="m" src="story/s02.jpg" alt="" data-z0="1.0" data-z1="1.18" style="--ox:55%;--oy:42%;--px:50%">
+<img class="m" src="story/s03.jpg" alt="" data-z0="1.0" data-z1="1.15" style="--ox:60%;--oy:60%;--px:50%">
+<img class="m" src="story/s04.jpg" alt="" data-z0="1.0" data-z1="1.12" style="--ox:45%;--oy:70%;--px:50%">
+<img class="m" src="story/s05.jpg" alt="" data-z0="1.0" data-z1="1.15" style="--ox:60%;--oy:55%;--px:50%">
+<img class="m" src="story/s06.jpg" alt="" data-z0="1.12" data-z1="1.0" style="--ox:50%;--oy:30%;--px:50%">
+<img class="m" src="story/s07.jpg" alt="" data-z0="1.0" data-z1="1.15" style="--ox:70%;--oy:35%;--px:50%">
+<img class="m" src="story/s08.jpg" alt="" data-z0="1.0" data-z1="1.15" style="--ox:60%;--oy:40%;--px:50%">
+<img class="m" src="story/s09.jpg" alt="" data-z0="1.0" data-z1="1.12" style="--ox:60%;--oy:45%;--px:50%">
+<img class="m" src="story/s10.jpg" alt="" data-z0="1.0" data-z1="1.15" style="--ox:65%;--oy:50%;--px:50%">
+<img class="m" src="story/s11.jpg" alt="" data-z0="1.0" data-z1="1.15" style="--ox:60%;--oy:55%;--px:50%">
+<img class="m" src="story/s12.jpg" alt="" data-z0="1.0" data-z1="1.15" style="--ox:55%;--oy:50%;--px:18%">
+<img class="m" src="story/s13.jpg" alt="" data-z0="1.0" data-z1="1.15" style="--ox:55%;--oy:60%;--px:50%">
+<img class="m" src="story/s14.jpg" alt="" data-z0="1.0" data-z1="1.18" style="--ox:62%;--oy:45%;--px:50%">
+<img class="m" src="story/s15.jpg" alt="" data-z0="1.0" data-z1="1.15" style="--ox:60%;--oy:55%;--px:50%">
+<img class="m" src="story/s16.jpg" alt="" data-z0="1.0" data-z1="1.15" style="--ox:60%;--oy:55%;--px:50%">
+<img class="m" src="story/s17.jpg" alt="" data-z0="1.0" data-z1="1.2" style="--ox:55%;--oy:42%;--px:50%">
+<img class="m" src="story/s18.jpg" alt="" data-z0="1.12" data-z1="1.0" style="--ox:50%;--oy:50%;--px:50%">
+<div class="shade" id="shade"></div><div class="dim" id="dim"></div>
+<div class="cap center low"><h2>海を見下ろす高台で、<br>2泊3日。</h2><p>奄美大島・龍郷町 戸口</p><div class="cue">スクロール</div></div>
+<div class="cap"><div class="day">1日目　夕方</div><h2>高台に、2棟だけ。</h2><p>山の向こうに陽が沈むころ、白い2棟に灯りがともります。</p></div>
+<div class="cap"><div class="day">1日目　夕暮れ</div><h2>海を見ながら、湯船へ。</h2><p>デッキの屋根の下に、海に向いたバスタブ。空の色が変わっていくのを、湯につかりながら。</p></div>
+<div class="cap"><div class="day">1日目　夜</div><h2>庭で、バーベキュー。</h2><p>波の音を聞きながら、芝生の上で炭火を囲む夜。</p></div>
+<div class="cap"><div class="day">1日目　夜</div><h2>明かりは、部屋の中だけ。</h2><p>周りに街灯はひとつもありません。灯りを落とすと、空が近くなります。</p></div>
+<div class="cap"><div class="day">1日目　夜更け</div><h2>高台で、星を見上げる。</h2><p>新月の夜は、天の川まで。波の音だけが聞こえます。</p></div>
+<div class="cap"><div class="day">1日目　夜更け</div><h2>部屋に戻っても、星の中。</h2><p>街灯のない高台。明かりを消すと、ベッドから庭の先の海と星空がひと続きに見えます。</p></div>
+<div class="cap"><div class="day">2日目　朝</div><h2>目覚めると、庭の先に海。</h2><p>ベッドから見えるのは、芝生の庭とひと続きの海と、水平線から昇る朝日。目線は海抜およそ30メートルです。</p></div>
+<div class="cap"><div class="day">2日目　朝</div><h2>朝の光が、部屋の奥まで。</h2><p>海側は一面のガラス。細長い部屋に、朝の光がななめに差し込みます。</p></div>
+<div class="cap"><div class="day">2日目　朝</div><h2>コーヒーを淹れる。</h2><p>部屋の中ほどの小さなキッチンで、ゆっくりと一杯。</p></div>
+<div class="cap"><div class="day">2日目　朝</div><h2>そのまま、デッキへ。</h2><p>ガラス戸を開ければ、朝日と海がすぐそこに。</p></div>
+<div class="cap"><div class="day">2日目　昼</div><h2>庭は、一段高く。</h2><p>崖の上の土地を、白い壁でさらに持ち上げて芝生の庭に。この高さが、眺めをつくります。</p></div>
+<div class="cap"><div class="day">2日目　昼</div><h2>庭のふちから、眼下に海。</h2><p>芝生の先は、斜面と岬と海。海抜およそ30メートルの庭です。</p></div>
+<div class="cap"><div class="day">2日目　昼</div><h2>庭の先は、そのまま海。</h2><p>部屋の中からは庭のふちが隠れて、芝生と海がひと続きに。海に浮かんでいるような眺めです。</p></div>
+<div class="cap"><div class="day">2日目　昼</div><h2>エメラルドの海を、見下ろす。</h2><p>高台からは、岬と岩礁、透きとおった海。</p></div>
+<div class="cap"><div class="day">2日目　夜</div><h2>星の下の、湯船。</h2><p>足元の小さな灯りだけ。湯気の向こうに、満天の星と夜の海。</p></div>
+<div class="cap"><div class="day">3日目　朝</div><h2>最後の朝も、海から。</h2><p>朝の光が、2棟の正面を照らします。また、この高台へ。</p></div>
+<div class="cap center"><h2>海から昇る朝日と、<br>満天の星。</h2><p>2棟だけの、高台の宿。<br>（すべて完成イメージです）</p></div>
+</div></section>
+<script>
 
-  <!-- ============================================================
-       ヘッダー
-       ============================================================ -->
-  <header class="site-header transparent" id="site-header">
-    <div class="header-inner">
-      <a href="index.html" class="site-logo">
-        <span class="site-logo__en">SHIMA NO IE</span>
-        <span class="site-logo__jp">島 の 家</span>
-      </a>
 
-      <nav class="site-nav">
-        <a href="concept.html">コンセプト</a>
-    <a href="facility.html">施設紹介</a>
-        <a href="stay-info.html">宿泊情報</a>
-        <a href="access.html">アクセス</a>
-        <a href="news.html">奄美ニュース</a>
-        <a href="about.html">運営者情報</a>
-        <a href="contact.html" class="nav-cta">予約・お問い合わせ</a>
-      </nav>
+const story=document.getElementById('story'), imgs=[...story.querySelectorAll('.m')], caps=[...story.querySelectorAll('.cap')];
+const mark=document.getElementById('mark'), shade=document.getElementById('shade'), dim=document.getElementById('dim');
+const N=imgs.length, SEG=1.3;
+story.style.height=(N*SEG*100)+'vh';
+const sm=(a,b,x)=>{const t=Math.min(1,Math.max(0,(x-a)/(b-a)));return t*t*(3-2*t)};
+function tick(){
+ const r=story.getBoundingClientRect(), span=r.height-innerHeight;
+ const P=Math.min(N-1,Math.max(0,-r.top/span*(N-1)));          
+ for(let k=0;k<N;k++){
+  const im=imgs[k], d=P-k;
+  const inA = k===0 ? 1 : sm(k-0.45,k,P);                      
+  const op=inA;
+  const z0=+im.dataset.z0, z1=+im.dataset.z1, lp=Math.min(1,Math.max(0,(d+1)/2));
+  im.style.opacity=op; im.style.transform=`scale(${z0+(z1-z0)*lp})`;
+  caps[k].classList.toggle('on', d>-0.2 && d<0.5);
+ }
+ 
+ 
+ let top=0; for(let k=0;k<N;k++){ if(+imgs[k].style.opacity>0.5) top=k; const v=imgs[k]; if(v.tagName==='VIDEO'){ if(+v.style.opacity>0){ if(v.paused) v.play().catch(()=>{}); } else if(!v.paused) v.pause(); } }
+ const mk=imgs[top].dataset.kind==='real'?'奄美で撮影':'完成イメージ'; if(mark.textContent!==mk) mark.textContent=mk;
+ const cw=Math.max(1-sm(0.35,0.7,P), sm(N-1.7,N-1.3,P));
+ dim.style.opacity=cw; shade.style.opacity=1-cw;
+ requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+window.__ready=true;
 
-      <button class="hamburger" id="hamburger" aria-label="メニューを開く">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-    </div>
-  </header>
-
-  <!-- モバイルナビ -->
-  <nav class="mobile-nav" id="mobile-nav">
-    <a href="concept.html">コンセプト</a>
-    <a href="facility.html">施設紹介</a>
-    <a href="stay-info.html">宿泊情報</a>
-    <a href="access.html">アクセス</a>
-    <a href="news.html">奄美ニュース</a>
-    <a href="about.html">運営者情報</a>
-    <a href="contact.html">予約・お問い合わせ</a>
-  </nav>
-
-  <!-- ============================================================
-       ヒーロー
-       ============================================================ -->
-  <section class="hero">
-    <img
-      class="hero__bg"
-      src="https://picsum.photos/1920/1080?random=10"
-      alt="奄美大島の自然豊かな風景"
-    >
-    <div class="hero__overlay"></div>
-    <div class="hero__content">
-      <span class="hero__label">Private Villa in Amami Oshima</span>
-      <h1 class="hero__title">島の風に、<br>日常を忘れる。</h1>
-      <p class="hero__sub">奄美大島の自然に抱かれた、あなただけの隠れ家</p>
-      <a href="contact.html" class="btn btn--primary">予約・お問い合わせ</a>
-    </div>
-    <div class="hero__scroll">SCROLL</div>
-  </section>
-
-  <!-- ============================================================
-       コンセプト
-       ============================================================ -->
-  <section class="section">
-    <div class="container">
-      <div class="section-header fade-in">
-        <span class="section-label">Concept</span>
-        <h2 class="section-title">「島の家」とは</h2>
-        <p class="section-subtitle">
-          奄美大島の豊かな自然の中に佇む、完全プライベートのヴィラ。<br>
-          訪れるすべての方に、島の時間が流れる特別な体験をお届けします。
-        </p>
-      </div>
-
-      <div class="concept-grid">
-        <div class="concept-card fade-in">
-          <div class="concept-card__icon">◎</div>
-          <h3 class="concept-card__title">完全プライベート</h3>
-          <p class="concept-card__text">
-            1日1組限定の貸切スタイル。<br>
-            他のゲストを気にせず、<br>
-            ご家族・グループで島の時間を満喫できます。
-          </p>
-        </div>
-        <div class="concept-card fade-in">
-          <div class="concept-card__icon">❧</div>
-          <h3 class="concept-card__title">奄美の自然</h3>
-          <p class="concept-card__text">
-            世界自然遺産の島が持つ、<br>
-            深い森と碧い海。<br>
-            窓の外に広がる絶景が、非日常へといざないます。
-          </p>
-        </div>
-        <div class="concept-card fade-in">
-          <div class="concept-card__icon">⌂</div>
-          <h3 class="concept-card__title">くつろぎの空間</h3>
-          <p class="concept-card__text">
-            木の温もりと和の意匠が融合した、<br>
-            上質なインテリア。<br>
-            まるで「もう一つの自分の家」のように過ごせます。
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       施設ギャラリー
-       ============================================================ -->
-  <section class="section section--gray">
-    <div class="container">
-      <div class="section-header fade-in">
-        <span class="section-label">Gallery</span>
-        <h2 class="section-title">施設のようす</h2>
-      </div>
-
-      <div class="gallery-grid fade-in">
-        <div class="gallery-item">
-          <img src="https://picsum.photos/800/600?random=11" alt="ヴィラ外観">
-        </div>
-        <div class="gallery-item">
-          <img src="https://picsum.photos/400/300?random=12" alt="リビングルーム">
-        </div>
-        <div class="gallery-item">
-          <img src="https://picsum.photos/400/300?random=13" alt="寝室">
-        </div>
-        <div class="gallery-item">
-          <img src="https://picsum.photos/400/300?random=14" alt="テラス">
-        </div>
-        <div class="gallery-item">
-          <img src="images/fukurou.jpg.png" alt="奄美の森の梟">
-        </div>
-      </div>
-
-      <div style="text-align:center; margin-top:40px;">
-        <a href="facility.html" class="btn btn--dark">施設詳細を見る</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       特徴紹介
-       ============================================================ -->
-  <section class="section">
-    <div class="container">
-      <div class="section-header fade-in">
-        <span class="section-label">Features</span>
-        <h2 class="section-title">島の家の魅力</h2>
-      </div>
-
-      <div class="feature-row fade-in">
-        <div class="feature-img">
-          <img src="images/kurousagi.jpg.png" alt="アマミノクロウサギ">
-        </div>
-        <div class="feature-text">
-          <span class="feature-text__label">Night View</span>
-          <h3 class="feature-text__title">光害のない夜空で、<br>満天の星を楽しむ。</h3>
-          <p class="feature-text__body">
-            奄美大島は離島ならではの暗夜が広がります。ヴィラのテラスから、肉眼でも天の川がはっきりと見える夜空を体験してください。運が良ければ、国指定特別天然記念物アマミノクロウサギと出会えることも。
-          </p>
-        </div>
-      </div>
-
-      <div class="feature-row feature-row--reverse fade-in">
-        <div class="feature-img">
-          <img src="https://picsum.photos/700/525?random=22" alt="奄美の海">
-        </div>
-        <div class="feature-text">
-          <span class="feature-text__label">Ocean</span>
-          <h3 class="feature-text__title">世界自然遺産の島が育む、<br>エメラルドの海へ。</h3>
-          <p class="feature-text__body">
-            車で数分圏内に、透明度抜群のビーチが広がります。シュノーケリングやSUPなど、マリンアクティビティも充実。奄美固有の生態系に触れる体験は、ここだけでしか得られない記憶となるでしょう。
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       奄美ニュース（プレビュー）
-       ============================================================ -->
-  <section class="section section--gray">
-    <div class="container">
-      <div class="section-header fade-in">
-        <span class="section-label">Amami News</span>
-        <h2 class="section-title">奄美ニュース</h2>
-        <p class="section-subtitle">世界自然遺産の島から、旬な観光情報をお届けします</p>
-      </div>
-
-      <div class="fade-in" style="display:flex;flex-direction:column;gap:12px;max-width:800px;margin:0 auto;">
-
-        <a href="news.html" style="display:block;padding:16px 20px;background:var(--color-white);border:1px solid var(--color-border);border-radius:2px;text-decoration:none;transition:box-shadow 0.3s ease;" onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='none'">
-          <span style="display:inline-block;font-size:0.7rem;padding:1px 7px;border:1px solid #b8986a;color:#b8986a;border-radius:2px;margin-bottom:6px;">イベント</span>
-          <p style="font-size:0.9rem;font-weight:500;line-height:1.5;color:var(--color-text);">Quru Guru開所1周年フェスタ — まさに今週末開催</p>
-        </a>
-
-        <a href="news.html" style="display:block;padding:16px 20px;background:var(--color-white);border:1px solid var(--color-border);border-radius:2px;text-decoration:none;transition:box-shadow 0.3s ease;" onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='none'">
-          <span style="display:inline-block;font-size:0.7rem;padding:1px 7px;border:1px solid #b0bfd0;color:#6a7a9a;border-radius:2px;margin-bottom:6px;">クルーズ</span>
-          <p style="font-size:0.9rem;font-weight:500;line-height:1.5;color:var(--color-text);">2隻のクルーズ船が名瀬港に初寄港 — 4月下旬に連続入港</p>
-        </a>
-
-        <a href="news.html" style="display:block;padding:16px 20px;background:var(--color-white);border:1px solid var(--color-border);border-radius:2px;text-decoration:none;transition:box-shadow 0.3s ease;" onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='none'">
-          <span style="display:inline-block;font-size:0.7rem;padding:1px 7px;border:1px solid #c0a0a0;color:#9a6a6a;border-radius:2px;margin-bottom:6px;">アクティビティ</span>
-          <p style="font-size:0.9rem;font-weight:500;line-height:1.5;color:var(--color-text);">海開きシーズン本番 — 春の奄美でマリンアクティビティ</p>
-        </a>
-
-      </div>
-
-      <div style="text-align:center;margin-top:36px;">
-        <a href="news.html" class="btn btn--dark">すべてのニュースを見る</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       CTA バナー
-       ============================================================ -->
-  <section class="section section--gray">
-    <div class="container" style="text-align:center;">
-      <div class="fade-in">
-        <span class="section-label">Reservation</span>
-        <h2 class="section-title" style="margin-bottom:24px;">ご予約・お問い合わせ</h2>
-        <p class="section-subtitle" style="margin-bottom:40px;">
-          空室状況・料金は、お気軽にお問い合わせください。<br>
-          ご旅行の計画に合わせた特別なプランもご相談いただけます。
-        </p>
-        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
-          <a href="contact.html" class="btn btn--dark">お問い合わせフォーム</a>
-          <a href="stay-info.html" class="btn btn--gold">宿泊情報を見る</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       フッター
-       ============================================================ -->
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-inner">
-        <div class="footer-brand">
-          <div class="footer-brand__logo">
-            <span class="footer-brand__en">SHIMA NO IE</span>
-            <span class="footer-brand__jp">島 の 家</span>
-          </div>
-          <p class="footer-brand__text">
-            奄美大島の自然に囲まれた<br>
-            完全プライベートのヴィラ
-          </p>
-        </div>
-        <div class="footer-nav">
-          <p class="footer-nav__title">Navigation</p>
-          <div class="footer-nav__links">
-            <a href="concept.html">コンセプト</a>
-    <a href="facility.html">施設紹介</a>
-            <a href="stay-info.html">宿泊情報</a>
-            <a href="access.html">アクセス</a>
-            <a href="contact.html">予約・お問い合わせ</a>
-          </div>
-        </div>
-        <div class="footer-nav">
-          <p class="footer-nav__title">Information</p>
-          <div class="footer-nav__links">
-            <a href="about.html">運営者情報</a>
-            <a href="about.html#privacy">プライバシーポリシー</a>
-            <a href="about.html#law">特定商取引法に基づく表記</a>
-          </div>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <small>&copy; 2025 SHIMA NO IE. All Rights Reserved.</small>
-        <a href="about.html">運営者情報</a>
-      </div>
-    </div>
-  </footer>
-
-  <script src="script.js"></script>
-</body>
-</html>
+const SOUND="story/wave.mp3";
+if(SOUND&&!SOUND.startsWith('@@')){const b=document.getElementById('sound'),au=new Audio(SOUND);au.loop=true;b.style.display='block';b.textContent='波の音を聞く';
+ b.onclick=()=>{if(au.paused){au.play();b.textContent='音を止める'}else{au.pause();b.textContent='波の音を聞く'}}}
+</script></body></html>
