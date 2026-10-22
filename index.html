@@ -104,6 +104,20 @@ h3.t{font-weight:400;font-size:clamp(24px,3.4vw,36px);line-height:1.6;margin:12p
 a.spot:hover{border-color:var(--sea);transform:translateY(-2px)}
 .spot .go{display:block;margin-top:12px;font-size:12px;color:var(--sea);letter-spacing:.08em;font-family:system-ui,sans-serif}
 .spot p{margin:10px 0 0;font-size:13px;color:var(--sub);line-height:1.85}
+.courses{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:40px}
+.ccard{background:var(--paper);border:1px solid var(--line);padding:24px 24px 18px}
+.ccard .lv{display:inline-block;font-size:11px;letter-spacing:.2em;color:#fff;background:#6b8f71;padding:2px 10px;border-radius:999px;font-family:system-ui,sans-serif}
+.ccard.hard{background:#13232b;color:#fff;border-color:#13232b}
+.ccard.hard .lv{background:#c9853f}
+.ccard.hard p,.ccard.hard li span{color:rgba(255,255,255,.7)}
+.ccard.hard li{border-color:rgba(255,255,255,.15)}
+.ccard.hard a{color:#9fd6e4}
+.ccard b{display:block;font-weight:400;font-size:19px;margin-top:10px;letter-spacing:.04em}
+.ccard p{margin:6px 0 10px;font-size:13px;color:var(--sub)}
+.ccard ol{list-style:none;margin:0;padding:0}
+.ccard li{padding:8px 0;border-top:1px dashed var(--line);font-size:14px}
+.ccard li span{display:inline-block;width:3.6em;font-size:12px;color:var(--sub);letter-spacing:.1em}
+.ccard a{color:var(--sea);text-underline-offset:3px}
 .list{list-style:none;padding:0;margin:26px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:0 28px}
 .list li{padding:11px 0;border-bottom:1px solid var(--line);font-size:14px}
 .note{font-size:12px;color:var(--sub);margin-top:16px;font-family:system-ui,sans-serif}
@@ -143,6 +157,7 @@ footer .logo{display:inline-block;color:var(--ink);font-family:"Hiragino Mincho 
  .views,.days{grid-template-columns:1fr}
  .views .ph img{aspect-ratio:3/2}
  .list{grid-template-columns:1fr}
+ .courses{grid-template-columns:1fr}
  .sponly{display:inline}
  .map{aspect-ratio:4/5}
  .spots{grid-template-columns:1fr 1fr;gap:10px}
@@ -155,7 +170,7 @@ footer .logo{display:inline-block;color:var(--ink);font-family:"Hiragino Mincho 
  <a class="logo" href="#top">TAKADAI NO IE<small>高台の家・奄美大島 戸口</small></a>
  <button class="burger" id="burger" aria-expanded="false" aria-controls="menu">メニュー</button>
  <nav class="menu" id="menu">
-  <a href="#about">宿について</a><a href="#view">眺め</a><a href="#room">客室</a><a href="#stay">過ごし方</a><a href="#place">場所</a><a href="#around">周辺</a><a href="#reserve">ご予約</a>
+  <a href="#about">宿について</a><a href="#view">眺め</a><a href="#room">客室</a><a href="#stay">過ごし方</a><a href="#place">場所</a><a href="#around">周辺</a><a href="#course">モデルコース</a><a href="#reserve">ご予約</a>
  </nav>
 </header>
 
@@ -356,6 +371,19 @@ footer .logo{display:inline-block;color:var(--ink);font-family:"Hiragino Mincho 
   <a class="spot rv" href="https://www.amami-tourism.org/scenic-spots/%E9%87%91%E4%BD%9C%E5%8E%9F/" target="_blank" rel="noopener"><span class="k">森</span><b>金作原原生林</b><small>奄美市名瀬</small><p>世界自然遺産の島を代表する亜熱帯の森。ガイドツアーで歩きます。</p><span class="go">詳しく見る ↗</span></a>
   <div class="spot rv"><span class="k">夜</span><b>宿の庭で星空</b><small>高台の家</small><p>いちばん近い見どころは、宿の庭。街灯のない高台で、天の川を。</p></div>
  </div>
+</div></section>
+
+<section class="s" id="course"><div class="wrap">
+ <div class="rv"><div class="eyebrow">COURSE</div>
+ <h3 class="t">高台の家から、島をめぐる</h3>
+ <p class="lead">2泊3日のうち1日を、島めぐりに。奄美は車での移動が中心です。山道や夜の林道もあるので、時間に余裕を持ってお出かけください。ガイドツアーは事前の予約が必要です。</p></div>
+ <div class="courses">
+  <div class="ccard rv"><span class="lv">やさしい</span><b>晴れの日の北部めぐり</b><p>海の色をめぐる、ゆったりした一日。</p><ol><li><span>朝</span><a href="https://www.amami-tourism.org/scenic-spots/%E3%81%82%E3%82%84%E3%81%BE%E3%82%8B%E5%B2%AC/" target="_blank" rel="noopener">あやまる岬</a>で太平洋を見渡す</li><li><span>昼</span><a href="https://www.amami-tourism.org/scenic-spots/%E5%9C%9F%E7%9B%9B%E6%B5%B7%E5%B2%B8/" target="_blank" rel="noopener">土盛海岸</a>でブルーエンジェルの海に入る</li><li><span>午後</span><a href="https://amamipark.com/" target="_blank" rel="noopener">奄美パーク・田中一村記念美術館</a></li><li><span>夕方</span>宿のデッキのバスタブで、空の色を</li></ol></div>
+  <div class="ccard rv"><span class="lv">ふつう</span><b>森とマングローブの日</b><p>世界自然遺産の森を、ガイドと歩く。</p><ol><li><span>朝</span><a href="https://www.amami-tourism.org/scenic-spots/%E9%87%91%E4%BD%9C%E5%8E%9F/" target="_blank" rel="noopener">金作原の原生林</a>をガイドツアーで</li><li><span>昼</span><a href="https://www.amami-tourism.org/scenic-spots/%E9%BB%92%E6%BD%AE%E3%81%AE%E6%A3%AE%E3%83%9E%E3%83%B3%E3%82%B0%E3%83%AD%E3%83%BC%E3%83%96%E3%83%91%E3%83%BC%E3%82%AF/" target="_blank" rel="noopener">マングローブの森</a>をカヌーで</li><li><span>夜</span>宿の庭で、満天の星</li></ol></div>
+  <div class="ccard rv"><span class="lv">雨の日</span><b>雨の日の島めぐり</b><p>雨の奄美は、手しごとと絵の時間に。</p><ol><li><span>朝</span><a href="https://www.tumugi.co.jp/" target="_blank" rel="noopener">奄美大島紬村</a>で泥染めと手織りを見る</li><li><span>午後</span><a href="https://amamipark.com/" target="_blank" rel="noopener">田中一村記念美術館</a></li><li><span>夜</span>宿でゆっくり、雨と波の音</li></ol></div>
+  <div class="ccard rv hard"><span class="lv">上級</span><b>島の南へ、滝と玉石の海岸と夜の森</b><p>島を縦断する一日がかりのコース。運転に慣れた方向け。</p><ol><li><span>早朝</span>宿を早めに出て、島の南へ</li><li><span>朝</span><a href="https://www.amami-tourism.org/scenic-spots/%E3%82%A2%E3%83%A9%E3%83%B3%E3%82%AC%E3%83%81%E3%81%AE%E6%BB%9D/" target="_blank" rel="noopener">アランガチの滝</a>（落差約30m）</li><li><span>昼</span><a href="https://www.amami-tourism.org/scenic-spots/%E3%83%9B%E3%83%8E%E3%83%9B%E3%82%B7%E6%B5%B7%E5%B2%B8/" target="_blank" rel="noopener">ホノホシ海岸</a>で、波に転がる玉石の音を聞く</li><li><span>夜</span><a href="https://www.amami-tourism.org/experience/" target="_blank" rel="noopener">ナイトツアー</a>で、アマミノクロウサギなど夜の森の生きものを探す</li><li><span>深夜</span>星空の下、高台の家へ</li></ol></div>
+ </div>
+ <p class="note">移動の時間・ツアーの内容は、季節や道の状況で変わります。各リンク先でご確認ください。</p>
 </div></section>
 
 <section class="reserve" id="reserve" style="--rbg:url('story/s06.jpg')"><div class="rv">
