@@ -315,7 +315,7 @@ footer .logo{display:inline-block;color:var(--ink);font-family:"Hiragino Mincho 
    <dt>所在地</dt><dd>鹿児島県大島郡龍郷町戸口 阿ヒン田340番6</dd>
    <dt>客室</dt><dd>海の棟・星の棟（各棟 定員4名）</dd>
    <dt>おすすめ</dt><dd>2泊以上のご滞在</dd>
-   <dt>地図</dt><dd><a href="https://www.google.com/maps/search/?api=1&amp;query=28.365667,129.589528" target="_blank" rel="noopener">Googleマップで開く ↗</a></dd>
+   <dt>地図</dt><dd><a href="https://www.google.com/maps/search/?api=1&amp;query=28.365595,129.589630" target="_blank" rel="noopener">Googleマップで開く ↗</a></dd>
   </dl>
  </div>
  <div class="ph rv"><img src="story/s01.jpg" alt="海の上空から見た高台の2棟" loading="lazy"><span class="tag">完成イメージ</span></div>
@@ -403,7 +403,7 @@ menu.addEventListener('click',e=>{ if(e.target.tagName==='A'){ menu.classList.re
 const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }),{rootMargin:'0px 0px -8% 0px'});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 
-const SITE=[28.365667,129.589528], WHOLE=[28.27,129.42];
+const SITE=[28.365595,129.589630]   , WHOLE=[28.27,129.42];
 const Z0=innerWidth<600?9:10;   
 function startFly(){
  if(!window.L) return;
@@ -412,7 +412,7 @@ function startFly(){
  const pin=L.marker(SITE,{icon:L.divIcon({className:'',html:'<div class="pin"></div>',iconSize:[22,22],iconAnchor:[11,11]})});
  const replay=document.getElementById('replay');
  const go=()=>{ pin.remove(); replay.style.display='none'; map.setView(WHOLE,Z0,{animate:false});
-  setTimeout(()=>map.flyTo(SITE,17,{duration:6}),900); };
+  setTimeout(()=>map.flyTo(SITE,17,{duration:4}),900); };
  map.on('moveend',()=>{ if(map.getZoom()>=17&&!map.hasLayer(pin)){ pin.addTo(map).bindTooltip('高台の家',{permanent:true,direction:'top',offset:[0,-12],className:'pinlabel'}); replay.style.display='block'; } });
  replay.onclick=go; go();
 }
