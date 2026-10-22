@@ -34,6 +34,11 @@ a{color:inherit}
 .hero .m{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:var(--px,50%) 50%;opacity:0;transform:scale(var(--z0,1));transform-origin:var(--ox,50%) var(--oy,50%);transition:opacity 1.6s ease}
 .hero .m.on{opacity:1}
 .hero .m.move{transform:scale(var(--z1,1.12));transition:opacity 1.6s ease,transform 7.6s linear}
+.intro{position:absolute;inset:0;z-index:6;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 24px;transition:opacity 1.2s ease}
+.intro p{margin:0;font-size:clamp(20px,3.4vw,32px);letter-spacing:.14em;line-height:1.9;opacity:0;transform:translateY(8px);transition:opacity 1.2s ease,transform 1.2s ease}
+.intro small{margin-top:22px;font-size:11px;letter-spacing:.2em;color:rgba(255,255,255,.55);opacity:0;transition:opacity 1.2s ease .5s;font-family:system-ui,sans-serif}
+.intro.on p{opacity:1;transform:none}.intro.on small{opacity:1}
+.intro.out{opacity:0;pointer-events:none}
 .hero .shade{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,10,16,.7),rgba(5,10,16,0) 58%),linear-gradient(to bottom,rgba(5,10,16,.4),rgba(5,10,16,0) 22%);pointer-events:none}
 .cap{position:absolute;left:28px;right:28px;bottom:calc(11vh + 20px);max-width:640px;opacity:0;transform:translateY(14px);transition:opacity 1.1s ease .35s,transform 1.1s ease .35s;pointer-events:none}
 .cap.on{opacity:1;transform:none}
@@ -165,6 +170,7 @@ footer .logo{display:inline-block;color:var(--ink);font-family:"Hiragino Mincho 
  <img class="m" data-src="story/s17.jpg" data-sp="story/sp/s17.jpg" alt="" style="--z0:1.0;--z1:1.2;--ox:55%;--oy:42%;--px:50%">
  <img class="m" data-src="story/s18.jpg" data-sp="story/sp/s18.jpg" alt="" style="--z0:1.12;--z1:1.0;--ox:50%;--oy:50%;--px:50%">
  <div class="shade"></div>
+ <div class="intro" id="intro"><p>奄美の高台で過ごす、<br>こんな2泊3日はいかがですか。</p><small>写真はすべて完成イメージです</small></div>
  <div class="cap center"><h2>海を見下ろす高台で、<br>2泊3日。</h2><p>奄美大島・龍郷町 戸口<br>トレーラーハウス2棟の宿</p></div>
  <div class="cap"><div class="day">1日目　夕方</div><h2>高台に、2棟だけ。</h2><p>山の向こうに陽が沈むころ、白い2棟に灯りがともります。</p></div>
  <div class="cap"><div class="day">1日目　夕暮れ</div><h2>海を見ながら、湯船へ。</h2><p>デッキの屋根の下に、海に向いたバスタブ。空の色が変わっていくのを、湯につかりながら。</p></div>
@@ -385,17 +391,22 @@ function loop(now){
 function setPause(v){ paused=v; pauseBtn.textContent=v?'再生':'止める'; if(v){pausedAt=performance.now()-t0}else{t0=performance.now()-pausedAt} }
 document.getElementById('top').addEventListener('click',e=>{
  if(e.target.closest('button')) return;
+ if(!started){ begin(); return; }   
  const r=e.currentTarget.getBoundingClientRect(); show(e.clientX<r.left+r.width*0.3?cur-1:cur+1); if(paused) pausedAt=0;
 });
 pauseBtn.onclick=()=>setPause(!paused);
 addEventListener('keydown',e=>{ if(e.key==='ArrowRight') show(cur+1); if(e.key==='ArrowLeft') show(cur-1); });
 new IntersectionObserver(es=>{ const v=es[0].isIntersecting; if(v&&!visible) t0=performance.now()-((parseFloat(fill.style.width)||0)/100)*HOLD; visible=v; }).observe(document.getElementById('top'));
-show(0); requestAnimationFrame(loop);
+
+const intro=document.getElementById('intro'); let started=false;
+function begin(){ if(started) return; started=true; intro.classList.add('out'); show(0); requestAnimationFrame(loop); }
+requestAnimationFrame(()=>intro.classList.add('on'));
+setTimeout(begin, matchMedia('(prefers-reduced-motion: reduce)').matches?1200:3400);
 
 
 const SOUND="story/wave.mp3",sb=document.getElementById('sound');
 if(SOUND.startsWith('@@')) sb.style.display='none'; else { let au=null;   
- sb.onclick=()=>{ if(!au){au=new Audio(SOUND);au.loop=true} if(au.paused){au.play();sb.textContent='音を止める'}else{au.pause();sb.textContent='波の音'} }; }
+ sb.onclick=()=>{ if(!au){au=new Audio(SOUND);au.loop=true;au.volume=0.45} if(au.paused){au.play();sb.textContent='音を止める'}else{au.pause();sb.textContent='波の音'} }; }
 
 
 const nav=document.getElementById('nav'),menu=document.getElementById('menu'),burger=document.getElementById('burger');
