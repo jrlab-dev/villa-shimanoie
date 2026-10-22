@@ -76,6 +76,21 @@ h3.t{font-weight:400;font-size:clamp(24px,3.4vw,36px);line-height:1.6;margin:12p
 .rooms{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
 .rooms div{background:var(--paper);border:1px solid var(--line);padding:14px 16px;font-size:13px;color:var(--sub);line-height:1.8}
 .rooms b{display:block;font-weight:400;font-size:18px;letter-spacing:.12em;color:var(--ink)}
+.planbox{margin-top:70px}
+.planhead{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+.planhead b{font-weight:400;font-size:20px;letter-spacing:.1em}
+.planhead span{font-size:12px;color:var(--sub);font-family:system-ui,sans-serif}
+.planscroll{background:var(--paper);border:1px solid var(--line);padding:18px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.plan{display:block;width:100%;min-width:720px;height:auto}
+.sponly{display:none}
+.map{position:relative;aspect-ratio:16/7;border:1px solid var(--line);background:#e8e4dc}
+.map iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.spots{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px}
+.spot{background:#fff;border:1px solid var(--line);padding:20px 20px 22px}
+.spot .k{display:inline-block;font-size:11px;letter-spacing:.2em;color:#fff;background:var(--sea);padding:1px 9px;border-radius:999px;font-family:system-ui,sans-serif}
+.spot b{display:block;font-weight:400;font-size:17px;margin-top:10px;line-height:1.5}
+.spot small{display:block;font-size:12px;color:var(--sub);font-family:system-ui,sans-serif}
+.spot p{margin:10px 0 0;font-size:13px;color:var(--sub);line-height:1.85}
 .list{list-style:none;padding:0;margin:26px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:0 28px}
 .list li{padding:11px 0;border-bottom:1px solid var(--line);font-size:14px}
 .note{font-size:12px;color:var(--sub);margin-top:16px;font-family:system-ui,sans-serif}
@@ -107,6 +122,10 @@ footer .logo{display:inline-block;color:var(--ink);font-family:"Hiragino Mincho 
  .views,.days{grid-template-columns:1fr}
  .views .ph img{aspect-ratio:3/2}
  .list{grid-template-columns:1fr}
+ .sponly{display:inline}
+ .map{aspect-ratio:4/5}
+ .spots{grid-template-columns:1fr 1fr;gap:10px}
+ .spot{padding:14px}
 }
 @media (prefers-reduced-motion:reduce){.hero .m.move{transform:none}.rv{opacity:1;transform:none}}
 </style></head><body>
@@ -115,7 +134,7 @@ footer .logo{display:inline-block;color:var(--ink);font-family:"Hiragino Mincho 
  <a class="logo" href="#top">TAKADAI NO IE<small>高台の家・奄美大島 戸口</small></a>
  <button class="burger" id="burger" aria-expanded="false" aria-controls="menu">メニュー</button>
  <nav class="menu" id="menu">
-  <a href="#about">宿について</a><a href="#view">眺め</a><a href="#room">客室</a><a href="#stay">過ごし方</a><a href="#place">場所</a><a href="#reserve">ご予約</a>
+  <a href="#about">宿について</a><a href="#view">眺め</a><a href="#room">客室</a><a href="#stay">過ごし方</a><a href="#place">場所</a><a href="#around">周辺</a><a href="#reserve">ご予約</a>
  </nav>
 </header>
 
@@ -192,11 +211,81 @@ footer .logo{display:inline-block;color:var(--ink);font-family:"Hiragino Mincho 
   <ul class="list">
    <li>定員4名（ゆったり過ごせるのは2名）</li><li>ダブルベッド 2台</li>
    <li>キッチン（冷蔵庫つき）</li><li>シャワー・洗面・トイレ</li>
-   <li>L字のソファとテーブル</li><li>屋根つきデッキとバスタブ</li>
+   <li>デッキにソファとテーブル</li><li>屋根つきデッキとバスタブ</li>
    <li>棟のあいだに目隠しの壁</li><li>駐車場</li>
   </ul>
   <p class="note">計画中のため、設備・間取りは変わる場合があります。</p>
  </div>
+</div>
+<div class="wrap planbox rv">
+ <div class="planhead"><b>1棟の間取り</b><span>全長 約12m・幅 約2.4m ＋ 奥行2.5mのデッキ</span></div>
+ <div class="planscroll">
+<svg class="plan" viewBox="-300 -950 12800 7500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="客室1棟の間取り（全長約12メートル）。両端にダブルベッド、中ほどにキッチン・トイレ・洗面とシャワー。海側は全面ガラスで、その外に屋根つきのデッキ、ソファとテーブル、バスタブ、庭へ下りる階段">
+ 
+ <g font-family="system-ui,sans-serif" font-size="260" fill="#5d666d" text-anchor="middle">
+  
+  <line x1="0" y1="-560" x2="12162" y2="-560" stroke="#9aa3a9" stroke-width="18"/>
+  <line x1="0" y1="-700" x2="0" y2="-420" stroke="#9aa3a9" stroke-width="18"/><line x1="12162" y1="-700" x2="12162" y2="-420" stroke="#9aa3a9" stroke-width="18"/>
+  <text x="6081" y="-660">全長 約12m</text>
+  <text x="6081" y="-140" font-size="220">道路側（高い小窓）</text>
+ </g>
+ 
+ <rect x="81" y="2508" width="12000" height="2500" fill="#e9dccb" stroke="#b49b7c" stroke-width="30"/>
+ <rect x="5662" y="2508" width="6419" height="2500" fill="#ddccb5"/>
+ <g stroke="#cdb99d" stroke-width="10">
+  <line x1="81" y1="3008" x2="12081" y2="3008"/><line x1="81" y1="3508" x2="12081" y2="3508"/><line x1="81" y1="4008" x2="12081" y2="4008"/><line x1="81" y1="4508" x2="12081" y2="4508"/>
+ </g>
+ 
+ <rect x="5962" y="5008" width="3200" height="900" fill="#efe6d8" stroke="#b49b7c" stroke-width="30"/>
+ <g stroke="#b49b7c" stroke-width="20"><line x1="5962" y1="5308" x2="9162" y2="5308"/><line x1="5962" y1="5608" x2="9162" y2="5608"/></g>
+ 
+ <rect x="0" y="0" width="12162" height="2408" fill="#fffdf9" stroke="#1e2429" stroke-width="70"/>
+ 
+ <line x1="60" y1="2408" x2="12102" y2="2408" stroke="#5fb3cc" stroke-width="70"/>
+ 
+ <g fill="#f3efe8" stroke="#8b949a" stroke-width="22">
+  <rect x="120" y="300" width="2000" height="1800" rx="40"/><rect x="10042" y="300" width="2000" height="1800" rx="40"/>
+ </g>
+ <g fill="#fff" stroke="#8b949a" stroke-width="18">
+  <rect x="190" y="420" width="420" height="700" rx="90"/><rect x="190" y="1280" width="420" height="700" rx="90"/>
+  <rect x="11552" y="420" width="420" height="700" rx="90"/><rect x="11552" y="1280" width="420" height="700" rx="90"/>
+ </g>
+ 
+ <g fill="#eef1f2" stroke="#8b949a" stroke-width="22"><rect x="5300" y="80" width="560" height="640"/><rect x="5300" y="760" width="560" height="840"/></g>
+ <circle cx="5580" cy="1180" r="170" fill="none" stroke="#8b949a" stroke-width="22"/>
+ 
+ <g fill="#eef1f2" stroke="#1e2429" stroke-width="45">
+  <rect x="5910" y="0" width="954" height="1630"/><rect x="6978" y="0" width="1946" height="1630"/>
+ </g>
+ <ellipse cx="6430" cy="700" rx="200" ry="290" fill="#fff" stroke="#8b949a" stroke-width="20"/>
+ <circle cx="8300" cy="800" r="110" fill="none" stroke="#8b949a" stroke-width="20"/>
+ 
+ <g fill="#f7f3ec" stroke="#8b949a" stroke-width="22">
+  <rect x="120" y="2850" width="330" height="1200"/>
+  <rect x="2600" y="3150" width="710" height="1470" rx="60"/><rect x="5020" y="3150" width="710" height="1470" rx="60"/>
+ </g>
+ <rect x="3880" y="3150" width="640" height="1470" fill="#dfeef2" stroke="#8b949a" stroke-width="22"/>
+ <path d="M10400 2850 Q10720 2780 11000 2850 Q11600 3700 11650 4420 Q11550 4560 11400 4520 Q10400 4300 9850 4400 Q9750 4300 9800 4150 Q10050 3300 10400 2850 Z" fill="#fff" stroke="#5fb3cc" stroke-width="40"/>
+ 
+ <g font-family="system-ui,sans-serif" font-size="260" fill="#1e2429" text-anchor="middle">
+  <text x="1300" y="1180">ベッド</text><text x="1300" y="1500" font-size="200" fill="#5d666d">ダブル</text>
+  <text x="10862" y="1180">ベッド</text><text x="10862" y="1500" font-size="200" fill="#5d666d">ダブル</text>
+  <text x="5580" y="1980">キッチン</text>
+  <text x="6387" y="1250" font-size="220">トイレ</text>
+  <text x="7951" y="1180" font-size="230">洗面</text><text x="7951" y="1450" font-size="230">シャワー</text>
+  <text x="3700" y="2180" font-size="220" fill="#2b7f96">海側は全面ガラス</text>
+  <text x="2000" y="2780" font-size="230">デッキ</text>
+  <text x="4170" y="4900" font-size="220">ソファとテーブル</text>
+  <text x="285" y="4380" font-size="200">屋外の</text><text x="285" y="4620" font-size="200">流し台</text>
+  <text x="10700" y="3800">バスタブ</text>
+  <text x="8870" y="2780" font-size="200" fill="#5d666d">屋根の下</text>
+  <text x="7562" y="6200" font-size="230">階段（庭へ）</text>
+ </g>
+ <g font-family="system-ui,sans-serif" font-size="240" fill="#2b7f96" text-anchor="middle"><text x="2400" y="6200">↓ 庭と海</text></g>
+</svg>
+
+ </div>
+ <p class="note">内装の計画図面をもとにした間取りのイメージです。家具の形や位置は変わる場合があります。<span class="sponly">（横にずらして見られます）</span></p>
 </div></section>
 
 <section class="s" id="stay" style="background:var(--paper)"><div class="wrap">
@@ -223,6 +312,28 @@ footer .logo{display:inline-block;color:var(--ink);font-family:"Hiragino Mincho 
   </dl>
  </div>
  <div class="ph rv"><img src="story/s01.jpg" alt="海の上空から見た高台の2棟" loading="lazy"><span class="tag">完成イメージ</span></div>
+</div></section>
+
+<div class="wrap rv" style="margin-top:56px">
+ <div class="map"><iframe src="https://maps.google.com/maps?q=%E9%B9%BF%E5%85%90%E5%B3%B6%E7%9C%8C%E5%A4%A7%E5%B3%B6%E9%83%A1%E9%BE%8D%E9%83%B7%E7%94%BA%E6%88%B8%E5%8F%A3&amp;z=12&amp;output=embed" title="龍郷町戸口の地図" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+ <p class="note">地図の印は戸口の集落のあたりです。宿の場所と道順は、ご予約の確定後にお知らせします。</p>
+</div>
+</section>
+
+<section class="s" id="around" style="background:var(--paper)"><div class="wrap">
+ <div class="rv"><div class="eyebrow">AROUND</div>
+ <h3 class="t">周辺のおすすめ</h3>
+ <p class="lead">島の北部は、海も森も文化も近くにそろっています。営業時間・料金・ツアーの予約は、各施設でご確認ください。</p></div>
+ <div class="spots">
+  <div class="spot rv"><span class="k">海</span><b>あやまる岬</b><small>奄美市笠利町</small><p>島の北部に突き出た岬。太平洋と、晴れた日は喜界島まで見渡せます。</p></div>
+  <div class="spot rv"><span class="k">海</span><b>土盛海岸</b><small>奄美市笠利町</small><p>「ブルーエンジェル」と呼ばれる透きとおった海。奄美空港からも近い浜です。</p></div>
+  <div class="spot rv"><span class="k">海</span><b>ハートロック</b><small>龍郷町</small><p>潮が引いたときだけ現れる、ハートの形の潮だまり。干潮の時間に合わせて。</p></div>
+  <div class="spot rv"><span class="k">文化</span><b>奄美パーク・田中一村記念美術館</b><small>奄美市笠利町</small><p>奄美の自然と暮らしを知る施設と、奄美を描いた画家・田中一村の美術館。</p></div>
+  <div class="spot rv"><span class="k">文化</span><b>奄美大島紬村</b><small>龍郷町</small><p>大島紬の泥染めや手織りの工程を見学できる工房と庭園。染めの体験は予約制です。</p></div>
+  <div class="spot rv"><span class="k">森</span><b>マングローブの森をカヌーで</b><small>奄美市住用町</small><p>黒潮の森マングローブパークなどから。カヌーに寝そべって見上げる空は格別です。</p></div>
+  <div class="spot rv"><span class="k">森</span><b>金作原原生林</b><small>奄美市名瀬</small><p>世界自然遺産の島を代表する亜熱帯の森。ガイドツアーで歩きます。</p></div>
+  <div class="spot rv"><span class="k">夜</span><b>宿の庭で星空</b><small>高台の家</small><p>いちばん近い見どころは、宿の庭。街灯のない高台で、天の川を。</p></div>
+ </div>
 </div></section>
 
 <section class="reserve" id="reserve" style="--rbg:url('story/s06.jpg')"><div class="rv">
