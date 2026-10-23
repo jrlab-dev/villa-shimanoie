@@ -118,6 +118,9 @@ a.spot:hover{border-color:var(--sea);transform:translateY(-2px)}
 .ccard li{padding:8px 0;border-top:1px dashed var(--line);font-size:14px}
 .ccard li span{display:inline-block;width:3.6em;font-size:12px;color:var(--sub);letter-spacing:.1em}
 .ccard a{color:var(--sea);text-underline-offset:3px}
+.car{margin-top:26px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--sea);padding:16px 20px}
+.car b{font-weight:400;font-size:17px;letter-spacing:.06em}
+.car p{margin:6px 0 0;font-size:14px;color:var(--sub);line-height:1.9}
 .ftabs{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 18px}
 .ftab{font:14px system-ui,sans-serif;letter-spacing:.08em;padding:9px 18px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer}
 .ftab[aria-selected="true"]{background:var(--sea);border-color:var(--sea);color:#fff}
@@ -404,47 +407,48 @@ footer .logo{display:inline-block;color:var(--ink);font-family:"Hiragino Mincho 
  <div class="eyebrow">BY FLIGHT</div>
  <h3 class="t" style="font-size:clamp(20px,2.6vw,28px)">飛行機の便から選ぶ、2泊3日</h3>
  <p class="lead">奄美への直行便は、多くの路線で1日1便ほど。出発する空港を選ぶと、着く時間と帰る時間に合わせた回り方をご案内します。2日目は、上のモデルコースからお好きな1日を。</p>
+<div class="car"><b>島での移動は、レンタカーで</b><p>奄美の旅は、レンタカーが欠かせません。空港の周りにはレンタカー会社が多く、ほとんどの会社が空港まで迎えに来てくれます。帰りは、空港近くのガソリンスタンド（ENEOSなど）で満タンにして返すのが島の定番の流れです。返却は、出発の1時間ほど前を目安に。</p></div>
 <div class="ftabs" role="tablist"><button class="ftab" type="button" role="tab" aria-controls="f0" aria-selected="true">羽田</button><button class="ftab" type="button" role="tab" aria-controls="f1" aria-selected="false">成田</button><button class="ftab" type="button" role="tab" aria-controls="f2" aria-selected="false">伊丹</button><button class="ftab" type="button" role="tab" aria-controls="f3" aria-selected="false">関西</button><button class="ftab" type="button" role="tab" aria-controls="f4" aria-selected="false">福岡</button><button class="ftab" type="button" role="tab" aria-controls="f5" aria-selected="false">鹿児島</button><button class="ftab" type="button" role="tab" aria-controls="f6" aria-selected="false">那覇</button></div>
 <div class="fpanel" id="f0" role="tabpanel">
  <h4>羽田から、2泊3日</h4>
  <div class="fl"><div>行き<b>羽田 11:15 発 → 奄美 13:40 着</b>日本航空 659便</div><div>帰り<b>奄美 14:25 発 → 16:20 着</b>日本航空 658便</div></div>
- <div class="fdays"><div><span class="d">1日目</span><ul><li>13:40 奄美空港に着いて、レンタカーへ</li><li>すぐ近くの奄美パーク・田中一村記念美術館へ</li><li>夕方、高台の家へ。デッキのバスタブで夕暮れを</li></ul></div><div><span class="d">2日目</span><ul><li>上のモデルコースから、お好きな1日を</li><li>夜は宿の庭で星空</li></ul></div><div><span class="d">3日目</span><ul><li>朝、ゆっくり朝日を見てから出発</li><li>空港のそばの土盛海岸で、最後の海を</li><li>14:25 奄美空港を出発</li></ul></div></div>
+ <div class="fdays"><div><span class="d">1日目</span><ul><li>13:40 奄美空港に着いて、送迎の車でレンタカー会社へ</li><li>すぐ近くの奄美パーク・田中一村記念美術館へ</li><li>夕方、高台の家へ。デッキのバスタブで夕暮れを</li></ul></div><div><span class="d">2日目</span><ul><li>上のモデルコースから、お好きな1日を</li><li>夜は宿の庭で星空</li></ul></div><div><span class="d">3日目</span><ul><li>朝、ゆっくり朝日を見てから出発</li><li>空港のそばの土盛海岸で、最後の海を</li><li>空港近くでガソリンを満タンにして、レンタカーを返す</li><li>14:25 奄美空港を出発</li></ul></div></div>
  <p class="fnote">1日1便。空港から宿まで車でおよそ30分（目安）。</p>
 </div>
 <div class="fpanel" id="f1" role="tabpanel" hidden>
  <h4>成田から、2泊3日</h4>
  <div class="fl"><div>行き<b>成田 07:15 発 → 奄美 10:05 着</b>ピーチ 545便</div><div>帰り<b>奄美 10:45 発 → 12:50 着</b>ピーチ 546便</div></div>
- <div class="fdays"><div><span class="d">1日目</span><ul><li>10:05 奄美空港に着いて、レンタカーへ</li><li>あやまる岬 → 土盛海岸と、北部の海をめぐる</li><li>奄美パークに寄って、夕方に高台の家へ</li></ul></div><div><span class="d">2日目</span><ul><li>上のモデルコースから、お好きな1日を</li><li>夜は宿の庭で星空</li></ul></div><div><span class="d">3日目</span><ul><li>日の出を見てから、早めに宿を出発</li><li>10:45 奄美空港を出発</li></ul></div></div>
+ <div class="fdays"><div><span class="d">1日目</span><ul><li>10:05 奄美空港に着いて、送迎の車でレンタカー会社へ</li><li>あやまる岬 → 土盛海岸と、北部の海をめぐる</li><li>奄美パークに寄って、夕方に高台の家へ</li></ul></div><div><span class="d">2日目</span><ul><li>上のモデルコースから、お好きな1日を</li><li>夜は宿の庭で星空</li></ul></div><div><span class="d">3日目</span><ul><li>日の出を見てから、早めに宿を出発</li><li>空港近くでガソリンを満タンにして、レンタカーを返す</li><li>10:45 奄美空港を出発</li></ul></div></div>
  <p class="fnote">運航する日が限られます。空港から宿まで車でおよそ30分（目安）。</p>
 </div>
 <div class="fpanel" id="f2" role="tabpanel" hidden>
  <h4>伊丹から、2泊3日</h4>
  <div class="fl"><div>行き<b>伊丹 09:35 発 → 奄美 11:25 着</b>日本航空 2465便</div><div>帰り<b>奄美 12:05 発 → 13:30 着</b>日本航空 2464便</div></div>
- <div class="fdays"><div><span class="d">1日目</span><ul><li>11:25 奄美空港に着いて、レンタカーへ</li><li>あやまる岬 → 土盛海岸と、北部の海をめぐる</li><li>夕方、高台の家へ</li></ul></div><div><span class="d">2日目</span><ul><li>上のモデルコースから、お好きな1日を</li><li>夜は宿の庭で星空</li></ul></div><div><span class="d">3日目</span><ul><li>宿の近くの奄美大島紬村で、泥染めと手織りを見る</li><li>12:05 奄美空港を出発</li></ul></div></div>
+ <div class="fdays"><div><span class="d">1日目</span><ul><li>11:25 奄美空港に着いて、送迎の車でレンタカー会社へ</li><li>あやまる岬 → 土盛海岸と、北部の海をめぐる</li><li>夕方、高台の家へ</li></ul></div><div><span class="d">2日目</span><ul><li>上のモデルコースから、お好きな1日を</li><li>夜は宿の庭で星空</li></ul></div><div><span class="d">3日目</span><ul><li>宿の近くの奄美大島紬村で、泥染めと手織りを見る</li><li>空港近くでガソリンを満タンにして、レンタカーを返す</li><li>12:05 奄美空港を出発</li></ul></div></div>
  <p class="fnote">1日1便。空港から宿まで車でおよそ30分（目安）。</p>
 </div>
 <div class="fpanel" id="f3" role="tabpanel" hidden>
  <h4>関西から、2泊3日</h4>
  <div class="fl"><div>行き<b>関西 12:35 発 → 奄美 14:35 着</b>ピーチ 203便</div><div>帰り<b>奄美 15:15 発 → 16:45 着</b>ピーチ 202便</div></div>
- <div class="fdays"><div><span class="d">1日目</span><ul><li>14:35 奄美空港に着いて、レンタカーへ</li><li>まっすぐ高台の家へ。夕暮れと、満天の星</li></ul></div><div><span class="d">2日目</span><ul><li>上のモデルコースから、お好きな1日を</li><li>夜は宿の庭で星空</li></ul></div><div><span class="d">3日目</span><ul><li>朝、北部へ。あやまる岬 → 土盛海岸</li><li>15:15 奄美空港を出発</li></ul></div></div>
+ <div class="fdays"><div><span class="d">1日目</span><ul><li>14:35 奄美空港に着いて、送迎の車でレンタカー会社へ</li><li>まっすぐ高台の家へ。夕暮れと、満天の星</li></ul></div><div><span class="d">2日目</span><ul><li>上のモデルコースから、お好きな1日を</li><li>夜は宿の庭で星空</li></ul></div><div><span class="d">3日目</span><ul><li>朝、北部へ。あやまる岬 → 土盛海岸</li><li>空港近くでガソリンを満タンにして、レンタカーを返す</li><li>15:15 奄美空港を出発</li></ul></div></div>
  <p class="fnote">運航する日が限られます。空港から宿まで車でおよそ30分（目安）。</p>
 </div>
 <div class="fpanel" id="f4" role="tabpanel" hidden>
  <h4>福岡から、2泊3日</h4>
  <div class="fl"><div>行き<b>福岡 07:10 発 → 奄美 08:20 着</b>日本航空 3681便</div><div>帰り<b>奄美 18:20 発 → 19:40 着</b>日本航空 3684便</div></div>
- <div class="fdays"><div><span class="d">1日目</span><ul><li>08:20 奄美空港に着いて、レンタカーへ</li><li>島の中ほどへ。マングローブの森をカヌーで</li><li>夕方、高台の家へ</li></ul></div><div><span class="d">2日目</span><ul><li>上のモデルコースから、お好きな1日を</li><li>夜は宿の庭で星空</li></ul></div><div><span class="d">3日目</span><ul><li>北部めぐり。あやまる岬 → 土盛海岸 → 奄美パーク</li><li>夕日を見てから空港へ</li><li>18:20 奄美空港を出発</li></ul></div></div>
+ <div class="fdays"><div><span class="d">1日目</span><ul><li>08:20 奄美空港に着いて、送迎の車でレンタカー会社へ</li><li>島の中ほどへ。マングローブの森をカヌーで</li><li>夕方、高台の家へ</li></ul></div><div><span class="d">2日目</span><ul><li>上のモデルコースから、お好きな1日を</li><li>夜は宿の庭で星空</li></ul></div><div><span class="d">3日目</span><ul><li>北部めぐり。あやまる岬 → 土盛海岸 → 奄美パーク</li><li>夕日を見てから空港へ</li><li>空港近くでガソリンを満タンにして、レンタカーを返す</li><li>18:20 奄美空港を出発</li></ul></div></div>
  <p class="fnote">1日1便。空港から宿まで車でおよそ30分（目安）。</p>
 </div>
 <div class="fpanel" id="f5" role="tabpanel" hidden>
  <h4>鹿児島から、2泊3日</h4>
  <div class="fl"><div>行き<b>鹿児島 07:20〜17:15 発 → 奄美 08:30〜18:30 着</b>日本航空・スカイマーク 1日に数便</div><div>帰り<b>奄美 08:50〜19:00 発 → 09:40〜20:05 着</b>日本航空・スカイマーク 1日に数便</div></div>
- <div class="fdays"><div><span class="d">1日目</span><ul><li>午前の便で着いて、北部の海をめぐる</li><li>夕方、高台の家へ</li></ul></div><div><span class="d">2日目</span><ul><li>上のモデルコースから、お好きな1日を</li><li>夜は宿の庭で星空</li></ul></div><div><span class="d">3日目</span><ul><li>午後まで島めぐり</li><li>夕方の便で奄美空港を出発</li></ul></div></div>
+ <div class="fdays"><div><span class="d">1日目</span><ul><li>午前の便で着いて、送迎の車でレンタカー会社へ</li><li>北部の海をめぐる</li><li>夕方、高台の家へ</li></ul></div><div><span class="d">2日目</span><ul><li>上のモデルコースから、お好きな1日を</li><li>夜は宿の庭で星空</li></ul></div><div><span class="d">3日目</span><ul><li>午後まで島めぐり</li><li>空港近くでガソリンを満タンにして、レンタカーを返す</li><li>夕方の便で奄美空港を出発</li></ul></div></div>
  <p class="fnote">便が多いので、午前に着いて夕方に帰る組み方がおすすめ。空港から宿まで車でおよそ30分（目安）。</p>
 </div>
 <div class="fpanel" id="f6" role="tabpanel" hidden>
  <h4>那覇から、2泊3日</h4>
  <div class="fl"><div>行き<b>那覇 13:50 発 → 奄美 14:50 着</b>日本航空 3867便</div><div>帰り<b>直行便なし</b></div></div>
- <div class="fdays"><div><span class="d">1日目</span><ul><li>14:50 奄美空港に着いて、レンタカーへ</li><li>まっすぐ高台の家へ。夕暮れと、満天の星</li></ul></div><div><span class="d">2日目</span><ul><li>上のモデルコースから、お好きな1日を</li><li>夜は宿の庭で星空</li></ul></div><div><span class="d">3日目</span><ul><li>鹿児島へ出る便に合わせて空港へ</li><li>（那覇への直行便はありません）</li></ul></div></div>
+ <div class="fdays"><div><span class="d">1日目</span><ul><li>14:50 奄美空港に着いて、送迎の車でレンタカー会社へ</li><li>まっすぐ高台の家へ。夕暮れと、満天の星</li></ul></div><div><span class="d">2日目</span><ul><li>上のモデルコースから、お好きな1日を</li><li>夜は宿の庭で星空</li></ul></div><div><span class="d">3日目</span><ul><li>空港近くでガソリンを満タンにして、レンタカーを返す</li><li>鹿児島へ出る便に合わせて空港へ</li><li>（那覇への直行便はありません）</li></ul></div></div>
  <p class="fnote">帰りは鹿児島などを経由します。空港から宿まで車でおよそ30分（目安）。</p>
 </div>
 <p class="note">2026年11月の時刻（奄美空港の月間時刻表より）。時刻は季節やダイヤ改正で変わります。ご予約の前に<a href="https://amami-airport.co.jp/flight/monthly" target="_blank" rel="noopener">奄美空港の時刻表</a>と各航空会社でご確認ください。</p>
