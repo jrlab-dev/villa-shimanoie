@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>トップページ案の比較｜高台の家（仮称）</title>
+<style>
+:root{--bg:#f5f2ec;--paper:#fffdf9;--ink:#1e2429;--sub:#5d666d;--line:#ddd6cb;--sea:#1f6f86}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,"Yu Gothic UI","Hiragino Sans",sans-serif;line-height:1.75}
+header.top{padding:28px 24px 8px;max-width:1500px;margin:0 auto}
+h1{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-weight:400;font-size:clamp(22px,3vw,30px);letter-spacing:.08em;margin:0}
+.lead{color:var(--sub);font-size:14px;margin:6px 0 0;max-width:780px}
+.bar{position:sticky;top:0;z-index:5;background:rgba(245,242,236,.95);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.bar .in{max-width:1500px;margin:0 auto;padding:10px 24px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.bar span{font-size:12px;color:var(--sub);letter-spacing:.08em}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:#fff}
+.seg button{font:inherit;font-size:13px;border:0;background:none;padding:7px 16px;cursor:pointer;color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--sea);color:#fff}
+main{max-width:1500px;margin:0 auto;padding:18px 24px 40px;display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(min(100%,var(--col,560px)),1fr))}
+.pv{background:var(--paper);border:1px solid var(--line);padding:18px 18px 16px;display:flex;flex-direction:column;min-width:0}
+.pvhead{display:flex;align-items:baseline;gap:12px}
+.lab{font-size:12px;letter-spacing:.14em;color:#fff;background:var(--sea);padding:2px 10px;border-radius:999px;flex-shrink:0}
+.pv[data-id="v0"] .lab{background:#6d747a}
+.pv h2{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-weight:400;font-size:21px;letter-spacing:.06em;margin:0}
+.src{margin:8px 0 0;font-size:12px;color:#a35f2a}
+.desc{margin:4px 0 10px;font-size:13px;color:var(--sub)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chip{font:inherit;font-size:12px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:4px 11px;cursor:pointer;color:var(--ink)}
+.chip[aria-pressed="true"]{border-color:var(--sea);color:var(--sea);font-weight:600}
+.screen{position:relative;width:100%;background:#1b2126;border-radius:6px;overflow:hidden}
+.frame{position:absolute;left:0;top:0;transform-origin:0 0}
+.frame iframe{display:block;border:0;width:100%;height:100%;background:#fff}
+body.sp .screen{background:none;border-radius:0;display:flex;justify-content:center}
+body.sp .frame{position:relative;border:10px solid #1b2126;border-radius:28px;overflow:hidden;box-sizing:content-box}
+.open{align-self:flex-start;margin-top:12px;font-size:13px;color:var(--sea);text-decoration:none}
+.open:hover{text-decoration:underline}
+section.points{max-width:1500px;margin:0 auto;padding:4px 24px 50px}
+.points h3{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-weight:400;font-size:18px;letter-spacing:.06em;margin:0 0 8px}
+.points ul{margin:0;padding-left:1.2em;color:var(--sub);font-size:14px}
+footer{text-align:center;font-size:12px;color:var(--sub);padding:0 24px 40px}
+</style></head><body>
+<header class="top">
+ <h1>トップページ案の比較</h1>
+ <p class="lead">会議で見て触って比べるための試作です。文と写真はどの案も同じで、見せ方だけが違います。下の画面はそのまま押したりスクロールしたりできます。大きく見るときは「新しい画面で開く」から。</p>
+</header>
+<div class="bar"><div class="in">
+ <span>画面の大きさ</span>
+ <div class="seg" role="group" aria-label="画面の大きさ"><button type="button" data-dev="pc" aria-pressed="true">パソコン</button><button type="button" data-dev="sp" aria-pressed="false">スマホ</button></div>
+ <span id="count"></span>
+</div></div>
+<main id="list">
+<article class="pv" data-id="v0">
+ <div class="pvhead"><span class="lab">現行</span><h2>1ページを縦にスクロール</h2></div>
+ <p class="src">出どころ：公開中のホームページ（2026-10-24 版）</p>
+ <p class="desc">冒頭は黒い画面の問いかけのあと、写真18枚が自動で進む。その下に、宿について〜ご予約までが1ページに続く。上のメニューは同じページの中の各節へ移る。</p>
+ <div class="chips"><button type="button" class="chip" data-src="v0/index.html">トップ</button></div>
+ <div class="screen"><div class="frame"><iframe src="v0/index.html" title="現行 1ページを縦にスクロール" loading="lazy"></iframe></div></div>
+ <a class="open" href="v0/index.html" target="_blank" rel="noopener">新しい画面で開く ↗</a>
+</article>
+<article class="pv" data-id="v1">
+ <div class="pvhead"><span class="lab">案1</span><h2>ページを分ける</h2></div>
+ <p class="src">出どころ：要望「縦スクロールではなく、ページに飛ぶホームページに」</p>
+ <p class="desc">トップは同じ写真の自動切り替えと、8つのページへの案内。メニューを押すとページごと切り替わる。各ページの上に写真の見出し、下に「前のページ・次のページ」。文と写真は現行と同じ。</p>
+ <div class="chips"><button type="button" class="chip" data-src="v1/index.html">トップ</button><button type="button" class="chip" data-src="v1/about.html">宿について</button><button type="button" class="chip" data-src="v1/view.html">眺め</button><button type="button" class="chip" data-src="v1/room.html">客室</button><button type="button" class="chip" data-src="v1/stay.html">過ごし方</button><button type="button" class="chip" data-src="v1/place.html">場所</button><button type="button" class="chip" data-src="v1/around.html">周辺</button><button type="button" class="chip" data-src="v1/course.html">モデルコース</button><button type="button" class="chip" data-src="v1/reserve.html">ご予約</button></div>
+ <div class="screen"><div class="frame"><iframe src="v1/index.html" title="案1 ページを分ける" loading="lazy"></iframe></div></div>
+ <a class="open" href="v1/index.html" target="_blank" rel="noopener">新しい画面で開く ↗</a>
+</article>
+</main>
+<section class="points">
+ <h3>比べるときに見るところ（例）</h3>
+ <ul>
+  <li>開いて最初の数秒で、どんな宿か伝わるか</li>
+  <li>知りたいこと（客室・場所・行き方・予約）に迷わずたどり着けるか</li>
+  <li>スマホの片手で操作しやすいか（戻る・次へ・メニュー）</li>
+  <li>読み込みの待ち時間が気にならないか</li>
+ </ul>
+</section>
+<footer>高台の家（仮称）・会議用の試作。写真はすべて完成イメージです。</footer>
+<script>
+const DEV={pc:{w:1280,h:800,col:560},sp:{w:390,h:844,col:300}};
+let dev='pc';
+const panels=[...document.querySelectorAll('.pv')];
+document.getElementById('count').textContent=panels.length+'案';
+function fit(){
+ const d=DEV[dev];
+ document.body.classList.toggle('sp',dev==='sp');
+ document.getElementById('list').style.setProperty('--col',d.col+'px');
+ panels.forEach(p=>{
+  const scr=p.querySelector('.screen'),fr=p.querySelector('.frame');
+  fr.style.width=d.w+'px'; fr.style.height=d.h+'px';
+  if(dev==='pc'){ const k=scr.clientWidth/d.w; fr.style.transform='scale('+k+')'; scr.style.height=(d.h*k)+'px'; fr.style.margin=''; }
+  else{ const k=Math.min(1,(scr.clientWidth-20)/d.w,(innerHeight*0.78)/d.h); fr.style.transform='scale('+k+')'; scr.style.height=((d.h+20)*k)+'px'; fr.style.marginRight=(-(d.w+20)*(1-k))+'px'; fr.style.marginBottom=(-(d.h+20)*(1-k))+'px'; }
+ });
+}
+document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{
+ dev=b.dataset.dev; document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b));
+ panels.forEach(p=>{ const f=p.querySelector('iframe'); f.src=f.src; });   // 画面の大きさに合わせて読み直す
+ requestAnimationFrame(fit);
+});
+panels.forEach(p=>{
+ const f=p.querySelector('iframe'),chips=[...p.querySelectorAll('.chip')],open=p.querySelector('.open');
+ if(chips[0]) chips[0].setAttribute('aria-pressed','true');
+ chips.forEach(c=>c.onclick=()=>{ f.src=c.dataset.src; open.href=c.dataset.src; chips.forEach(x=>x.setAttribute('aria-pressed',x===c)); });
+});
+addEventListener('resize',fit); fit();
+</script>
+</body></html>
