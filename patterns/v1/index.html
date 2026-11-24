@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ja"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Amami BLUE RIDGE（仮称）｜案1 ページを分ける</title>
+<title>Amami BLUE RIDGE（仮称）｜ページ分け案</title>
 <meta name="description" content="Amami BLUE RIDGE（仮称）。奄美大島・龍郷町戸口、海抜およそ30メートルの高台にトレーラーハウス「海の棟」「星の棟」の2棟だけの小さな宿。開業準備中です。">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
@@ -201,6 +201,11 @@ footer .logo{display:inline-block;color:var(--ink);font-family:"Hiragino Mincho 
  .spot{padding:14px}
 }
 @media (prefers-reduced-motion:reduce){.hero .m.move{transform:none}.rv{opacity:1;transform:none}}
+:root{--bg:#eff7f8;--paper:#fbfeff;--line:#d2e1e5;--sea:#17627b;--dark:#173b49}
+.roomphotos{display:grid;grid-template-columns:1fr 1fr;gap:32px 24px;margin-top:42px}.roomphotos figure{margin:0}.roomphotos img{width:100%;height:auto;display:block}.roomphotos h3{margin:10px 0 3px;font-weight:500}.roomphotos p{margin:0}@media(max-width:650px){.roomphotos{grid-template-columns:1fr}}
+#view{background:#184655}
+.phead.seahero{height:78svh;min-height:360px;background-position:center 55%}
+.gallery{margin:0}.gallery img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}.gallery figcaption{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:12px 0}.gallery button{background:white;border:1px solid var(--line);color:var(--sea);padding:8px 12px;cursor:pointer}
 .menu a[aria-current="page"]{opacity:1;text-decoration:underline;text-underline-offset:6px}
 .phead{position:relative;height:50vh;height:50svh;min-height:300px;display:flex;align-items:flex-end;padding:0 24px 44px;color:#fff;background:linear-gradient(to top,rgba(5,10,16,.68),rgba(5,10,16,.12) 62%),var(--bg) center/cover;background-color:#0b0f13}
 .phead .in{max-width:1080px;margin:0 auto;width:100%}
@@ -226,65 +231,34 @@ footer .logo{display:inline-block;color:var(--ink);font-family:"Hiragino Mincho 
  <a class="logo" href="index.html">Amami BLUE RIDGE<small>奄美大島 戸口</small></a>
  <button class="burger" id="burger" aria-expanded="false" aria-controls="menu">メニュー</button>
  <nav class="menu" id="menu">
-  <a href="about.html">宿について</a><a href="view.html">眺め</a><a href="room.html">客室</a><a href="stay.html">過ごし方</a><a href="place.html">場所</a><a href="around.html">周辺</a><a href="course.html">モデルコース</a><a href="reserve.html">ご予約</a>
+  <a href="about.html">宿について</a><a href="view.html">眺め</a><a href="room.html">客室</a><a href="place.html">場所</a><a href="around.html">周辺</a><a href="course.html">モデルコース</a><a href="reserve.html">ご予約</a>
  </nav>
 </header>
-<section class="hero" id="top" aria-label="2泊3日の物語">
- <img class="m" data-src="story/s01.jpg" data-sp="story/sp/s01.jpg" alt="" fetchpriority="high" style="--z0:1.0;--z1:1.12;--ox:50%;--oy:50%;--px:50%">
- <img class="m" data-src="story/s02.jpg" data-sp="story/sp/s02.jpg" alt="" style="--z0:1.0;--z1:1.18;--ox:55%;--oy:42%;--px:50%">
- <img class="m" data-src="story/s03.jpg" data-sp="story/sp/s03.jpg" alt="" style="--z0:1.0;--z1:1.15;--ox:60%;--oy:60%;--px:50%">
- <img class="m" data-src="story/s04.jpg" data-sp="story/sp/s04.jpg" alt="" style="--z0:1.0;--z1:1.12;--ox:45%;--oy:70%;--px:50%">
- <img class="m" data-src="story/s05.jpg" data-sp="story/sp/s05.jpg" alt="" style="--z0:1.0;--z1:1.15;--ox:60%;--oy:55%;--px:50%">
- <img class="m" data-src="story/s06.jpg" data-sp="story/sp/s06.jpg" alt="" style="--z0:1.12;--z1:1.0;--ox:50%;--oy:30%;--px:50%">
- <img class="m" data-src="story/s07.jpg" data-sp="story/sp/s07.jpg" alt="" style="--z0:1.0;--z1:1.15;--ox:70%;--oy:35%;--px:50%">
- <img class="m" data-src="story/s08.jpg" data-sp="story/sp/s08.jpg" alt="" style="--z0:1.0;--z1:1.15;--ox:60%;--oy:40%;--px:50%">
- <img class="m" data-src="story/s09.jpg" data-sp="story/sp/s09.jpg" alt="" style="--z0:1.0;--z1:1.12;--ox:60%;--oy:45%;--px:50%">
- <img class="m" data-src="story/s10.jpg" data-sp="story/sp/s10.jpg" alt="" style="--z0:1.0;--z1:1.15;--ox:65%;--oy:50%;--px:50%">
- <img class="m" data-src="story/s11.jpg" data-sp="story/sp/s11.jpg" alt="" style="--z0:1.0;--z1:1.15;--ox:60%;--oy:55%;--px:50%">
- <img class="m" data-src="story/s12.jpg" data-sp="story/sp/s12.jpg" alt="" style="--z0:1.0;--z1:1.15;--ox:55%;--oy:50%;--px:18%">
- <img class="m" data-src="story/s13.jpg" data-sp="story/sp/s13.jpg" alt="" style="--z0:1.0;--z1:1.15;--ox:55%;--oy:60%;--px:50%">
- <img class="m" data-src="story/s14.jpg" data-sp="story/sp/s14.jpg" alt="" style="--z0:1.0;--z1:1.18;--ox:62%;--oy:45%;--px:50%">
- <img class="m" data-src="story/s15.jpg" data-sp="story/sp/s15.jpg" alt="" style="--z0:1.0;--z1:1.15;--ox:60%;--oy:55%;--px:50%">
- <img class="m" data-src="story/s16.jpg" data-sp="story/sp/s16.jpg" alt="" style="--z0:1.0;--z1:1.15;--ox:60%;--oy:55%;--px:50%">
- <img class="m" data-src="story/s17.jpg" data-sp="story/sp/s17.jpg" alt="" style="--z0:1.0;--z1:1.2;--ox:55%;--oy:42%;--px:50%">
- <img class="m" data-src="story/s18.jpg" data-sp="story/sp/s18.jpg" alt="" style="--z0:1.12;--z1:1.0;--ox:50%;--oy:50%;--px:50%">
- <div class="shade"></div>
- <div class="intro" id="intro"><p>奄美の高台で過ごす、<br>こんな2泊3日はいかがですか。</p></div>
- <div class="cap center"><h2>海を見下ろす高台で、<br>2泊3日。</h2><p>奄美大島・龍郷町 戸口<br>トレーラーハウス2棟の宿</p></div>
- <div class="cap"><div class="day">1日目　夕方</div><h2>高台に、2棟だけ。</h2><p>山の向こうに陽が沈むころ、白い2棟に灯りがともります。</p></div>
- <div class="cap"><div class="day">1日目　夕暮れ</div><h2>海を見ながら、湯船へ。</h2><p>デッキの屋根の下に、海に向いたバスタブ。空の色が変わっていくのを、湯につかりながら。</p></div>
- <div class="cap"><div class="day">1日目　夜</div><h2>庭で、バーベキュー。</h2><p>波の音を聞きながら、芝生の上で炭火を囲む夜。</p></div>
- <div class="cap"><div class="day">1日目　夜</div><h2>明かりは、部屋の中だけ。</h2><p>周りに街灯はひとつもありません。灯りを落とすと、空が近くなります。</p></div>
- <div class="cap"><div class="day">1日目　夜更け</div><h2>高台で、星を見上げる。</h2><p>新月の夜は、天の川まで。波の音だけが聞こえます。</p></div>
- <div class="cap"><div class="day">1日目　夜更け</div><h2>部屋に戻っても、星の中。</h2><p>街灯のない高台。明かりを消すと、ベッドから庭の先の海と星空がひと続きに見えます。</p></div>
- <div class="cap"><div class="day">2日目　朝</div><h2>目覚めると、庭の先に海。</h2><p>ベッドから見えるのは、芝生の庭とひと続きの海と、水平線から昇る朝日。目線は海抜およそ30メートルです。</p></div>
- <div class="cap"><div class="day">2日目　朝</div><h2>朝の光が、部屋の奥まで。</h2><p>海側は一面のガラス。細長い部屋に、朝の光がななめに差し込みます。</p></div>
- <div class="cap"><div class="day">2日目　朝</div><h2>コーヒーを淹れる。</h2><p>部屋の中ほどの小さなキッチンで、ゆっくりと一杯。</p></div>
- <div class="cap"><div class="day">2日目　朝</div><h2>そのまま、デッキへ。</h2><p>ガラス戸を開ければ、朝日と海がすぐそこに。</p></div>
- <div class="cap"><div class="day">2日目　昼</div><h2>庭は、一段高く。</h2><p>崖の上の土地を、白い壁でさらに持ち上げて芝生の庭に。この高さが、眺めをつくります。</p></div>
- <div class="cap"><div class="day">2日目　昼</div><h2>庭のふちから、眼下に海。</h2><p>芝生の先は、斜面と岬と海。海抜およそ30メートルの庭です。</p></div>
- <div class="cap"><div class="day">2日目　昼</div><h2>庭の先は、そのまま海。</h2><p>部屋の中からは庭のふちが隠れて、芝生と海がひと続きに。海に浮かんでいるような眺めです。</p></div>
- <div class="cap"><div class="day">2日目　昼</div><h2>エメラルドの海を、見下ろす。</h2><p>高台からは、岬と岩礁、透きとおった海。</p></div>
- <div class="cap"><div class="day">2日目　夜</div><h2>星の下の、湯船。</h2><p>足元の小さな灯りだけ。湯気の向こうに、満天の星と夜の海。</p></div>
- <div class="cap"><div class="day">3日目　朝</div><h2>最後の朝も、海から。</h2><p>朝の光が、2棟の正面を照らします。また、この高台へ。</p></div>
- <div class="cap center"><h2>海から昇る朝日と、<br>満天の星。</h2><p>2棟だけの、高台の宿。<br>（すべて完成イメージです）</p></div>
- <div class="mark">完成イメージ</div>
- <div class="bar"><span id="num">01 / 18</span><div class="track"><div class="fill" id="fill"></div></div><button class="hbtn" id="pause" type="button">止める</button><button class="hbtn" id="sound" type="button">波の音</button></div>
-</section>
-
-<section class="s" id="guide"><div class="wrap">
+<header class="phead seahero" style="--bg:url('photos/03-hiru.jpg')"><div class="in"><div class="eyebrow">Amami BLUE RIDGE</div><h1>庭の先は、そのまま海。</h1><p>奄美大島・龍郷町 戸口</p></div><span class="tag">完成イメージ</span></header>
+<section class="s"><div class="wrap"><h2 class="t">客室から、デッキと庭へ。</h2>
+<figure class="gallery"><img id="layoutPic" src="photos/05-hiru.jpg" alt="ベッドからガラス越しに見るデッキと海"><figcaption><span id="layoutCaption">客室｜ベッドからガラス越しに見るデッキと海</span><span><button type="button" id="photoToggle">一時停止</button> <button type="button" id="photoNext">次の写真 →</button></span></figcaption></figure></div></section>
+<script>
+(()=>{
+ const photos=[['05-hiru','客室','ベッドからガラス越しに見るデッキと海'],['21-hiru','キッチン','流しの前から右手に望む海'],['13-hiru','デッキ','海風を感じる屋外ソファとテーブル'],['04-hiru','庭','芝生の先に広がる海']];
+ const pic=document.querySelector('#layoutPic'),caption=document.querySelector('#layoutCaption'),toggle=document.querySelector('#photoToggle');
+ let index=0,timer;
+ function advance(){index=(index+1)%photos.length;const [id,title,alt]=photos[index];pic.src='photos/'+id+'.jpg';pic.alt=alt;caption.textContent=title+'｜'+alt;}
+ function play(on){clearInterval(timer);timer=on?setInterval(advance,5500):null;toggle.textContent=on?'一時停止':'自動再生';}
+ toggle.onclick=()=>play(!timer);document.querySelector('#photoNext').onclick=()=>{play(false);advance();};
+ play(!matchMedia('(prefers-reduced-motion: reduce)').matches);
+})();
+</script><section class="s" id="guide"><div class="wrap">
  <div class="rv"><div class="eyebrow">Amami BLUE RIDGE</div>
- <h3 class="t">海を見下ろす高台に、2棟だけ。</h3>
- <p class="lead">奄美大島・龍郷町 戸口。海抜およそ30メートルの高台に、トレーラーハウス「海の棟」「星の棟」の2棟だけの小さな宿です。ただいま開業準備中です。</p></div>
+ <h3 class="t">海を見下ろす、奄美の高台に。</h3>
+ <p class="lead">奄美大島・龍郷町 戸口。高台に、トレーラーハウス「海の棟」「星の棟」の2棟だけの小さな宿です。ただいま開業準備中です。</p></div>
  <div class="guide">
-  <a class="gcard rv" href="about.html"><img src="story/sp/s02.jpg" alt="" loading="lazy"><div class="in"><div class="eyebrow">ABOUT</div><b>宿について</b><span>海を見下ろす高台に、2棟だけ。</span></div></a>
-  <a class="gcard rv" href="view.html"><img src="story/sp/s14.jpg" alt="" loading="lazy"><div class="in"><div class="eyebrow">VIEW</div><b>眺め</b><span>庭の先は、そのまま海。</span></div></a>
-  <a class="gcard rv" href="room.html"><img src="story/sp/s09.jpg" alt="" loading="lazy"><div class="in"><div class="eyebrow">ROOM</div><b>客室</b><span>海側が一面ガラスの客室と、間取り</span></div></a>
-  <a class="gcard rv" href="stay.html"><img src="story/sp/s04.jpg" alt="" loading="lazy"><div class="in"><div class="eyebrow">STAY</div><b>過ごし方</b><span>2泊3日の過ごし方</span></div></a>
-  <a class="gcard rv" href="place.html"><img src="story/sp/s01.jpg" alt="" loading="lazy"><div class="in"><div class="eyebrow">PLACE</div><b>場所</b><span>奄美大島・龍郷町 戸口。島全体から寄る地図</span></div></a>
-  <a class="gcard rv" href="around.html"><img src="story/sp/s15.jpg" alt="" loading="lazy"><div class="in"><div class="eyebrow">AROUND</div><b>周辺</b><span>海・森・文化・買い物</span></div></a>
-  <a class="gcard rv" href="course.html"><img src="story/sp/s13.jpg" alt="" loading="lazy"><div class="in"><div class="eyebrow">COURSE</div><b>モデルコース</b><span>島をめぐるコースと、飛行機の便から選ぶ2泊3日</span></div></a>
-  <a class="gcard rv" href="reserve.html"><img src="story/sp/s18.jpg" alt="" loading="lazy"><div class="in"><div class="eyebrow">RESERVATION</div><b>ご予約</b><span>ただいま、開業準備中です</span></div></a>
+  <a class="gcard rv" href="about.html"><img src="photos/16-hiru.jpg" alt="" loading="lazy"><div class="in"><div class="eyebrow">ABOUT</div><b>宿について</b><span>海を見下ろす、奄美の高台に。</span></div></a>
+  <a class="gcard rv" href="view.html"><img src="photos/11-hiru.jpg" alt="" loading="lazy"><div class="in"><div class="eyebrow">VIEW</div><b>眺め</b><span>庭の先は、そのまま海。</span></div></a>
+  <a class="gcard rv" href="room.html"><img src="photos/05-hiru.jpg" alt="" loading="lazy"><div class="in"><div class="eyebrow">ROOM</div><b>客室</b><span>海側一面のガラスとデッキ</span></div></a>
+  <a class="gcard rv" href="place.html"><img src="photos/19-hiru.jpg" alt="" loading="lazy"><div class="in"><div class="eyebrow">PLACE</div><b>場所</b><span>奄美大島・龍郷町 戸口。島全体から寄る地図</span></div></a>
+  <a class="gcard rv" href="around.html"><img src="photos/04-hiru.jpg" alt="" loading="lazy"><div class="in"><div class="eyebrow">AROUND</div><b>周辺</b><span>海と森、ビッグⅡでの買い物</span></div></a>
+  <a class="gcard rv" href="course.html"><img src="photos/18-hiru.jpg" alt="" loading="lazy"><div class="in"><div class="eyebrow">COURSE</div><b>モデルコース</b><span>島をめぐるコースと、飛行機の便から選ぶ2泊3日</span></div></a>
+  <a class="gcard rv" href="reserve.html"><img src="photos/20-yoru.jpg" alt="" loading="lazy"><div class="in"><div class="eyebrow">RESERVATION</div><b>ご予約</b><span>ただいま、開業準備中です</span></div></a>
  </div>
 </div></section>
 <footer>
@@ -294,53 +268,6 @@ footer .logo{display:inline-block;color:var(--ink);font-family:"Hiragino Mincho 
 </footer>
 <a class="pbadge" href="../index.html" target="_top"><b>案1</b>ページを分ける　｜ 比較へ戻る</a>
 <script>
-
-
-const slides=[...document.querySelectorAll('.hero .m')],caps=[...document.querySelectorAll('.hero .cap')];
-const N=slides.length,HOLD=6200,fill=document.getElementById('fill'),num=document.getElementById('num'),pauseBtn=document.getElementById('pause');
-let cur=-1,t0=0,paused=false,visible=true,pausedAt=0;
-const pad=n=>String(n).padStart(2,'0');
-const SMALL=innerWidth<700;
-function want(k){ const s=slides[(k+N)%N]; if(!s.getAttribute('src')) s.src=SMALL?s.dataset.sp:s.dataset.src; }
-want(0);
-function show(k){
- want(k);
- k=(k+N)%N; if(k===cur) return;
- const prev=cur; cur=k;
- slides.forEach((s,i)=>{ if(i!==k&&i!==prev){s.classList.remove('on','move');} });
- if(prev>=0){ slides[prev].classList.remove('on'); caps[prev].classList.remove('on'); }
- const s=slides[k]; s.classList.remove('move'); void s.offsetWidth;   
- s.classList.add('on'); requestAnimationFrame(()=>s.classList.add('move'));
- caps[k].classList.add('on');
- num.textContent=pad(k+1)+' / '+pad(N); t0=performance.now();
- want(k+1); want(k+2);   
-}
-function loop(now){
- if(!paused&&visible){ const p=(now-t0)/HOLD; fill.style.width=Math.min(p,1)*100+'%'; if(p>=1) show(cur+1); }
- requestAnimationFrame(loop);
-}
-function setPause(v){ paused=v; pauseBtn.textContent=v?'再生':'止める'; if(v){pausedAt=performance.now()-t0}else{t0=performance.now()-pausedAt} }
-document.getElementById('top').addEventListener('click',e=>{
- if(e.target.closest('button')) return;
- if(!started){ begin(); return; }   
- const r=e.currentTarget.getBoundingClientRect(); show(e.clientX<r.left+r.width*0.3?cur-1:cur+1); if(paused) pausedAt=0;
-});
-pauseBtn.onclick=()=>setPause(!paused);
-addEventListener('keydown',e=>{ if(e.key==='ArrowRight') show(cur+1); if(e.key==='ArrowLeft') show(cur-1); });
-new IntersectionObserver(es=>{ const v=es[0].isIntersecting; if(v&&!visible) t0=performance.now()-((parseFloat(fill.style.width)||0)/100)*HOLD; visible=v; }).observe(document.getElementById('top'));
-
-const intro=document.getElementById('intro'); let started=false;
-function begin(){ if(started) return; started=true; intro.classList.add('out'); show(0); requestAnimationFrame(loop); }
-requestAnimationFrame(()=>intro.classList.add('on'));
-setTimeout(begin, matchMedia('(prefers-reduced-motion: reduce)').matches?1200:3400);
-
-
-const SOUND="story/wave.mp3",sb=document.getElementById('sound');
-if(SOUND.startsWith('@@')) sb.style.display='none'; else { let au=null;   
- sb.onclick=()=>{ if(!au){au=new Audio(SOUND);au.loop=true;au.volume=0.45} if(au.paused){au.play();sb.textContent='音を止める'}else{au.pause();sb.textContent='波の音'} }; }
-
-
-
 const nav=document.getElementById('nav'),menu=document.getElementById('menu'),burger=document.getElementById('burger');
 const onScroll=()=>nav.classList.toggle('solid',scrollY>innerHeight*0.75); addEventListener('scroll',onScroll,{passive:true}); onScroll();
 burger.onclick=()=>{ const o=!menu.classList.contains('open'); menu.classList.toggle('open',o); nav.classList.toggle('menuopen',o); burger.textContent=o?'閉じる':'メニュー'; burger.setAttribute('aria-expanded',o); };

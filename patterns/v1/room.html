@@ -201,6 +201,11 @@ footer .logo{display:inline-block;color:var(--ink);font-family:"Hiragino Mincho 
  .spot{padding:14px}
 }
 @media (prefers-reduced-motion:reduce){.hero .m.move{transform:none}.rv{opacity:1;transform:none}}
+:root{--bg:#eff7f8;--paper:#fbfeff;--line:#d2e1e5;--sea:#17627b;--dark:#173b49}
+.roomphotos{display:grid;grid-template-columns:1fr 1fr;gap:32px 24px;margin-top:42px}.roomphotos figure{margin:0}.roomphotos img{width:100%;height:auto;display:block}.roomphotos h3{margin:10px 0 3px;font-weight:500}.roomphotos p{margin:0}@media(max-width:650px){.roomphotos{grid-template-columns:1fr}}
+#view{background:#184655}
+.phead.seahero{height:78svh;min-height:360px;background-position:center 55%}
+.gallery{margin:0}.gallery img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}.gallery figcaption{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:12px 0}.gallery button{background:white;border:1px solid var(--line);color:var(--sea);padding:8px 12px;cursor:pointer}
 .menu a[aria-current="page"]{opacity:1;text-decoration:underline;text-underline-offset:6px}
 .phead{position:relative;height:50vh;height:50svh;min-height:300px;display:flex;align-items:flex-end;padding:0 24px 44px;color:#fff;background:linear-gradient(to top,rgba(5,10,16,.68),rgba(5,10,16,.12) 62%),var(--bg) center/cover;background-color:#0b0f13}
 .phead .in{max-width:1080px;margin:0 auto;width:100%}
@@ -226,20 +231,20 @@ footer .logo{display:inline-block;color:var(--ink);font-family:"Hiragino Mincho 
  <a class="logo" href="index.html">Amami BLUE RIDGE<small>奄美大島 戸口</small></a>
  <button class="burger" id="burger" aria-expanded="false" aria-controls="menu">メニュー</button>
  <nav class="menu" id="menu">
-  <a href="about.html">宿について</a><a href="view.html">眺め</a><a href="room.html" aria-current="page">客室</a><a href="stay.html">過ごし方</a><a href="place.html">場所</a><a href="around.html">周辺</a><a href="course.html">モデルコース</a><a href="reserve.html">ご予約</a>
+  <a href="about.html">宿について</a><a href="view.html">眺め</a><a href="room.html" aria-current="page">客室</a><a href="place.html">場所</a><a href="around.html">周辺</a><a href="course.html">モデルコース</a><a href="reserve.html">ご予約</a>
  </nav>
 </header>
-<header class="phead" style="--bg:url('story/s09.jpg')"><div class="in"><div class="eyebrow">ROOM</div><h1>客室</h1></div><span class="tag">完成イメージ</span></header>
+<header class="phead" style="--bg:url('photos/05-hiru.jpg')"><div class="in"><div class="eyebrow">ROOM</div><h1>客室</h1></div><span class="tag">完成イメージ</span></header>
 <div class="crumb"><a href="index.html">トップ</a>　›　客室</div>
 <section class="s" id="room"><div class="wrap split rev">
- <div class="ph rv"><img src="story/s09.jpg" alt="朝の光が差す客室" loading="lazy"><span class="tag">完成イメージ</span></div>
+ <div class="ph rv"><img src="photos/05-hiru.jpg" alt="ベッドから見たデッキと海" loading="lazy"><span class="tag">完成イメージ</span></div>
  <div class="rv">
   <div class="eyebrow">ROOM</div>
   <h3 class="t">海側は、一面のガラス。</h3>
-  <p class="lead">客室は「海の棟」と「星の棟」の2棟。どちらも、パークホームズ社のトレーラーハウス「<a href="https://www.parkhomes.jp/product/round.html" target="_blank" rel="noopener">パークラウンド</a>」。工場で造られ、島へ運び込まれます。白い外殻の細長い一棟を、まるごとお使いいただけます。両端にベッド、真ん中にキッチンと水回り。デッキには、海を向いたバスタブ。</p>
+  <p class="lead">客室は「海の棟」と「星の棟」の2棟。その絶景をさらに引き立てるのが、海側一面をガラス張りにした高級トレーラーハウスです。工場で造られ、島へ運び込まれます。白い外殻の細長い一棟を、まるごとお使いいただけます。両端にベッド、真ん中にキッチンと水回り。デッキには、海を向いたバスタブ。</p>
   <div class="rooms"><div><b>海の棟</b>水平線から昇る朝日で目覚める棟。</div><div><b>星の棟</b>灯りを落とせば、満天の星に包まれる棟。</div></div>
   <ul class="list">
-   <li>パークホームズ「パークラウンド」（長さ約12m・幅約2.4m）</li><li>定員4名（ゆったり過ごせるのは2名）</li><li>ダブルベッド 2台</li>
+   <li>長さ約12m・幅約2.4m</li><li>定員4名（ゆったり過ごせるのは2名）</li><li>ダブルベッド 2台</li>
    <li>キッチン（冷蔵庫つき）</li><li>シャワー・洗面・トイレ</li>
    <li>デッキにソファとテーブル</li><li>屋根つきデッキとバスタブ</li>
    <li>棟のあいだに目隠しの壁</li><li>駐車場</li>
@@ -247,79 +252,8 @@ footer .logo{display:inline-block;color:var(--ink);font-family:"Hiragino Mincho 
   <p class="note">計画中のため、設備・間取りは変わる場合があります。</p>
  </div>
 </div>
-<div class="wrap planbox rv">
- <div class="planhead"><b>トレーラーハウス1棟の間取り</b><span>全長 約12m・幅 約2.4m ＋ 奥行2.5mのデッキ</span></div>
- <div class="planscroll">
-<svg class="plan" viewBox="-300 -950 12800 7500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="客室1棟の間取り（全長約12メートル）。両端にダブルベッド、中ほどにキッチン・トイレ・洗面とシャワー。海側は全面ガラスで、その外に屋根つきのデッキ、ソファとテーブル、バスタブ、庭へ下りる階段">
- 
- <g font-family="system-ui,sans-serif" font-size="260" fill="#5d666d" text-anchor="middle">
-  
-  <line x1="0" y1="-560" x2="12162" y2="-560" stroke="#9aa3a9" stroke-width="18"/>
-  <line x1="0" y1="-700" x2="0" y2="-420" stroke="#9aa3a9" stroke-width="18"/><line x1="12162" y1="-700" x2="12162" y2="-420" stroke="#9aa3a9" stroke-width="18"/>
-  <text x="6081" y="-660">全長 約12m</text>
-  <text x="6081" y="-140" font-size="220">道路側（高い小窓）</text>
- </g>
- 
- <rect x="81" y="2508" width="12000" height="2500" fill="#e9dccb" stroke="#b49b7c" stroke-width="30"/>
- <rect x="5662" y="2508" width="6419" height="2500" fill="#ddccb5"/>
- <g stroke="#cdb99d" stroke-width="10">
-  <line x1="81" y1="3008" x2="12081" y2="3008"/><line x1="81" y1="3508" x2="12081" y2="3508"/><line x1="81" y1="4008" x2="12081" y2="4008"/><line x1="81" y1="4508" x2="12081" y2="4508"/>
- </g>
- 
- <rect x="5962" y="5008" width="3200" height="900" fill="#efe6d8" stroke="#b49b7c" stroke-width="30"/>
- <g stroke="#b49b7c" stroke-width="20"><line x1="5962" y1="5308" x2="9162" y2="5308"/><line x1="5962" y1="5608" x2="9162" y2="5608"/></g>
- 
- <rect x="0" y="0" width="12162" height="2408" fill="#fffdf9" stroke="#1e2429" stroke-width="70"/>
- 
- <line x1="60" y1="2408" x2="12102" y2="2408" stroke="#5fb3cc" stroke-width="70"/>
- 
- <g fill="#f3efe8" stroke="#8b949a" stroke-width="22">
-  <rect x="120" y="300" width="2000" height="1800" rx="40"/><rect x="10042" y="300" width="2000" height="1800" rx="40"/>
- </g>
- <g fill="#fff" stroke="#8b949a" stroke-width="18">
-  <rect x="190" y="420" width="420" height="700" rx="90"/><rect x="190" y="1280" width="420" height="700" rx="90"/>
-  <rect x="11552" y="420" width="420" height="700" rx="90"/><rect x="11552" y="1280" width="420" height="700" rx="90"/>
- </g>
- 
- <g fill="#eef1f2" stroke="#8b949a" stroke-width="22"><rect x="5300" y="80" width="560" height="640"/><rect x="5300" y="760" width="560" height="840"/></g>
- <circle cx="5580" cy="1180" r="170" fill="none" stroke="#8b949a" stroke-width="22"/>
- 
- <g fill="#eef1f2" stroke="#1e2429" stroke-width="45">
-  <rect x="5910" y="0" width="954" height="1630"/><rect x="6978" y="0" width="1946" height="1630"/>
- </g>
- <ellipse cx="6430" cy="700" rx="200" ry="290" fill="#fff" stroke="#8b949a" stroke-width="20"/>
- <circle cx="8300" cy="800" r="110" fill="none" stroke="#8b949a" stroke-width="20"/>
- 
- <g fill="#f7f3ec" stroke="#8b949a" stroke-width="22">
-  <rect x="120" y="2850" width="330" height="1200"/>
-  <rect x="2600" y="3150" width="710" height="1470" rx="60"/><rect x="5020" y="3150" width="710" height="1470" rx="60"/>
- </g>
- <rect x="3880" y="3150" width="640" height="1470" fill="#dfeef2" stroke="#8b949a" stroke-width="22"/>
- <path d="M10400 2850 Q10720 2780 11000 2850 Q11600 3700 11650 4420 Q11550 4560 11400 4520 Q10400 4300 9850 4400 Q9750 4300 9800 4150 Q10050 3300 10400 2850 Z" fill="#fff" stroke="#5fb3cc" stroke-width="40"/>
- 
- <g font-family="system-ui,sans-serif" font-size="260" fill="#1e2429" text-anchor="middle">
-  <text x="1300" y="1180">ベッド</text><text x="1300" y="1500" font-size="200" fill="#5d666d">ダブル</text>
-  <text x="10862" y="1180">ベッド</text><text x="10862" y="1500" font-size="200" fill="#5d666d">ダブル</text>
-  <text x="5580" y="1980">キッチン</text>
-  <text x="6387" y="1250" font-size="220">トイレ</text>
-  <text x="7951" y="1180" font-size="230">洗面</text><text x="7951" y="1450" font-size="230">シャワー</text>
-  <text x="3700" y="2180" font-size="220" fill="#2b7f96">海側は全面ガラス</text>
-  <text x="2000" y="2780" font-size="230">デッキ</text>
-  <text x="4170" y="4900" font-size="220">ソファとテーブル</text>
-  <text x="285" y="4380" font-size="200">屋外の</text><text x="285" y="4620" font-size="200">流し台</text>
-  <text x="10700" y="3800">バスタブ</text>
-  <text x="8870" y="2780" font-size="200" fill="#5d666d">屋根の下</text>
-  <text x="7562" y="6200" font-size="230">階段（庭へ）</text>
- </g>
- <g font-family="system-ui,sans-serif" font-size="240" fill="#2b7f96" text-anchor="middle"><text x="2400" y="6200">↓ 庭と海</text></g>
-</svg>
-
- </div>
- <p class="note">内装の計画図面をもとにした間取りのイメージです。家具の形や位置は変わる場合があります。<span class="sponly">（横にずらして見られます）</span></p>
-</div></section>
-
-
-<nav class="pager" aria-label="前後のページ"><div><a href="view.html">← 前のページ<b>眺め</b></a></div><div class="top"><a href="index.html">トップへ</a></div><div class="nx"><a href="stay.html">次のページ →<b>過ごし方</b></a></div></nav>
+<div class="wrap roomphotos" id="equipment"><figure><img loading="lazy" src="photos/21-hiru.jpg" alt="キッチンの完成イメージ"><figcaption><h3>キッチン</h3><p>流しに立って右を向くと、デッキの向こうに海が広がります。冷蔵庫は調理台の下に。</p></figcaption></figure><figure><img loading="lazy" src="photos/09-yoru.jpg" alt="ダブルベッドの完成イメージ"><figcaption><h3>ダブルベッド</h3><p>客室の両端にダブルベッドを1台ずつ。海側の窓に沿って横になれます。</p></figcaption></figure><figure><img loading="lazy" src="photos/13-hiru.jpg" alt="デッキのソファの完成イメージ"><figcaption><h3>デッキのソファ</h3><p>ガラス戸の外には、テーブルを挟んで向かい合うソファ。芝生と海を望む席です。</p></figcaption></figure><figure><img loading="lazy" src="photos/15-yoru.jpg" alt="デッキのバスタブの完成イメージ"><figcaption><h3>デッキのバスタブ</h3><p>屋根の下のバスタブから、夜の海を眺められます。</p></figcaption></figure></div></section>
+<nav class="pager" aria-label="前後のページ"><div><a href="view.html">← 前のページ<b>眺め</b></a></div><div class="top"><a href="index.html">トップへ</a></div><div class="nx"><a href="place.html">次のページ →<b>場所</b></a></div></nav>
 
 <footer>
  <div class="logo">Amami BLUE RIDGE</div><br>
