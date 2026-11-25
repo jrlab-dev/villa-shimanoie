@@ -171,7 +171,7 @@ function addInteriorDetails(env) {
   for(const sign of [-1,1]){bedding(sign*4.757,.41,.115,1.96,.22,1.76,.07,false);bedding(sign*4.387,.555,.115,1.28,.11,1.81,.05,false);for(const z of [-.315,.545])bedding(sign*5.467,.615,z,.49,.18,.72,.087,true);}
 }
 async function loadFinishes(loader){
-  const files={bounce:'room-bounce.png',leaf:'leaf-light.png',fabric:'linen-weave.jpg',oak:'oak-grain.jpg',oakNormal:'oak-normal.jpg',deck:'deck-plank.jpg',deckNormal:'deck-normal.jpg',linen:'linen-normal.jpg',daylight:'daylight.png'};
+  const files={bounce:'room-bounce.png',fabric:'linen-weave.jpg',oak:'oak-grain.jpg',oakNormal:'oak-normal.jpg',deck:'deck-plank.jpg',deckNormal:'deck-normal.jpg',linen:'linen-normal.jpg',daylight:'daylight.png'};
   const entries=await Promise.all(Object.entries(files).map(async ([key,file])=>{
     const texture=await loader.loadAsync(file);
     if(key==='daylight'||key==='bounce'){texture.flipY=false;texture.generateMipmaps=false;texture.minFilter=T.LinearFilter;}
@@ -184,17 +184,12 @@ async function loadFinishes(loader){
   return Object.fromEntries(entries);
 }
 // The offline visibility field gives broad surfaces indirect shade at walls and under furniture.
-function shadeFromRoom(material,daylight,leaf,bounce){
+function shadeFromRoom(material,daylight,bounce){
   material.onBeforeCompile=shader=>{
-    shader.uniforms.daylightField={value:daylight};shader.uniforms.leafLight={value:leaf};shader.uniforms.bounceField={value:bounce};
+    shader.uniforms.daylightField={value:daylight};shader.uniforms.bounceField={value:bounce};
     shader.vertexShader='varying vec3 roomPoint;\n'+shader.vertexShader.replace('#include <project_vertex>','#include <project_vertex>\nroomPoint=(modelMatrix*vec4(transformed,1.)).xyz;');
     shader.fragmentShader=`varying vec3 roomPoint;
-uniform sampler2D daylightField;uniform sampler2D leafLight;uniform sampler2D bounceField;
-float lightNoise(vec2 p){
- vec2 i=floor(p),f=fract(p); f=f*f*(3.-2.*f);
- return mix(mix(fract(sin(dot(i,vec2(41.7,157.3)))*4375.2),fract(sin(dot(i+vec2(1,0),vec2(41.7,157.3)))*4375.2),f.x),
- mix(fract(sin(dot(i+vec2(0,1),vec2(41.7,157.3)))*4375.2),fract(sin(dot(i+1.,vec2(41.7,157.3)))*4375.2),f.x),f.y);
-}
+uniform sampler2D daylightField;uniform sampler2D bounceField;
 vec3 bounceSlice(vec3 probe,float layer){
  vec2 tile=vec2(mod(layer,8.)*64.,floor(layer/8.)*32.);
  return texture2D(bounceField,(tile+probe.xz+.5)/vec2(512.,96.)).rgb;
@@ -210,12 +205,7 @@ vec3 vis=mix(lightSlice(grid,floor(grid.y)),lightSlice(grid,min(63.,floor(grid.y
 float contact=mix(.45,1.,smoothstep(.08,.96,vis.r));
 reflectedLight.indirectDiffuse*=contact*(.32+.40*vis.g+.28*vis.b);
 reflectedLight.indirectSpecular*=.61+.39*vis.g;
-vec2 sunPlane=roomPoint.xz-vec2(-.8,1.4)*roomPoint.y;
-vec2 leafUV=(sunPlane+vec2(1.3,3.15))/4.75;
-float branch=texture2D(leafLight,leafUV).r;
-float sunTransmission=1.-mix(.78,.28,smoothstep(3.55,4.15,roomPoint.z))*branch;
-reflectedLight.directDiffuse*=(.84+.16*contact)*sunTransmission;
-reflectedLight.directSpecular*=sunTransmission;
+reflectedLight.directDiffuse*=.84+.16*contact;
 if(roomPoint.z<1.14 && abs(roomPoint.x)<5.85 && roomPoint.y>0. && roomPoint.y<2.15){
  float nearFloor=smoothstep(.02,1.04,roomPoint.y);
  float roofShade=1.-smoothstep(1.46,2.1,roomPoint.y);
@@ -288,7 +278,7 @@ function realFinishes(mesh,assets){
   if(mesh.name.includes('クッション')||m.name==='Bedding'){
     m.normalMap=assets.linen;m.normalScale.set(.16,.16);m.roughness=.93;
   }
-  if(!m.transparent)shadeFromRoom(m,assets.daylight,assets.leaf,assets.bounce);
+  if(!m.transparent)shadeFromRoom(m,assets.daylight,assets.bounce);
   if(m.name==='Brushed basin'){
     const lighting=m.onBeforeCompile;
     m.onBeforeCompile=shader=>{
@@ -306,18 +296,6 @@ function realFinishes(mesh,assets){
       outgoingLight+=vec3(.11,.10,.08)*pow(1.-abs(dot(worldN,normalize(cameraPosition-roomPoint))),4.);
       outgoingLight+=vec3(.32,.30,.275)*opening*(.48+.52*mullion);
       #include <output_fragment>`);
-    };
-  }
-  if(['Porcelain white FRP','f5f4ef','Matching white satin canopy'].includes(mesh.name)){
-    const lighting=m.onBeforeCompile;
-    m.onBeforeCompile=shader=>{
-      lighting(shader);
-      shader.fragmentShader=shader.fragmentShader.replace('#include <map_fragment>',`#include <map_fragment>
-      vec2 face=vec2(roomPoint.x+roomPoint.z,roomPoint.y);
-      float stipple=.55*lightNoise(face*56.)+.45*lightNoise(face*203.);
-      float bloom=lightNoise(face*2.18);
-      diffuseColor.rgb*=vec3(.956,.946,.929)*(.90+.095*stipple+.067*bloom);
-      `);
     };
   }
   if(m.name==='Lawn'){
