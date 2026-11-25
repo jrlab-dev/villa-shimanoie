@@ -8,6 +8,7 @@ const spots = {
   deck: [.62, 3.48, -1.7, .45]
 };
 const held = new Set();
+let updateMirror;
 let renderer, scene, camera, yaw = 0, pitch = -.12, ready = false, last = 0;
 const eyeHeight = 1.51;
 function selectSpot(name) {
@@ -43,7 +44,7 @@ function step(dt){
   camera.rotation.set(pitch,yaw,0,'YXZ');
 }
 function resize(){const w=canvas.clientWidth,h=canvas.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.fov=w<h?87:69;camera.updateProjectionMatrix();}
-function frame(time){if(!ready)return;step(Math.min(.045,(time-last)/1000));last=time;renderer.render(scene,camera);requestAnimationFrame(frame);}
+function frame(time){if(!ready)return;step(Math.min(.045,(time-last)/1000));last=time;updateMirror();renderer.render(scene,camera);requestAnimationFrame(frame);}
 function inputs(){
   let drag=null;
   canvas.onpointerdown=e=>{drag={id:e.pointerId,x:e.clientX,y:e.clientY};canvas.setPointerCapture(e.pointerId);canvas.focus({preventScroll:true});};
@@ -64,7 +65,7 @@ function material(row, textures, env){
   const glass=row.name==='Clear glazing';
   if(glass || row.name.includes('ガラス天板') || row.name.includes('バスタブ_湯')){
     const water=row.name.includes('湯');
-    return new T.MeshPhysicalMaterial({color:water?0xbfe1dc:0xf5fbff,metalness:0,roughness:water?.09:.035,transparent:true,opacity:water?.55:glass?.12:.24,depthWrite:false,side:T.FrontSide,envMap:env,envMapIntensity:glass?.9:.75});
+    return new T.MeshPhysicalMaterial({color:water?0xbfe1dc:0xf5fbff,metalness:0,roughness:water?.09:.035,transparent:true,opacity:water?.55:glass?.12:.30,depthWrite:false,side:T.FrontSide,envMap:env,envMapIntensity:glass?.9:.75});
   }
   const m=new T.MeshStandardMaterial({color:row.color,roughness:Math.max(.22,row.rough),metalness:Math.min(.75,row.metal),side:T.DoubleSide});
   if(row.map)m.map=textures[row.map.index];
@@ -86,7 +87,8 @@ function meshFrom(row,buffer,mat){
 }
 function addInteriorDetails(env) {
   const surface=(color,roughness,metalness=0)=>new T.MeshStandardMaterial({color,roughness,metalness,envMap:metalness?env:null,envMapIntensity:.75});
-  const timber=surface(0xad8258,.55),stone=surface(0xe3dfd7,.37),steel=surface(0x9aabad,.29,.72),dark=surface(0x343d40,.27,.58);
+  const timber=surface(0xad8258,.55),stone=surface(0xe3dfd7,.37),steel=surface(0xe1ded8,.185,.94),dark=surface(0x343d40,.27,.58);
+  steel.name="Brushed basin";
   const cloth=surface(0xf6efe3,.96);cloth.name="Bedding";timber.name="Cabinet oak";
   function box(x,y,z,w,h,d,mat){const m=new T.Mesh(new T.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=m.receiveShadow=true;scene.add(m);return m;}
   function rod(a,b,r,mat){const start=new T.Vector3(...a),end=new T.Vector3(...b),dir=end.clone().sub(start);const m=new T.Mesh(new T.CylinderGeometry(r,r,dir.length(),18),mat);m.position.copy(start).lerp(end,.5);m.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),dir.normalize());m.castShadow=true;scene.add(m);}
@@ -121,10 +123,26 @@ function addInteriorDetails(env) {
   // Open cabinet shell underneath the basin, keeping the plan dimensions.
   box(-.383,.345,-.335,.54,.69,1.43,timber);box(-.651,.425,-.335,.012,.85,1.43,timber);
   // A rounded pull and slim door reveals read at the closest kitchen viewpoint.
-  const trim=surface(0x393632,.6);
+  const trim=surface(0x4a4034,.66);
+  // Close the cabinet front up to the underside of the counter.
+  box(-.381,.765,.373,.531,.169,.012,timber);
+  box(-.381,.41,.373,.531,.54,.012,timber);
+  box(-.381,.074,.356,.49,.145,.012,trim);
   box(-.660,.43,-.24,.003,.76,.005,trim);
   rod([-.676,.753,-.43],[-.676,.753,-.63],.005,dark);
   for(const z of [-.43,-.63])rod([-.661,.753,z],[-.676,.753,z],.004,dark);
+  // Mortised doors in the existing openings, with slim jambs and a lever at hand height.
+  for(const start of [.068,1.011]){
+    for(const x of [start-.012,start+.742])box(x,.982,.349,.023,1.96,.018,timber);
+    box(start+.365,1.964,.349,.777,.024,.018,timber);
+    const handleX=start+.622;
+    rod([handleX,.96,.345],[handleX,.96,.388],.016,dark);
+    rod([handleX,.96,.388],[handleX-.098,.96,.388],.009,dark);
+  }
+  // Polished cut glass is darker along the thickness of the slab.
+  const glassEdge=new T.MeshPhysicalMaterial({color:0x729694,transparent:true,opacity:.70,roughness:.17,metalness:.12});
+  for(const x of [-2.071,-1.431])box(x,.444,2.679,.003,.012,1.47,glassEdge);
+  for(const z of [1.944,3.414])box(-1.751,.444,z,.64,.012,.003,glassEdge);
   // A removable cutting board and lime give the compact worktop an everyday scale.
   const board=box(-.392,.901,-.39,.29,.018,.34,timber);board.rotation.y=.055;
   const peel=surface(0x809438,.7);
@@ -141,13 +159,14 @@ function addInteriorDetails(env) {
   for(const sign of [-1,1]){bedding(sign*4.757,.41,.115,1.96,.22,1.76,.07,false);bedding(sign*4.387,.555,.115,1.28,.11,1.81,.05,false);for(const z of [-.315,.545])bedding(sign*5.467,.615,z,.49,.18,.72,.087,true);}
 }
 async function loadFinishes(loader){
-  const files={oak:'oak-grain.jpg',oakNormal:'oak-normal.jpg',deck:'deck-plank.jpg',deckNormal:'deck-normal.jpg',linen:'linen-normal.jpg',daylight:'daylight.png'};
+  const files={fabric:'linen-weave.jpg',oak:'oak-grain.jpg',oakNormal:'oak-normal.jpg',deck:'deck-plank.jpg',deckNormal:'deck-normal.jpg',linen:'linen-normal.jpg',daylight:'daylight.png'};
   const entries=await Promise.all(Object.entries(files).map(async ([key,file])=>{
     const texture=await loader.loadAsync(file);
     if(key==='daylight'){texture.flipY=false;texture.generateMipmaps=false;texture.minFilter=T.LinearFilter;}
     else{texture.wrapS=texture.wrapT=T.RepeatWrapping;texture.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());}
     if(key==='oak'||key==='deck')texture.encoding=T.sRGBEncoding;
-    if(key==='linen')texture.repeat.set(6,5);
+    if(key==='linen'||key==='fabric')texture.repeat.set(3,3);
+    if(key==='fabric')texture.encoding=T.sRGBEncoding;
     return [key,texture];
   }));
   return Object.fromEntries(entries);
@@ -159,6 +178,11 @@ function shadeFromRoom(material,daylight){
     shader.vertexShader='varying vec3 roomPoint;\n'+shader.vertexShader.replace('#include <project_vertex>','#include <project_vertex>\nroomPoint=(modelMatrix*vec4(transformed,1.)).xyz;');
     shader.fragmentShader=`varying vec3 roomPoint;
 uniform sampler2D daylightField;
+float lightNoise(vec2 p){
+ vec2 i=floor(p),f=fract(p); f=f*f*(3.-2.*f);
+ return mix(mix(fract(sin(dot(i,vec2(41.7,157.3)))*4375.2),fract(sin(dot(i+vec2(1,0),vec2(41.7,157.3)))*4375.2),f.x),
+ mix(fract(sin(dot(i+vec2(0,1),vec2(41.7,157.3)))*4375.2),fract(sin(dot(i+1.,vec2(41.7,157.3)))*4375.2),f.x),f.y);
+}
 vec3 lightSlice(vec3 grid,float layer){
   vec2 tile=vec2(mod(layer,8.)*192.,floor(layer/8.)*96.);
   return texture2D(daylightField,(tile+grid.xz+.5)/vec2(1536.,768.)).rgb;
@@ -170,9 +194,61 @@ vec3 vis=mix(lightSlice(grid,floor(grid.y)),lightSlice(grid,min(63.,floor(grid.y
 float contact=mix(.45,1.,smoothstep(.08,.96,vis.r));
 reflectedLight.indirectDiffuse*=contact*(.32+.40*vis.g+.28*vis.b);
 reflectedLight.indirectSpecular*=.61+.39*vis.g;
-reflectedLight.directDiffuse*=.84+.16*contact;`);
+vec2 sunPlane=roomPoint.xz-vec2(-.8,1.4)*roomPoint.y;
+float canopyNoise=.50*lightNoise(sunPlane*1.35)+.29*lightNoise(sunPlane*3.5)+.15*lightNoise(sunPlane*8.)+.06*lightNoise(sunPlane*15.);
+float branch=smoothstep(.43,.66,canopyNoise)*(1.-smoothstep(2.5,6.3,abs(sunPlane.x+2.)));
+float sunTransmission=1.-mix(.63,.24,smoothstep(3.55,4.15,roomPoint.z))*branch;
+reflectedLight.directDiffuse*=(.84+.16*contact)*sunTransmission;
+reflectedLight.directSpecular*=sunTransmission;
+if(roomPoint.z<1.14 && abs(roomPoint.x)<5.85 && roomPoint.y>0. && roomPoint.y<2.15){
+ float nearFloor=smoothstep(.02,1.04,roomPoint.y);
+ float roofShade=1.-smoothstep(1.46,2.1,roomPoint.y);
+ float reveal=.65+.35*nearFloor*roofShade;
+ reflectedLight.indirectDiffuse*=mix(vec3(.77,.83,.91),vec3(1.),reveal*vis.g);
+}`);
   };
 }
+// Rebuild the soft pieces on the footprint of each cushion in the source model.
+function tailorCushions(mesh,assets){
+  const p=mesh.geometry.attributes.position,blue=mesh.name.includes('藍');
+  const cloth=mesh.material.clone();cloth.color.setHex(blue?0x304768:0xe0d5bf);
+  cloth.map=assets.fabric;cloth.normalMap=assets.linen;cloth.roughness=.96;cloth.normalScale.set(.29,.29);
+  const seam=cloth.clone();seam.color.multiplyScalar(.74);
+  const count=332,group=new T.Group();group.name='Upholstery';
+  for(let first=0;first<p.count;first+=count){
+    const bounds=new T.Box3(),point=new T.Vector3();
+    for(let i=first;i<first+count;i++)bounds.expandByPoint(point.fromBufferAttribute(p,i));
+    const center=bounds.getCenter(new T.Vector3()),extent=bounds.getSize(new T.Vector3());
+    const seat=extent.x>.4,w=seat?extent.x:extent.y,h=seat?extent.y:extent.x,d=extent.z;
+    const sign=center.x<-1.75?1:-1,seed=first/count+.72;
+    const panel=new T.Group();panel.position.copy(center);
+    if(!seat)panel.rotation.z=-sign*(Math.PI/2+(blue?.18:.095));
+    if(blue){panel.rotation.x=.055*Math.sin(seed*3);panel.rotation.y=.045*Math.cos(seed*2);}
+    const g=new T.BoxGeometry(w,h,d,24,12,26),a=g.attributes.position,n=new T.Vector3(),v=new T.Vector3();
+    const r=Math.min(h*.42,.052);
+    for(let i=0;i<a.count;i++){
+      v.fromBufferAttribute(a,i);
+      n.set(T.MathUtils.clamp(v.x,-w/2+r,w/2-r),T.MathUtils.clamp(v.y,-h/2+r,h/2-r),T.MathUtils.clamp(v.z,-d/2+r,d/2-r));
+      v.sub(n).normalize().multiplyScalar(r).add(n);
+      const u=2*v.x/w,k=2*v.z/d,edge=Math.max(0,1-u*u)*Math.max(0,1-k*k);
+      const tuck=.008*Math.cos(k*23+seed+4*u)*Math.pow(Math.abs(u),3)*(1-k*k);
+      v.y+=Math.sign(v.y)*Math.min(1,2*Math.abs(v.y)/h)*((blue?.055:.026)*edge+tuck);
+      a.setXYZ(i,v.x,v.y,v.z);
+    }
+    g.computeVertexNormals();const cushion=new T.Mesh(g,cloth);cushion.castShadow=cushion.receiveShadow=true;panel.add(cushion);
+    const loop=[];
+    for(let corner=0;corner<4;corner++){
+      const sx=corner===0||corner===3?1:-1,sz=corner<2?1:-1;
+      for(let j=0;j<=5;j++){const ang=(corner+j/5)*Math.PI/2;
+        loop.push(new T.Vector3(sx*(w/2-r)+r*Math.cos(ang),h*.19,sz*(d/2-r)+r*Math.sin(ang)));}
+    }
+    const path=new T.CurvePath();loop.forEach((v,i)=>path.add(new T.LineCurve3(v,loop[(i+1)%loop.length])));
+    panel.add(new T.Mesh(new T.TubeGeometry(path,112,.0024,5,true),seam));group.add(panel);
+  }
+  scene.add(group);mesh.visible=false;
+}
+
+
 function realFinishes(mesh,assets){
   const m=mesh.material;
   if(!m.isMeshStandardMaterial)return;
@@ -193,17 +269,94 @@ function realFinishes(mesh,assets){
     m.normalMap=assets.linen;m.normalScale.set(.16,.16);m.roughness=.93;
   }
   if(!m.transparent)shadeFromRoom(m,assets.daylight);
+  if(m.name==='Brushed basin'){
+    const lighting=m.onBeforeCompile;
+    m.onBeforeCompile=shader=>{
+      lighting(shader);
+      shader.fragmentShader=shader.fragmentShader.replace('#include <output_fragment>',`
+      vec3 reflectedRay=reflect(normalize(roomPoint-cameraPosition),worldN);
+      float distanceToWindow=(1.15-roomPoint.z)/max(.001,reflectedRay.z);
+      vec3 hit=roomPoint+reflectedRay*distanceToWindow;
+      float opening=smoothstep(.06,.27,hit.y)*(1.-smoothstep(1.75,2.01,hit.y))*(1.-smoothstep(5.5,5.8,abs(hit.x)))*smoothstep(.02,.16,reflectedRay.z);
+      float mullion=smoothstep(.016,.07,abs(fract((hit.x+.17)/1.17)-.5));
+      outgoingLight+=vec3(.76,.85,.96)*opening*(.3+.7*mullion);
+      #include <output_fragment>`);
+    };
+  }
+  if(['Porcelain white FRP','f5f4ef','Matching white satin canopy'].includes(mesh.name)){
+    const lighting=m.onBeforeCompile;
+    m.onBeforeCompile=shader=>{
+      lighting(shader);
+      shader.fragmentShader=shader.fragmentShader.replace('#include <map_fragment>',`#include <map_fragment>
+      vec2 face=vec2(roomPoint.x+roomPoint.z,roomPoint.y);
+      float stipple=.55*lightNoise(face*56.)+.45*lightNoise(face*203.);
+      float bloom=lightNoise(face*2.18);
+      diffuseColor.rgb*=vec3(.956,.946,.929)*(.90+.095*stipple+.067*bloom);
+      `);
+    };
+  }
+  if(m.name==='Lawn'){
+    const lighting=m.onBeforeCompile;
+    m.onBeforeCompile=shader=>{
+      lighting(shader);
+      shader.fragmentShader=shader.fragmentShader.replace('#include <map_fragment>',`#include <map_fragment>
+      vec2 g=roomPoint.xz;
+      float mottling=.45*sin(g.x*1.17+.8*sin(g.y*.63))+.32*sin(g.y*1.75+g.x*.38)+.23*cos(g.x*2.8-g.y*.92);
+      diffuseColor.rgb*=vec3(.98+.064*mottling,.95+.045*mottling,.85+.055*mottling);
+      `);
+    };
+  }
 }
 function seaBackdrop(env,photo){
   const sphere=new T.Mesh(new T.SphereGeometry(95,40,24),new T.ShaderMaterial({
     side:T.BackSide,depthWrite:false,uniforms:{sky:{value:env},sea:{value:photo}},
     vertexShader:`varying vec3 dir;void main(){dir=position;gl_Position=projectionMatrix*viewMatrix*modelMatrix*vec4(position,1.);}`,
-    fragmentShader:`uniform samplerCube sky;uniform sampler2D sea;varying vec3 dir;void main(){vec3 d=normalize(dir);vec3 bg=textureCube(sky,vec3(-d.x,d.yz)).rgb;float a=atan(d.x,d.z);float y=asin(d.y);vec2 uv=vec2(.5-a/3.15,.507+y/1.45);float mixSea=(1.-smoothstep(.94,1.52,abs(a)))*(1.-smoothstep(.53,.71,abs(y)));gl_FragColor=vec4(mix(bg,texture2D(sea,clamp(uv,0.,1.)).rgb,mixSea),1.);}`
-  }));sphere.renderOrder=-100;sphere.frustumCulled=false;sphere.onBeforeRender=()=>sphere.position.copy(camera.position);scene.add(sphere);
+    fragmentShader:`uniform samplerCube sky;uniform sampler2D sea;varying vec3 dir;void main(){vec3 d=normalize(dir);vec3 bg=textureCube(sky,vec3(-d.x,d.yz)).rgb;float a=atan(d.x,d.z);float y=asin(d.y);vec2 uv=vec2(.5-a/3.15,max(.205,.507+y/1.10));float mixSea=(1.-smoothstep(.94,1.52,abs(a)))*(1.-smoothstep(.53,.71,abs(y)));gl_FragColor=vec4(mix(bg,texture2D(sea,clamp(uv,0.,1.)).rgb,mixSea),1.);}`
+  }));sphere.renderOrder=-100;sphere.frustumCulled=false;scene.add(sphere);
 }
-function facadeGlass(env){
-  return new T.ShaderMaterial({transparent:true,depthWrite:false,side:T.DoubleSide,uniforms:{sky:{value:env}},vertexShader:`varying vec3 world;varying vec3 normalW;void main(){vec4 w=modelMatrix*vec4(position,1.);world=w.xyz;normalW=mat3(modelMatrix)*normal;gl_Position=projectionMatrix*viewMatrix*w;}`,fragmentShader:`uniform samplerCube sky;varying vec3 world;varying vec3 normalW;void main(){vec3 ray=normalize(world-cameraPosition);vec3 n=normalize(normalW);vec3 refl=reflect(ray,n);vec3 color=textureCube(sky,vec3(-refl.x,refl.yz)).rgb;float grazing=pow(1.-abs(dot(n,ray)),3.);gl_FragColor=vec4(color,0.065+.21*grazing);}`});
+function architecturalGlass(horizontal=false){
+  return new T.ShaderMaterial({
+    transparent:true,depthWrite:false,side:T.FrontSide,
+    uniforms:{mirror:{value:null},viewport:{value:new T.Vector2(1,1)},horizontal:{value:horizontal?1:0}},
+    vertexShader:`varying vec3 world;void main(){world=(modelMatrix*vec4(position,1.)).xyz;gl_Position=projectionMatrix*viewMatrix*vec4(world,1.);}`,
+    fragmentShader:`uniform sampler2D mirror;uniform vec2 viewport;uniform float horizontal;varying vec3 world;void main(){
+      vec2 uv=gl_FragCoord.xy/viewport; vec3 ray=normalize(cameraPosition-world);
+      float fresnel=mix(.033,.105,step(1.16,cameraPosition.z))+.58*pow(1.-abs(ray.z),5.);
+      vec3 reflection=texture2D(mirror,vec2(1.-uv.x,uv.y)).rgb;
+      if(horizontal>.5){
+        fresnel=.115+.77*pow(1.-abs(ray.y),2.65);
+        reflection=mix(reflection,vec3(.66,.83,.89),.10);
+      }
+      gl_FragColor=vec4(reflection,fresnel);
+    }`
+  });
 }
+// Render the observer's side of the facade only. The real room is reflected from indoors.
+function installPlanarMirror(glass,axis,planePosition){
+  const target=new T.WebGLRenderTarget(1,1),mirror=new T.PerspectiveCamera();
+  const front=new T.Vector3(),up=new T.Vector3(),size=new T.Vector2();
+  const clip=new T.Plane(),previous=new T.Matrix4(),previousProjection=new T.Matrix4();
+  target.texture.encoding=T.sRGBEncoding;
+  glass.material.uniforms.mirror.value=target.texture;
+  return ()=>{
+    camera.updateMatrixWorld();
+    renderer.getDrawingBufferSize(size);
+    const w=Math.max(1,Math.round(size.x*.55)),h=Math.max(1,Math.round(size.y*.55));
+    if(target.width===w && target.height===h && previous.equals(camera.matrixWorld) && previousProjection.equals(camera.projectionMatrix))return;
+    previous.copy(camera.matrixWorld);previousProjection.copy(camera.projectionMatrix);
+    target.setSize(w,h);glass.material.uniforms.viewport.value.copy(size);
+    mirror.position.copy(camera.position);mirror.position[axis]=2*planePosition-camera.position[axis];
+    camera.getWorldDirection(front);front[axis]*=-1;
+    up.set(0,1,0).applyQuaternion(camera.quaternion);up[axis]*=-1;
+    mirror.up.copy(up);mirror.lookAt(front.add(mirror.position));
+    mirror.projectionMatrix.copy(camera.projectionMatrix);mirror.projectionMatrixInverse.copy(camera.projectionMatrixInverse);
+    const sign=camera.position[axis]>planePosition?1:-1;
+    clip.setComponents(0,axis==='y'?sign:0,axis==='z'?sign:0,-sign*planePosition+.004);
+    glass.visible=false;renderer.clippingPlanes=[clip];renderer.setRenderTarget(target);
+    renderer.render(scene,mirror);renderer.setRenderTarget(null);renderer.clippingPlanes=[];glass.visible=true;
+  };
+}
+
 async function fetchModel(){
   const bytes=await (await fetchAsset('room.bin.gz')).arrayBuffer();
   if(new Uint8Array(bytes)[0]!==31)return bytes;
@@ -220,13 +373,15 @@ async function load(){
   env.encoding=T.sRGBEncoding;scene.background=env;
   const textures={};await Promise.all(rows.filter(r=>r.map).map(async r=>{const m=r.map,t=await loader.loadAsync('surface-'+m.index+'.jpg');t.encoding=T.sRGBEncoding;t.wrapS=t.wrapT=T.RepeatWrapping;t.repeat.fromArray(m.repeat);t.flipY=m.flipY;t.anisotropy=4;textures[m.index]=t;}));
   const finishes=await loadFinishes(loader);
-  rows.forEach(r=>{const mat=r.name==='Clear glazing'?facadeGlass(env):material(r,textures,env);scene.add(meshFrom(r,buffer,mat));});
+  rows.forEach(r=>{const mat=r.name==='Clear glazing'?architecturalGlass():r.name==='テーブル_ガラス天板'?architecturalGlass(true):material(r,textures,env);scene.add(meshFrom(r,buffer,mat));});
     const grass=await loader.loadAsync('lawn.jpg');grass.encoding=T.sRGBEncoding;grass.wrapS=grass.wrapT=T.RepeatWrapping;grass.repeat.set(8,6);
-  const garden=new T.Mesh(new T.PlaneGeometry(21,13),new T.MeshStandardMaterial({map:grass,color:0xa6bd79,roughness:1}));garden.rotation.x=-Math.PI/2;garden.position.set(0,-.95,8);garden.receiveShadow=true;scene.add(garden);
+  const garden=new T.Mesh(new T.PlaneGeometry(21,9.5),new T.MeshStandardMaterial({map:grass,color:0xa6bd79,roughness:1}));garden.rotation.x=-Math.PI/2;garden.position.set(0,-.95,6.2);garden.receiveShadow=true;scene.add(garden);
+  garden.material.name='Lawn';
   addInteriorDetails(env);seaBackdrop(env,await loader.loadAsync("reef.jpg"));
   scene.add(new T.HemisphereLight(0xfff6e5,0x839397,.83));
   const sun=new T.DirectionalLight(0xffecd3,1.46);sun.position.set(-4,5,7);sun.castShadow=true;Object.assign(sun.shadow.camera,{left:-9,right:9,top:8,bottom:-8,near:.1,far:25});sun.shadow.mapSize.set(2048,2048);sun.shadow.normalBias=.012;sun.shadow.bias=-.00018;scene.add(sun);
   const fill=new T.DirectionalLight(0xc1eaff,.31);fill.position.set(2,2,5);scene.add(fill);
+  for(const piece of scene.children.slice())if(piece.name.includes('クッション'))tailorCushions(piece,finishes);
   scene.traverse(o=>{if(o.isMesh)realFinishes(o,finishes);});
   sun.shadow.camera.updateProjectionMatrix();
   // Capture the actual room once for metal reflections; no per-frame cube rendering.
@@ -236,6 +391,9 @@ async function load(){
   const pmrem=new T.PMREMGenerator(renderer);const reflection=pmrem.fromCubemap(probeTarget.texture);
   scene.traverse(o=>{const m=o.material;if(m?.isMeshStandardMaterial && m.metalness>.37){m.envMap=reflection.texture;m.envMapIntensity=1.25;m.needsUpdate=true;}});
   pmrem.dispose();probeTarget.dispose();
+  const facadeMirror=installPlanarMirror(scene.getObjectByName("Clear glazing"),'z',1.156);
+  const tableMirror=installPlanarMirror(scene.getObjectByName("テーブル_ガラス天板"),'y',.45);
+  updateMirror=()=>{facadeMirror();tableMirror();};
   renderer.shadowMap.needsUpdate=true;selectSpot('kitchen');resize();inputs();window.addEventListener('resize',resize);
   statusBox.hidden=true;ready=true;last=performance.now();requestAnimationFrame(frame);
 }
