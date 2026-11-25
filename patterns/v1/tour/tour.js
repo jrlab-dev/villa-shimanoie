@@ -3,6 +3,7 @@ const canvas = document.querySelector('#scene');
 const statusBox = document.querySelector('#status');
 const T = window.THREE;
 const spots = {
+  clerestory: [-1.58, .68, -1.58, -1.12],
   kitchen: [-1.24, -.90, -.18, 2.36],
   window: [-3.51, .53, -1.6, 4.8],
   deck: [.62, 3.48, -1.7, .45]
@@ -14,7 +15,7 @@ const eyeHeight = 1.51;
 function selectSpot(name) {
   const [x,z,tx,tz] = spots[name];
   camera.position.set(x,eyeHeight - (z>1.2?.15:0),z);
-  yaw = Math.atan2(x-tx,z-tz); pitch = name==='deck'?-.095:-.152;
+  yaw = Math.atan2(x-tx,z-tz); pitch = name==='clerestory'?.035:name==='deck'?-.095:-.152;
   document.querySelectorAll('[data-spot]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.spot===name)));
 }
 function clearSelection(){document.querySelector('[data-spot][aria-pressed=true]')?.setAttribute('aria-pressed','false');}
@@ -85,6 +86,68 @@ function meshFrom(row,buffer,mat){
   geo.setIndex(new T.BufferAttribute(row.wide?new Uint32Array(buffer,row.inds,row.ic):new Uint16Array(buffer,row.inds,row.ic),1));
   const mesh=new T.Mesh(geo,mat);mesh.name=row.name;mesh.castShadow=!mat.transparent;mesh.receiveShadow=true;return mesh;
 }
+function addClerestories(roadsidePanels,sky){
+  const vertices=roadsidePanels.geometry.attributes.position;
+  const aluminium=new T.MeshStandardMaterial({color:0xa5aaa7,metalness:.33,roughness:.46});
+  const lining=new T.MeshStandardMaterial({color:0xe6e3da,roughness:.75});
+  const gasket=new T.MeshStandardMaterial({color:0x353c3b,roughness:.78});
+  const glass=new T.ShaderMaterial({side:T.DoubleSide,uniforms:{environment:{value:sky}},
+    vertexShader:`varying vec3 world;varying vec2 pane;
+    void main(){world=(modelMatrix*vec4(position,1.)).xyz;pane=uv;gl_Position=projectionMatrix*viewMatrix*vec4(world,1.);}`,
+    fragmentShader:`uniform samplerCube environment;varying vec3 world;varying vec2 pane;
+    void main(){
+      vec3 sight=normalize(world-cameraPosition);
+      vec3 axis=normalize(vec3(.26*sight.xy,sign(sight.z)));
+      vec3 side=normalize(cross(axis,vec3(0.,1.,0.))),up=cross(side,axis);
+      vec3 scattered=vec3(0.);
+      for(int i=0;i<24;i++){
+        float n=float(i)+.5,angle=n*2.3999632,r=sqrt(n/24.)*.9;
+        vec3 sampleDir=normalize(axis+r*(cos(angle)*side+sin(angle)*up));
+        scattered+=textureCube(environment,vec3(-sampleDir.x,sampleDir.yz)).rgb;
+      }
+      float edge=min(min(pane.x,1.-pane.x)*1.2,min(pane.y,1.-pane.y)*.26);
+      float grain=fract(sin(dot(floor(world.xy*2400.),vec2(14.73,71.29)))*4357.37)-.5;
+      vec3 light=mix(scattered/24.,vec3(.87,.91,.90),.66);
+      light=mix(light,vec3(.92,.95,.94),.12+.19*smoothstep(0.,1.,pane.y));
+      light*=.93+.07*smoothstep(.03,.85,pane.y);
+      light*=.91+.09*smoothstep(0.,.014,edge);
+      light+=grain*.019*(1.-smoothstep(.55,1.4,fwidth(world.x)*1600.));
+      gl_FragColor=vec4(light,1.);
+    }`});
+  function frame(x,y,z,w,h,d,m){
+    const part=new T.Mesh(new T.BoxGeometry(w,h,d),m);
+    part.position.set(x,y,z);part.castShadow=part.receiveShadow=true;scene.add(part);
+  }
+  for(let offset=0;offset<vertices.count;offset+=24){
+    const bounds=new T.Box3(),v=new T.Vector3();
+    for(let i=offset;i<offset+24;i++)bounds.expandByPoint(v.fromBufferAttribute(vertices,i));
+    const {min,max}=bounds,x=(min.x+max.x)/2,y=(min.y+max.y)/2,w=max.x-min.x,h=max.y-min.y;
+    for(const yy of [min.y,max.y]){
+      frame(x,yy,-1.129,w,.012,.166,lining);
+      
+      frame(x,yy+(yy<y?.013:-.013),-1.116,w,.014,.017,gasket);
+    }
+    for(const xx of [min.x,max.x]){
+      frame(xx,y,-1.129,.012,h,.166,lining);
+      
+      frame(xx+(xx<x?.013:-.013),y,-1.116,.014,h,.017,gasket);
+    }
+    // One continuous bevelled extrusion keeps the four sash corners flush.
+    const border=new T.Shape(),cutout=new T.Path();
+    function rectangle(path,left,bottom,right,top){
+      path.moveTo(left,bottom);path.lineTo(right,bottom);path.lineTo(right,top);
+      path.lineTo(left,top);path.closePath();
+    }
+    rectangle(border,-w/2-.020,-h/2-.020,w/2+.020,h/2+.020);
+    rectangle(cutout,-w/2+.007,-h/2+.007,w/2-.007,h/2-.007);
+    border.holes.push(cutout);
+    const sash=new T.Mesh(new T.ExtrudeGeometry(border,{depth:.013,bevelEnabled:true,bevelSize:.0015,bevelThickness:.0015,bevelSegments:2}),aluminium);
+    sash.position.set(x,y,-1.041);sash.receiveShadow=sash.castShadow=true;scene.add(sash);
+    const pane=new T.Mesh(new T.PlaneGeometry(w-.019,h-.019),glass);
+    pane.position.set(x,y,-1.117);scene.add(pane);
+  }
+}
+
 function addInteriorDetails(env) {
   const surface=(color,roughness,metalness=0)=>new T.MeshStandardMaterial({color,roughness,metalness,envMap:metalness?env:null,envMapIntensity:.75});
   const timber=surface(0xad8258,.55),stone=surface(0xe3dfd7,.37),steel=surface(0xe1ded8,.185,.94),dark=surface(0x343d40,.27,.58);
@@ -390,7 +453,7 @@ function installPlanarMirror(glass,axis,planePosition){
 }
 
 async function fetchModel(){
-  const bytes=await (await fetchAsset('room.bin.gz')).arrayBuffer();
+  const bytes=await (await fetchAsset('room-frost.bin.gz')).arrayBuffer();
   if(new Uint8Array(bytes)[0]!==31)return bytes;
   return new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
 }
@@ -401,11 +464,15 @@ async function load(){
   renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=.94;renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.shadowMap.autoUpdate=false;
   scene=new T.Scene();camera=new T.PerspectiveCamera(75,1,.035,1450);
   const loader=new T.TextureLoader();
-  const [rows,buffer,env]=await Promise.all([fetchAsset('room.json').then(r=>r.json()),fetchModel(),new T.CubeTextureLoader().loadAsync([1,0,2,3,4,5].map(i=>'view-'+i+'.jpg'))]);
+  const [rows,buffer,env]=await Promise.all([fetchAsset('room-frost.json').then(r=>r.json()),fetchModel(),new T.CubeTextureLoader().loadAsync([1,0,2,3,4,5].map(i=>'view-'+i+'.jpg'))]);
   env.encoding=T.sRGBEncoding;scene.background=env;
   const textures={};await Promise.all(rows.filter(r=>r.map).map(async r=>{const m=r.map,t=await loader.loadAsync('surface-'+m.index+'.jpg');t.encoding=T.sRGBEncoding;t.wrapS=t.wrapT=T.RepeatWrapping;t.repeat.fromArray(m.repeat);t.flipY=m.flipY;t.anisotropy=4;textures[m.index]=t;}));
   const finishes=await loadFinishes(loader);
-  rows.forEach(r=>{const mat=r.name==='Clear glazing'?architecturalGlass():r.name==='テーブル_ガラス天板'?architecturalGlass(true):material(r,textures,env);scene.add(meshFrom(r,buffer,mat));});
+  const nullPanel=new T.MeshBasicMaterial();
+  rows.forEach(r=>{
+    if(r.name==='1b2730')return;
+    if(r.name==='bcd3df'){const original=meshFrom(r,buffer,nullPanel);addClerestories(original,env);original.geometry.dispose();return;}
+    const mat=r.name==='Clear glazing'?architecturalGlass():r.name==='テーブル_ガラス天板'?architecturalGlass(true):material(r,textures,env);scene.add(meshFrom(r,buffer,mat));});nullPanel.dispose();
     const grass=await loader.loadAsync('lawn.jpg');grass.encoding=T.sRGBEncoding;grass.wrapS=grass.wrapT=T.RepeatWrapping;grass.repeat.set(8,6);
   const garden=new T.Mesh(new T.PlaneGeometry(21,9.5),new T.MeshStandardMaterial({map:grass,color:0xa6bd79,roughness:1}));garden.rotation.x=-Math.PI/2;garden.position.set(0,-.95,6.2);garden.receiveShadow=true;scene.add(garden);
   garden.material.name='Lawn';
@@ -426,7 +493,7 @@ async function load(){
   const facadeMirror=installPlanarMirror(scene.getObjectByName("Clear glazing"),'z',1.156);
   const tableMirror=installPlanarMirror(scene.getObjectByName("テーブル_ガラス天板"),'y',.45);
   updateMirror=()=>{facadeMirror();tableMirror();};
-  renderer.shadowMap.needsUpdate=true;selectSpot('kitchen');resize();inputs();window.addEventListener('resize',resize);
+  renderer.shadowMap.needsUpdate=true;selectSpot(location.hash==='#small-window'?'clerestory':'kitchen');resize();inputs();window.addEventListener('resize',resize);
   statusBox.hidden=true;ready=true;last=performance.now();requestAnimationFrame(frame);
 }
 load().catch(e=>{console.error(e);statusBox.innerHTML='3D内覧を読み込めませんでした。<br><a href="../room.html#equipment">客室の写真を見る</a>';});
