@@ -373,7 +373,8 @@ function realFinishes(mesh,assets){
     };
   }
 }
-function buildCoast(environment,clouds,reef){
+function buildCoast(environment,clouds,reef,reefEdge){
+  reefEdge.wrapS=T.MirroredRepeatWrapping;reefEdge.generateMipmaps=false;reefEdge.minFilter=T.LinearFilter;
   clouds.wrapS=T.RepeatWrapping;reef.wrapS=T.MirroredRepeatWrapping;
   const sky=new T.Mesh(new T.SphereGeometry(94,48,28),new T.ShaderMaterial({
     side:T.BackSide,depthWrite:false,uniforms:{land:{value:environment},clouds:{value:clouds}},
@@ -391,7 +392,7 @@ function buildCoast(environment,clouds,reef){
   }));
   sky.renderOrder=-100;sky.frustumCulled=false;scene.add(sky);
   // Sea coordinates are fixed to the coast, so nearby reef patches shift against the horizon as one walks.
-  const surface=new T.ShaderMaterial({side:T.DoubleSide,uniforms:{reef:{value:reef},seconds:{value:0}},
+  const surface=new T.ShaderMaterial({side:T.DoubleSide,uniforms:{reef:{value:reef},reefEdge:{value:reefEdge},seconds:{value:0}},
     vertexShader:`uniform float seconds;varying vec3 world;varying vec3 seaNormal;varying float crest;
     void swell(vec2 dir,float wavelength,float amplitude,float period,float phase,vec2 base,float fade,
                inout vec3 pt,inout vec3 tx,inout vec3 tz,inout float ridge){
@@ -414,7 +415,7 @@ function buildCoast(environment,clouds,reef){
       world=pt;seaNormal=normalize(cross(tz,tx));crest=ridge;
       gl_Position=projectionMatrix*viewMatrix*vec4(pt,1.);
     }`,
-    fragmentShader:`uniform sampler2D reef;uniform float seconds;varying vec3 world;varying vec3 seaNormal;varying float crest;
+    fragmentShader:`uniform sampler2D reef;uniform sampler2D reefEdge;uniform float seconds;varying vec3 world;varying vec3 seaNormal;varying float crest;
     void main(){
       vec2 p=world.xz-vec2(-1.24,-.91);float distanceFromRoom=length(p);
       float direction=atan(p.x,p.y);
@@ -436,6 +437,24 @@ function buildCoast(environment,clouds,reef){
       float lip=smoothstep(.042,.098,crest)*smoothstep(-.018,.070,n.z);
       color=mix(color,vec3(.70,.89,.88),nearer*broken*lip*.53);
       color+=vec3(.045,.064,.066)*shimmer*nearer;
+      // Trace the photographed shelf contour. Distances are in scene metres.
+      float edgeDepth=texture2D(reefEdge,vec2(.51-direction/1.74,.5)).r;
+      float reefRadius=11.8/max(.085,edgeDepth);
+      float across=reefRadius-distanceFromRoom;
+      float along=direction*reefRadius;
+      float phase=seconds/6.7+.075*sin(along*.23)+along*.019+.10*sin(along*.48);
+      float age=fract(phase);
+      float reach=clamp(reefRadius*.125,2.8,8.);
+      float head=reach*(age-.18);
+      float local=across-head+.25*sin(along*1.64+seconds*.31);
+      float group=.5+.25*sin(along*.64-seconds*.33)+.25*sin(along*.23+seconds*.45);
+      float life=smoothstep(0.,.18,age)*(1.-smoothstep(.50,.97,age));
+      float width=clamp(reefRadius*.021,.50,1.35);
+      float cap=exp(-pow(abs(local)/width,2.));
+      float wake=exp(-pow(abs(local+1.45*width)/(width*1.62),2.));
+      float lace=.5+.25*sin(along*3.1+across*2.1+seconds*.64)+.25*sin(along*1.4-across*3.7);
+      float foam=life*smoothstep(.13,.74,group)*(cap*.95+wake*.40*smoothstep(.21,.72,lace));
+      color=mix(color,vec3(.95,.985,.975),clamp(foam,0.,.97));
       gl_FragColor=vec4(color,1.);
     }`});
   // Concentrate vertices along the visible reef. The far, flat water shares its last row.
@@ -517,7 +536,7 @@ async function load(){
     const grass=await loader.loadAsync('lawn.jpg');grass.encoding=T.sRGBEncoding;grass.wrapS=grass.wrapT=T.RepeatWrapping;grass.repeat.set(8,6);
   const garden=new T.Mesh(new T.PlaneGeometry(21,9.5),new T.MeshStandardMaterial({map:grass,color:0xa6bd79,roughness:1}));garden.rotation.x=-Math.PI/2;garden.position.set(0,-.95,6.2);garden.receiveShadow=true;scene.add(garden);
   garden.material.name='Lawn';
-  addInteriorDetails(env);seaTime=buildCoast(env,...await Promise.all(["cloud-bank.jpg","reef-bed.jpg"].map(f=>loader.loadAsync(f))));
+  addInteriorDetails(env);seaTime=buildCoast(env,...await Promise.all(["cloud-bank.jpg","reef-bed.jpg","reef-edge.png"].map(f=>loader.loadAsync(f))));
   scene.add(new T.HemisphereLight(0xfff6e5,0x839397,.83));
   const sun=new T.DirectionalLight(0xffecd3,1.46);sun.position.set(-4,5,7);sun.castShadow=true;Object.assign(sun.shadow.camera,{left:-9,right:9,top:8,bottom:-8,near:.1,far:25});sun.shadow.mapSize.set(2048,2048);sun.shadow.normalBias=.012;sun.shadow.bias=-.00018;scene.add(sun);
   const fill=new T.DirectionalLight(0xc1eaff,.31);fill.position.set(2,2,5);scene.add(fill);
