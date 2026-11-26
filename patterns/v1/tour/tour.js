@@ -3,6 +3,7 @@ const canvas = document.querySelector('#scene');
 const statusBox = document.querySelector('#status');
 const T = window.THREE;
 const spots = {
+  coast: [-3.80, 2.29, -5.70, 2.69],
   clerestory: [-1.58, .68, -1.58, -1.12],
   kitchen: [-1.24, -.90, -.18, 2.36],
   window: [-3.51, .53, -1.6, 4.8],
@@ -15,7 +16,7 @@ const eyeHeight = 1.51;
 function selectSpot(name) {
   const [x,z,tx,tz] = spots[name];
   camera.position.set(x,eyeHeight - (z>1.2?.15:0),z);
-  yaw = Math.atan2(x-tx,z-tz); pitch = name==='clerestory'?.035:name==='deck'?-.095:-.152;
+  yaw = Math.atan2(x-tx,z-tz); pitch = name==='coast'?-.32:name==='clerestory'?.035:name==='deck'?-.095:-.152;
   document.querySelectorAll('[data-spot]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.spot===name)));
 }
 function clearSelection(){document.querySelector('[data-spot][aria-pressed=true]')?.setAttribute('aria-pressed','false');}
@@ -154,6 +155,8 @@ function addInteriorDetails(env) {
   steel.name="Brushed basin";
   const cloth=surface(0xf6efe3,.96);cloth.name="Bedding";timber.name="Cabinet oak";
   function box(x,y,z,w,h,d,mat){const m=new T.Mesh(new T.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=m.receiveShadow=true;scene.add(m);return m;}
+  // A continuous tabletop covers the old planter recess and its two round fittings.
+  box(-4.576,.2515,3.079,.910,.016,.510,surface(0xd9d6c9,.54));
   function rod(a,b,r,mat){const start=new T.Vector3(...a),end=new T.Vector3(...b),dir=end.clone().sub(start);const m=new T.Mesh(new T.CylinderGeometry(r,r,dir.length(),18),mat);m.position.copy(start).lerp(end,.5);m.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),dir.normalize());m.castShadow=true;scene.add(m);}
   // Four pieces of worktop around the actual stainless-steel recess.
   box(-.623,.87,-.335,.088,.04,1.43,stone);box(-.154,.87,-.335,.094,.04,1.43,stone);
@@ -373,26 +376,29 @@ function realFinishes(mesh,assets){
     };
   }
 }
-function buildCoast(environment,clouds,reef,reefEdge){
+function buildCoast(environment,shoreline,clouds,reef,reefEdge){
   reefEdge.wrapS=T.MirroredRepeatWrapping;reefEdge.generateMipmaps=false;reefEdge.minFilter=T.LinearFilter;
-  clouds.wrapS=T.RepeatWrapping;reef.wrapS=T.MirroredRepeatWrapping;
+  clouds.wrapS=T.MirroredRepeatWrapping;reef.wrapS=T.MirroredRepeatWrapping;
+  // Use the same sightline for distant terrain, sky and animated water, including mirrors.
   const sky=new T.Mesh(new T.SphereGeometry(94,48,28),new T.ShaderMaterial({
-    side:T.BackSide,depthWrite:false,uniforms:{land:{value:environment},clouds:{value:clouds}},
-    vertexShader:`varying vec3 dir;void main(){dir=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
+    side:T.BackSide,depthWrite:false,uniforms:{land:{value:environment},outline:{value:shoreline},clouds:{value:clouds}},
+    vertexShader:`varying vec3 dir;void main(){dir=position;gl_Position=projectionMatrix*vec4(mat3(viewMatrix)*position,1.);}`,
     fragmentShader:`uniform samplerCube land;uniform sampler2D clouds;varying vec3 dir;
+    uniform samplerCube outline;
     void main(){
       vec3 d=normalize(dir);float a=atan(d.x,d.z),h=asin(d.y);
       vec3 landColor=textureCube(land,vec3(-d.x,d.yz)).rgb;
       vec3 sky=mix(vec3(.54,.76,.94),vec3(.18,.50,.85),smoothstep(.02,.85,h));
       vec3 bank=texture2D(clouds,vec2(a/2.85+.52,clamp(h/.16,.008,.992))).rgb;
       sky=mix(bank,sky,smoothstep(.09,.17,h));
-      float coast=(1.-smoothstep(1.14,1.57,abs(a)))*smoothstep(-.12,-.01,h);
+      sky=mix(vec3(.125,.38,.61),sky,smoothstep(-.004,.002,h));
+      float coast=textureCube(outline,vec3(-d.x,d.yz)).r;
       gl_FragColor=vec4(mix(landColor,sky,coast),1.);
     }`
   }));
   sky.renderOrder=-100;sky.frustumCulled=false;scene.add(sky);
   // Sea coordinates are fixed to the coast, so nearby reef patches shift against the horizon as one walks.
-  const surface=new T.ShaderMaterial({side:T.DoubleSide,uniforms:{reef:{value:reef},reefEdge:{value:reefEdge},seconds:{value:0}},
+  const surface=new T.ShaderMaterial({side:T.DoubleSide,uniforms:{shore:{value:environment},outline:{value:shoreline},reef:{value:reef},reefEdge:{value:reefEdge},seconds:{value:0}},
     vertexShader:`uniform float seconds;varying vec3 world;varying vec3 seaNormal;varying float crest;
     void swell(vec2 dir,float wavelength,float amplitude,float period,float phase,vec2 base,float fade,
                inout vec3 pt,inout vec3 tx,inout vec3 tz,inout float ridge){
@@ -415,7 +421,9 @@ function buildCoast(environment,clouds,reef,reefEdge){
       world=pt;seaNormal=normalize(cross(tz,tx));crest=ridge;
       gl_Position=projectionMatrix*viewMatrix*vec4(pt,1.);
     }`,
-    fragmentShader:`uniform sampler2D reef;uniform sampler2D reefEdge;uniform float seconds;varying vec3 world;varying vec3 seaNormal;varying float crest;
+    fragmentShader:`uniform samplerCube shore;
+    uniform samplerCube outline;
+    uniform sampler2D reef;uniform sampler2D reefEdge;uniform float seconds;varying vec3 world;varying vec3 seaNormal;varying float crest;
     void main(){
       vec2 p=world.xz-vec2(-1.24,-.91);float distanceFromRoom=length(p);
       float direction=atan(p.x,p.y);
@@ -455,14 +463,16 @@ function buildCoast(environment,clouds,reef,reefEdge){
       float lace=.5+.25*sin(along*3.1+across*2.1+seconds*.64)+.25*sin(along*1.4-across*3.7);
       float foam=life*smoothstep(.13,.74,group)*(cap*.95+wake*.40*smoothstep(.21,.72,lace));
       color=mix(color,vec3(.95,.985,.975),clamp(foam,0.,.97));
-      gl_FragColor=vec4(color,1.);
+      vec3 ray=normalize(world-cameraPosition);
+      vec3 panorama=textureCube(shore,vec3(-ray.x,ray.yz)).rgb;
+      gl_FragColor=vec4(mix(panorama,color,mix(1.,textureCube(outline,vec3(-ray.x,ray.yz)).r,smoothstep(.71,1.10,abs(atan(ray.x,ray.z))))),1.);
     }`});
   // Concentrate vertices along the visible reef. The far, flat water shares its last row.
   const geometry=new T.PlaneGeometry(1,1,170,116),points=geometry.attributes.position;
   for(let i=0;i<points.count;i++){
     const u=points.getX(i)*2,v=.5-points.getY(i),a=Math.abs(u);
     const x=Math.sign(u)*(a<.80?38*a/.80:38+762*Math.pow((a-.80)/.20,2));
-    const z=v<.84?8+51*Math.pow(v/.84,1.28):59+770*Math.pow((v-.84)/.16,2);
+    const z=v<.07?-14-810*Math.pow(1.-v/.07,2.):v<.84?-14+73*Math.pow((v-.07)/.77,1.28):59+770*Math.pow((v-.84)/.16,2);
     points.setXYZ(i,x,-1.13,z);
   }
   geometry.computeBoundingSphere();
@@ -526,17 +536,18 @@ async function load(){
   const loader=new T.TextureLoader();
   const [rows,buffer,env]=await Promise.all([fetchAsset('room-frost.json').then(r=>r.json()),fetchModel(),new T.CubeTextureLoader().loadAsync([1,0,2,3,4,5].map(i=>'view-'+i+'.jpg'))]);
   env.encoding=T.sRGBEncoding;scene.background=env;
+  const shoreline=await new T.CubeTextureLoader().loadAsync([1,0,2,3,4,5].map(i=>'shore-'+i+'.png'));
   const textures={};await Promise.all(rows.filter(r=>r.map).map(async r=>{const m=r.map,t=await loader.loadAsync('surface-'+m.index+'.jpg');t.encoding=T.sRGBEncoding;t.wrapS=t.wrapT=T.RepeatWrapping;t.repeat.fromArray(m.repeat);t.flipY=m.flipY;t.anisotropy=4;textures[m.index]=t;}));
   const finishes=await loadFinishes(loader);
   const nullPanel=new T.MeshBasicMaterial();
   rows.forEach(r=>{
-    if(r.name==='1b2730')return;
+    if(['1b2730','葉','植え込みの土'].includes(r.name))return;
     if(r.name==='bcd3df'){const original=meshFrom(r,buffer,nullPanel);addClerestories(original,env);original.geometry.dispose();return;}
     const mat=r.name==='Clear glazing'?architecturalGlass():r.name==='テーブル_ガラス天板'?architecturalGlass(true):material(r,textures,env);scene.add(meshFrom(r,buffer,mat));});nullPanel.dispose();
     const grass=await loader.loadAsync('lawn.jpg');grass.encoding=T.sRGBEncoding;grass.wrapS=grass.wrapT=T.RepeatWrapping;grass.repeat.set(8,6);
   const garden=new T.Mesh(new T.PlaneGeometry(21,9.5),new T.MeshStandardMaterial({map:grass,color:0xa6bd79,roughness:1}));garden.rotation.x=-Math.PI/2;garden.position.set(0,-.95,6.2);garden.receiveShadow=true;scene.add(garden);
   garden.material.name='Lawn';
-  addInteriorDetails(env);seaTime=buildCoast(env,...await Promise.all(["cloud-bank.jpg","reef-bed.jpg","reef-edge.png"].map(f=>loader.loadAsync(f))));
+  addInteriorDetails(env);seaTime=buildCoast(env,shoreline,...await Promise.all(["cloud-bank.jpg","reef-bed.jpg","reef-edge.png"].map(f=>loader.loadAsync(f))));
   scene.add(new T.HemisphereLight(0xfff6e5,0x839397,.83));
   const sun=new T.DirectionalLight(0xffecd3,1.46);sun.position.set(-4,5,7);sun.castShadow=true;Object.assign(sun.shadow.camera,{left:-9,right:9,top:8,bottom:-8,near:.1,far:25});sun.shadow.mapSize.set(2048,2048);sun.shadow.normalBias=.012;sun.shadow.bias=-.00018;scene.add(sun);
   const fill=new T.DirectionalLight(0xc1eaff,.31);fill.position.set(2,2,5);scene.add(fill);
@@ -553,7 +564,7 @@ async function load(){
   const facadeMirror=installPlanarMirror(scene.getObjectByName("Clear glazing"),'z',1.156);
   const tableMirror=installPlanarMirror(scene.getObjectByName("テーブル_ガラス天板"),'y',.45);
   updateMirror=()=>{facadeMirror();tableMirror();};
-  renderer.shadowMap.needsUpdate=true;selectSpot(location.hash==='#small-window'?'clerestory':'kitchen');resize();inputs();window.addEventListener('resize',resize);
+  renderer.shadowMap.needsUpdate=true;selectSpot(({'#small-window':'clerestory','#deck-coast':'coast'})[location.hash] || 'kitchen');resize();inputs();window.addEventListener('resize',resize);
   statusBox.hidden=true;ready=true;last=performance.now();requestAnimationFrame(frame);
 }
 load().catch(e=>{console.error(e);statusBox.innerHTML='3D内覧を読み込めませんでした。<br><a href="../room.html#equipment">客室の写真を見る</a>';});
