@@ -392,21 +392,62 @@ function buildCoast(environment,clouds,reef){
   sky.renderOrder=-100;sky.frustumCulled=false;scene.add(sky);
   // Sea coordinates are fixed to the coast, so nearby reef patches shift against the horizon as one walks.
   const surface=new T.ShaderMaterial({side:T.DoubleSide,uniforms:{reef:{value:reef},seconds:{value:0}},
-    vertexShader:`varying vec3 world;void main(){world=(modelMatrix*vec4(position,1.)).xyz;gl_Position=projectionMatrix*viewMatrix*vec4(world,1.);}`,
-    fragmentShader:`uniform sampler2D reef;uniform float seconds;varying vec3 world;
+    vertexShader:`uniform float seconds;varying vec3 world;varying vec3 seaNormal;varying float crest;
+    void swell(vec2 dir,float wavelength,float amplitude,float period,float phase,vec2 base,float fade,
+               inout vec3 pt,inout vec3 tx,inout vec3 tz,inout float ridge){
+      dir=normalize(dir);
+      float k=6.283185/wavelength;
+      float theta=k*dot(dir,base)-6.283185*seconds/period+phase;
+      float a=amplitude*fade,s=sin(theta),c=cos(theta),q=.56;
+      pt+=vec3(q*a*dir.x*c,a*s,q*a*dir.y*c);
+      vec3 deriv=k*a*vec3(-q*dir.x*s,c,-q*dir.y*s);
+      tx+=dir.x*deriv;tz+=dir.y*deriv;ridge+=a*s;
+    }
+    void main(){
+      vec3 pt=(modelMatrix*vec4(position,1.)).xyz;
+      vec2 base=pt.xz;
+      float fade=1.-smoothstep(38.,104.,length(base));
+      vec3 tx=vec3(1.,0.,0.),tz=vec3(0.,0.,1.);float ridge=0.;
+      swell(vec2(.12,-1.),6.8,.073,6.7,.4,base,fade,pt,tx,tz,ridge);
+      swell(vec2(-.27,-1.),4.1,.033,4.85,1.8,base,fade,pt,tx,tz,ridge);
+      swell(vec2(.46,-1.),2.9,.019,3.92,.72,base,fade,pt,tx,tz,ridge);
+      world=pt;seaNormal=normalize(cross(tz,tx));crest=ridge;
+      gl_Position=projectionMatrix*viewMatrix*vec4(pt,1.);
+    }`,
+    fragmentShader:`uniform sampler2D reef;uniform float seconds;varying vec3 world;varying vec3 seaNormal;varying float crest;
     void main(){
       vec2 p=world.xz-vec2(-1.24,-.91);float distanceFromRoom=length(p);
       float direction=atan(p.x,p.y);
       float nearer=clamp(11.8/max(11.8,distanceFromRoom),0.,1.);
-      float wave=sin(p.y*3.7+p.x*.81+seconds*.68)+.55*sin(p.x*4.2-p.y*2.12+seconds*.95);
-      vec2 uv=vec2(.51-direction/1.74+.0009*wave*nearer,1.-nearer+.0026*wave*nearer);
+      float ripple=sin(dot(world.xz,vec2(.83,3.8))+seconds*1.65)
+                  +.42*sin(dot(world.xz,vec2(-2.35,5.3))+seconds*2.);
+      vec3 n=normalize(seaNormal+vec3(.009*ripple,0.,.018*ripple)*nearer);
+      vec2 uv=vec2(.51-direction/1.74,1.-nearer)+nearer*vec2(.023*n.x,.049*n.z);
       vec3 color=texture2D(reef,uv).rgb;
       color=mix(vec3(.125,.38,.61),color,smoothstep(.008,.12,nearer));
-      color+=vec3(.018,.025,.028)*nearer*smoothstep(.70,1.53,wave);
+      vec3 eye=normalize(cameraPosition-world);
+      float grazing=pow(1.-max(0.,dot(eye,n)),3.);
+      float slope=smoothstep(-.105,.12,n.z);
+      float shimmer=smoothstep(.035,.103,crest)*smoothstep(.05,1.29,ripple);
+      color*=1.+nearer*.29*(slope-.5);
+      color=mix(color,vec3(.65,.84,.92),nearer*(.025+.15*slope)*grazing);
+      // Only travelling wave crests brighten; reef markings stay on the seabed.
+      float broken=.52+.20*sin(.57*p.x+.12*p.y)+.17*sin(1.27*p.x-.34*p.y)+.11*sin(2.8*p.x+.25*p.y);
+      float lip=smoothstep(.042,.098,crest)*smoothstep(-.018,.070,n.z);
+      color=mix(color,vec3(.70,.89,.88),nearer*broken*lip*.53);
+      color+=vec3(.045,.064,.066)*shimmer*nearer;
       gl_FragColor=vec4(color,1.);
     }`});
-  const water=new T.Mesh(new T.PlaneGeometry(1600,820),surface);water.rotation.x=-Math.PI/2;water.position.set(0,-1.13,419);
-  scene.add(water);return surface.uniforms.seconds;
+  // Concentrate vertices along the visible reef. The far, flat water shares its last row.
+  const geometry=new T.PlaneGeometry(1,1,170,116),points=geometry.attributes.position;
+  for(let i=0;i<points.count;i++){
+    const u=points.getX(i)*2,v=.5-points.getY(i),a=Math.abs(u);
+    const x=Math.sign(u)*(a<.80?38*a/.80:38+762*Math.pow((a-.80)/.20,2));
+    const z=v<.84?8+51*Math.pow(v/.84,1.28):59+770*Math.pow((v-.84)/.16,2);
+    points.setXYZ(i,x,-1.13,z);
+  }
+  geometry.computeBoundingSphere();
+  const water=new T.Mesh(geometry,surface);scene.add(water);return surface.uniforms.seconds;
 }
 
 function architecturalGlass(horizontal=false){
@@ -476,7 +517,7 @@ async function load(){
     const grass=await loader.loadAsync('lawn.jpg');grass.encoding=T.sRGBEncoding;grass.wrapS=grass.wrapT=T.RepeatWrapping;grass.repeat.set(8,6);
   const garden=new T.Mesh(new T.PlaneGeometry(21,9.5),new T.MeshStandardMaterial({map:grass,color:0xa6bd79,roughness:1}));garden.rotation.x=-Math.PI/2;garden.position.set(0,-.95,6.2);garden.receiveShadow=true;scene.add(garden);
   garden.material.name='Lawn';
-  addInteriorDetails(env);seaTime=buildCoast(env,...await Promise.all(["cloud-bank.jpg","reef-water.jpg"].map(f=>loader.loadAsync(f))));
+  addInteriorDetails(env);seaTime=buildCoast(env,...await Promise.all(["cloud-bank.jpg","reef-bed.jpg"].map(f=>loader.loadAsync(f))));
   scene.add(new T.HemisphereLight(0xfff6e5,0x839397,.83));
   const sun=new T.DirectionalLight(0xffecd3,1.46);sun.position.set(-4,5,7);sun.castShadow=true;Object.assign(sun.shadow.camera,{left:-9,right:9,top:8,bottom:-8,near:.1,far:25});sun.shadow.mapSize.set(2048,2048);sun.shadow.normalBias=.012;sun.shadow.bias=-.00018;scene.add(sun);
   const fill=new T.DirectionalLight(0xc1eaff,.31);fill.position.set(2,2,5);scene.add(fill);
