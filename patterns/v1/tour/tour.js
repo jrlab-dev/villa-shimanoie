@@ -399,7 +399,7 @@ function buildCoast(environment,shoreline,clouds,reef,reefEdge){
   sky.renderOrder=-100;sky.frustumCulled=false;scene.add(sky);
   // Sea coordinates are fixed to the coast, so nearby reef patches shift against the horizon as one walks.
   const surface=new T.ShaderMaterial({side:T.DoubleSide,uniforms:{shore:{value:environment},outline:{value:shoreline},reef:{value:reef},reefEdge:{value:reefEdge},seconds:{value:0}},
-    vertexShader:`uniform float seconds;varying vec3 world;varying vec3 seaNormal;varying float crest;
+    vertexShader:`uniform float seconds;uniform sampler2D reefEdge;varying float offshore;varying vec3 world;varying vec3 seaNormal;varying float crest;
     void swell(vec2 dir,float wavelength,float amplitude,float period,float phase,vec2 base,float fade,
                inout vec3 pt,inout vec3 tx,inout vec3 tz,inout float ridge){
       dir=normalize(dir);
@@ -413,7 +413,11 @@ function buildCoast(environment,shoreline,clouds,reef,reefEdge){
     void main(){
       vec3 pt=(modelMatrix*vec4(position,1.)).xyz;
       vec2 base=pt.xz;
-      float fade=1.-smoothstep(38.,104.,length(base));
+      vec2 coast=base-vec2(-1.24,-.91);
+      float edgeDepth=texture2D(reefEdge,vec2(.51-atan(coast.x,coast.y)/1.74,.5)).r;
+      float radius=11.8/max(.085,edgeDepth);
+      offshore=smoothstep(-.12*radius,.045*radius,length(coast)-radius);
+      float fade=(1.-smoothstep(38.,104.,length(base)))*mix(.035,1.,offshore);
       vec3 tx=vec3(1.,0.,0.),tz=vec3(0.,0.,1.);float ridge=0.;
       swell(vec2(.12,-1.),6.8,.073,6.7,.4,base,fade,pt,tx,tz,ridge);
       swell(vec2(-.27,-1.),4.1,.033,4.85,1.8,base,fade,pt,tx,tz,ridge);
@@ -423,14 +427,14 @@ function buildCoast(environment,shoreline,clouds,reef,reefEdge){
     }`,
     fragmentShader:`uniform samplerCube shore;
     uniform samplerCube outline;
-    uniform sampler2D reef;uniform sampler2D reefEdge;uniform float seconds;varying vec3 world;varying vec3 seaNormal;varying float crest;
+    varying float offshore;uniform sampler2D reef;uniform sampler2D reefEdge;uniform float seconds;varying vec3 world;varying vec3 seaNormal;varying float crest;
     void main(){
       vec2 p=world.xz-vec2(-1.24,-.91);float distanceFromRoom=length(p);
       float direction=atan(p.x,p.y);
       float nearer=clamp(11.8/max(11.8,distanceFromRoom),0.,1.);
       float ripple=sin(dot(world.xz,vec2(.83,3.8))+seconds*1.65)
                   +.42*sin(dot(world.xz,vec2(-2.35,5.3))+seconds*2.);
-      vec3 n=normalize(seaNormal+vec3(.009*ripple,0.,.018*ripple)*nearer);
+      vec3 n=normalize(seaNormal+vec3(.009*ripple,0.,.018*ripple)*nearer*mix(.08,1.,offshore));
       vec2 uv=vec2(.51-direction/1.74,1.-nearer)+nearer*vec2(.023*n.x,.049*n.z);
       vec3 color=texture2D(reef,uv).rgb;
       color=mix(vec3(.125,.38,.61),color,smoothstep(.008,.12,nearer));
@@ -462,6 +466,14 @@ function buildCoast(environment,shoreline,clouds,reef,reefEdge){
       float wake=exp(-pow(abs(local+1.45*width)/(width*1.62),2.));
       float lace=.5+.25*sin(along*3.1+across*2.1+seconds*.64)+.25*sin(along*1.4-across*3.7);
       float foam=life*smoothstep(.13,.74,group)*(cap*.95+wake*.40*smoothstep(.21,.72,lace));
+      // Water spills over scattered reef heads in thin patches after the outer break.
+      float stone=.48*sin(p.x*.74+.81*sin(p.y*.5))+.35*cos(p.y*1.17-p.x*.28)+.17*sin(dot(p,vec2(1.8,.68)));
+      float washAge=fract(seconds/7.4+.082*p.y+.035*p.x+.13*stone);
+      float surge=smoothstep(.02,.24,washAge)*(1.-smoothstep(.28,.9,washAge));
+      float rim=1.-smoothstep(.09,.32,abs(stone-(.53-.23*washAge)));
+      float flecks=.54+.23*sin(3.9*p.x+1.8*p.y+seconds*.57)+.18*cos(3.5*p.y-.47*seconds);
+      float wash=(1.-offshore)*smoothstep(1.,5.,across)*surge*rim*smoothstep(.23,.78,flecks)*.64;
+      foam=max(foam,wash);
       color=mix(color,vec3(.95,.985,.975),clamp(foam,0.,.97));
       vec3 ray=normalize(world-cameraPosition);
       vec3 panorama=textureCube(shore,vec3(-ray.x,ray.yz)).rgb;
