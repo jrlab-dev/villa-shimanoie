@@ -40,7 +40,7 @@ footer{text-align:center;font-size:12px;color:var(--sub);padding:0 24px 40px}
 </style></head><body>
 <header class="top">
  <h1>トップページ案の比較</h1>
- <p class="lead">会議で見て触って比べるための試作です。文と写真はどの案も同じで、見せ方だけが違います。下の画面はそのまま押したりスクロールしたりできます。大きく見るときは「新しい画面で開く」から。</p>
+ <p class="lead">会議で見て触って比べるための試作です。第3案の文面・施設説明は、修正版のページ分け案に合わせています。下の画面はそのまま押したりスクロールしたりできます。大きく見るときは「新しい画面で開く」から。</p>
 </header>
 <div class="bar"><div class="in">
  <span>画面の大きさ</span>
@@ -64,6 +64,13 @@ footer{text-align:center;font-size:12px;color:var(--sub);padding:0 24px 40px}
  <div class="screen"><div class="frame"><iframe src="v1/index.html" title="修正版 ページ分け案" loading="lazy"></iframe></div></div>
  <a class="open" href="v1/index.html" target="_blank" rel="noopener">新しい画面で開く ↗</a>
 </article>
+<article class="pv" data-id="v2">
+ <div class="pvhead"><span class="lab">第3案</span><h2>縦スクロール＋詳細ページ</h2></div>
+ <p class="desc">海から客室、デッキ、周辺情報へ縦に読み進めるトップ。客室の設備や地図は詳細ページへ。海の写真のすぐ下から3D内覧にも入れます。</p>
+ <div class="chips"><button type="button" class="chip" data-src="v2/index.html">トップ</button><button type="button" class="chip" data-src="v2/about.html">宿について</button><button type="button" class="chip" data-src="v2/view.html">眺め</button><button type="button" class="chip" data-src="v2/room.html">客室</button><button type="button" class="chip" data-src="v2/place.html">場所</button><button type="button" class="chip" data-src="v2/around.html">周辺</button><button type="button" class="chip" data-src="v2/course.html">モデルコース</button><button type="button" class="chip" data-src="v2/reserve.html">ご予約</button></div>
+ <div class="screen"><div class="frame"><iframe src="v2/index.html" title="第3案 縦スクロール＋詳細ページ" loading="lazy"></iframe></div></div>
+ <a class="open" href="v2/index.html" target="_blank" rel="noopener">新しい画面で開く ↗</a>
+</article>
 </main>
 <section class="points">
  <h3>比べるときに見るところ（例）</h3>
@@ -76,7 +83,7 @@ footer{text-align:center;font-size:12px;color:var(--sub);padding:0 24px 40px}
 </section>
 <footer>Amami BLUE RIDGE（仮称）・会議用の試作。写真はすべて完成イメージです。</footer>
 <script>
-const DEV={pc:{w:1280,h:800,col:560},sp:{w:390,h:844,col:300}};
+const DEV={pc:{w:1280,h:800,col:390},sp:{w:390,h:844,col:300}};
 let dev='pc';
 const panels=[...document.querySelectorAll('.pv')];
 document.getElementById('count').textContent=panels.length+'案';
